@@ -14,13 +14,15 @@
        /* Yii::app()->getClientScript()->reset(); 
         Yii::app()->bootstrap->register();   */
 
+        echo '<link rel="shortcut icon" href="'.Yii::app()->baseUrl.'/favicon.ico">';
+
         echo '<script type="text/javascript" src="'.Yii::app()->theme->getBaseUrl().'/js/jquery.yiigridview.js"></script>';
         Yii::app()->bootstrap->init();
         //$cs = Yii::app()->clientScript;
         //$cs->registerScriptFile(Yii::app()->theme->getBaseUrl().'/js/jquery.yiigridview.js');
   ?>
 </head>
-<link rel="shortcut icon" href="/favicon.ico">
+
 <style>
 
 .dropdown-menu {
@@ -134,7 +136,7 @@ float: none;
 }
 
  .navbar-inner {
-	  background-color:#fbfcfb;
+	  background-color:#789e78;
     color:#ffffff;
 
   	border-radius:4px;
@@ -324,7 +326,7 @@ select, input[type="file"] {
         } 
 
 .app-name {
-  color: #5f378b;
+  color: #323034;
   text-decoration: none;
   text-shadow: 0 0 0 #222222;
   
@@ -333,7 +335,7 @@ select, input[type="file"] {
 }  
 
 .app-name-login {
-  color: #5f378b;
+  color: #323034;
   text-decoration: none;
   text-shadow: 0 0 0 #222222;
   
@@ -432,7 +434,7 @@ if(Yii::app()->user->id !="")
     'fixed'=>'top',
     'collapse'=>true,    
     'htmlOptions'=>array('class'=>'noPrint custom-nav'),
-    'brand' =>  CHtml::image(Yii::app()->getBaseUrl() . '/images/pea_logo.png', 'Logo', array('width' => '120', 'height' => '25'))."<span class='app-name'> จค.1&nbsp;&nbsp;&nbsp;&nbsp;</span>",
+    'brand' =>  CHtml::image(Yii::app()->getBaseUrl() . '/images/logo.png', 'Logo', array('width' => '80', 'height' => '25'))."<span class='app-name'> จค.1&nbsp;&nbsp;&nbsp;&nbsp;</span>",
     'items'=>array(
         array(
             'class'=>'bootstrap.widgets.TbMenu',
@@ -474,7 +476,7 @@ else{
     'fixed'=>'top',
     'collapse'=>true,    
     'htmlOptions'=>array('class'=>'noprint custom-nav'),
-    'brand' =>  CHtml::image(Yii::app()->getBaseUrl() . '../images/pea_logo.png', 'Logo', array('width' => '200', 'height' => '30'))."<span class='app-name-login'> โปรแกรมเอกสารการตรวจรับประกอบการเบิกจ่ายเงิน (ใบ จค.1) </span>",
+    'brand' =>  CHtml::image(Yii::app()->getBaseUrl() . '../images/logo.png', 'Logo', array('width' => '80', 'height' => '30'))."<span class='app-name-login'> ".Yii::app()->name." </span>",
    
     ));
 }     

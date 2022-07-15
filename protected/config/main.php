@@ -15,7 +15,7 @@ Yii::setPathOfAlias('EXPORT_PATH', dirname(__FILE__).'/../extensions/highcharts/
 return array(
     'theme'=>'bootstrap',
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'โปรแกรมเอกสารการตรวจรับประกอบการเบิกจ่ายเงิน (ใบ จค.1)',
+	'name'=>'โปรแกรมระบบโรงงานรีไซเคิลขวดพลาสติก',
 
 	// preloading 'log' component
 	'preload'=>array('log'),

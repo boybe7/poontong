@@ -9,11 +9,11 @@ $this->pageTitle=Yii::app()->name . ' - Login';
 <style type="text/css">
   body{
     
-     /*background: #111111 ;   */
+     background: #dfdfdf ;  
      width:100%;
      min-height:340px;
      position: relative;
-     background: url(../images/bg.jpg) no-repeat center center;
+     /* background: url(../images/bg.jpg) no-repeat center center; */
      background-size: cover;
      font: 16px/1.6em 'Boon400',sans-serif;
      font-weight: normal;
@@ -22,7 +22,8 @@ $this->pageTitle=Yii::app()->name . ' - Login';
    #login-box{
       /*opacity: 0.6;
       filter: alpha(opacity=60);*/
-      background-color: rgba(231, 231, 231, 0.2);
+      background-color: #fff;
+      box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
    }
 
    #login-box div{
@@ -43,8 +44,8 @@ $this->pageTitle=Yii::app()->name . ' - Login';
           <div class="span12" >
               <div class="row-fluid">
               <?php /** @var BootActiveForm $form */
-                    echo  CHtml::image(Yii::app()->getBaseUrl() . '../images/engineer.png', 'Logo', array('width' => '120', 'height' => '120','border-radius'=> '100%'));
-
+                    // echo  CHtml::image(Yii::app()->getBaseUrl() . '../images/avatar.png', 'Logo', array('width' => '120', 'height' => '120','border-radius'=> '100%'));
+                    echo "<div><h2>ลงชื่อเข้าใช้งาน</h2></div>";
                     $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
                         'id'=>'verticalForm',
                         'htmlOptions'=>array('align'=>'left'),

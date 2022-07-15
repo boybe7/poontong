@@ -15833,3 +15833,21 @@ REQUEST_URI=/pea_jk2/project/updateVendorContract/83
 in C:\xampp\htdocs\pea_jk2\protected\views\project\_formUpdateVC.php (126)
 in C:\xampp\htdocs\pea_jk2\protected\views\project\updateVC.php (9)
 in C:\xampp\htdocs\pea_jk2\protected\controllers\ProjectController.php (4479)
+2022/07/15 23:58:12 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "../images/pea_logo.png".' in C:\xampp\htdocs\poontong\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(141): CWebApplication->runController('../images/pea_l...')
+#1 C:\xampp\htdocs\poontong\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#2 C:\xampp\htdocs\poontong\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/poontong../images/pea_logo.png
+HTTP_REFERER=http://localhost/poontong/site/login
+---
+2022/07/15 23:58:28 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "../images/pea_logo.png".' in C:\xampp\htdocs\poontong\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(141): CWebApplication->runController('../images/pea_l...')
+#1 C:\xampp\htdocs\poontong\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#2 C:\xampp\htdocs\poontong\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/poontong../images/pea_logo.png
+HTTP_REFERER=http://localhost/poontong/site/login
+---
