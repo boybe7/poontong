@@ -13,16 +13,48 @@ $cs->registerScriptFile( $theme->getBaseUrl() . '/js/highcharts.js' );
 
 <?php 
 
-$src_img = Yii::app()->getBaseUrl() . '../images/blue.jpg';
-echo '<div class="hero-unit" style="background-image: url('.$src_img.')">'; 
+
 
 ?>
 
-  <h3>ยินดีต้อนรับเข้าสู่</h3>
-  <h2><?php echo Yii::app()->name;  ?></h2>
-  
-</div>
 
+<div class="hero-unit">
+            <h1>Hello, world!</h1>
+            <p>This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+            <p><a href="#" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+</div>
+<div class="row-fluid">
+            <div class="card-wrap span4">
+                  <div class="card-header one">
+                    
+                  </div>
+                  <div class="card-content">
+                   
+                    <p class="card-text"></p>
+                    <button class="card-btn one">Line ปอก</button>
+                </div>
+            </div><!--/span-->
+            <div class="card-wrap span4">
+                  <div class="card-header two">
+                  
+                  </div>
+                  <div class="card-content">
+                    <!-- <h1 class="card-title">&nbsp;</h1> -->
+                    <p class="card-text"></p>
+                    <button class="card-btn two">Line แกะ</button>
+                </div>
+            </div><!--/span-->
+            <div class="card-wrap span4">
+                  <div class="card-header three">
+                   
+                  </div>
+                  <div class="card-content">
+                    <!-- <h1 class="card-title">&nbsp;</h1> -->
+                    <p class="card-text"></p>
+                    <button class="card-btn three">Line บด</button>
+                </div>
+            </div><!--/span-->
+</div><!--/row-->
 
 <div id="modal-content" class="hide">
     <div id="modal-body">

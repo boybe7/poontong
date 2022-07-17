@@ -97,7 +97,7 @@ return array(
 		// uncomment the following to use a MySQL database
 		
 		'db'=>array(
-			'connectionString' => 'mysql:host=localhost;dbname=pea_proj_jk_fl17',
+			'connectionString' => 'mysql:host=localhost;dbname=poontong',
 			'emulatePrepare' => true,
 			'username' => 'root',
 			'password' => 'meroot',

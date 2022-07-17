@@ -21,9 +21,9 @@ function getTitle(){
     
 }
 // access it by Yii::app()->user->firstname
-function getFirstName(){
+function getName(){
     $user = $this->loadUser(Yii::app()->user->id);
-    return $user->firstname;
+    return $user->name;
     
 }
 // access it by Yii::app()->user->lastname
@@ -33,9 +33,9 @@ function getLastName(){
     
 }
 
-function getUserDept(){
+function getSite(){
     $user = $this->loadUser(Yii::app()->user->id);
-    return $user->department_id;
+    return $user->site_id;
     
 }
 // access it by Yii::app()->user->usertype
@@ -60,7 +60,7 @@ function getUsertype(){
 // Yii::app()->user->isCashier()
  function isAdmin(){
     $user = $this->loadUser(Yii::app()->user->id);
-    return UserGroup::model()->findByPk($user->u_group)->group_name == "admin";
+    return UserGroup::model()->findByPk($user->user_group_id)->name == "admin";
     //return UserModule::isAdmin();
   }
 
@@ -85,20 +85,20 @@ function isExecutive(){
 
 function getGroup(){
     $user = $this->loadUser(Yii::app()->user->id);
-    return $user->u_group;
+    return $user->user_group_id;
 }
 
 function getAccess($url){
     $url = str_replace(Yii::app()->getBaseUrl(false), "", $url);
     $str = explode("/", $url);
-    $url = $str[1];
-    $user_group = Yii::app()->user->getGroup();
-    $sql = "SELECT * FROM authen LEFT JOIN  menu_tree ON authen.menu_id=menu_tree.id WHERE url LIKE '%$url%' AND group_id='$user_group'";
-    //echo $sql;
-    $command = Yii::app()->db->createCommand($sql);
-    $result = $command->queryAll();
+    // $url = $str[1];
+    // $user_group = Yii::app()->user->getGroup();
+    // $sql = "SELECT * FROM authen LEFT JOIN  menu_tree ON authen.menu_id=menu_tree.id WHERE url LIKE '%$url%' AND group_id='$user_group'";
+    // //echo $sql;
+    // $command = Yii::app()->db->createCommand($sql);
+    // $result = $command->queryAll();
 
-    $access = !empty($result) && $result[0]["access"]==2 ? true : false;
+    $access = true;//!empty($result) && $result[0]["access"]==2 ? true : false;
 
 
     return $access;
@@ -109,12 +109,12 @@ function getAccess($url){
 function isAccess($url){
   
     $user_group = Yii::app()->user->getGroup();
-    $sql = "SELECT * FROM authen LEFT JOIN  menu_tree ON authen.menu_id=menu_tree.id WHERE url LIKE '%$url%' AND group_id='$user_group'";
-    //echo $sql;
-    $command = Yii::app()->db->createCommand($sql);
-    $result = $command->queryAll();
+    // $sql = "SELECT * FROM authen LEFT JOIN  menu_tree ON authen.menu_id=menu_tree.id WHERE url LIKE '%$url%' AND group_id='$user_group'";
+    // //echo $sql;
+    // $command = Yii::app()->db->createCommand($sql);
+    // $result = $command->queryAll();
 
-    $access = !empty($result)  ? true : false;
+    $access = true;//!empty($result)  ? true : false;
 
 
     return $access;

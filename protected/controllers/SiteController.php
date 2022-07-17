@@ -34,7 +34,7 @@ class SiteController extends Controller
             if(Yii::app()->user->getId()===null)
                 $this->redirect(array('site/login'));
             else
-            	$this->redirect(array('project/index'));
+				$this->render('index');
 		//$this->render('index');
 	}
 
@@ -102,18 +102,6 @@ class SiteController extends Controller
 			// validate user input and redirect to the previous page if valid
 			if($model->validate() && $model->login())
 			{
-
-
-				//clear temp files 
-				//$dir = $_SERVER['DOCUMENT_ROOT'].'/pea_track/report/temp/';//dir absolute path
-				$dir = $_SERVER['DOCUMENT_ROOT'].'/pea_jk/report/temp/';
-				$interval = strtotime('-24 hours');//files older than 24hours
-
-				foreach (glob($dir."*") as $file) 
-				{    //delete if older
-					if (filemtime($file) <= $interval ) unlink($file);
-				}
-
 
 				$this->redirect(array('site/index'));
 

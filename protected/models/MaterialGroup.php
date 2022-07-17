@@ -1,20 +1,20 @@
 <?php
 
 /**
- * This is the model class for table "user_group".
+ * This is the model class for table "material_group".
  *
- * The followings are the available columns in table 'user_group':
+ * The followings are the available columns in table 'material_group':
  * @property integer $id
  * @property string $name
  */
-class UserGroup extends CActiveRecord
+class MaterialGroup extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'user_group';
+		return 'material_group';
 	}
 
 	/**
@@ -85,7 +85,7 @@ class UserGroup extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return UserGroup the static model class
+	 * @return MaterialGroup the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

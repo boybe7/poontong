@@ -1,20 +1,26 @@
 <?php
 
 /**
- * This is the model class for table "user_group".
+ * This is the model class for table "material_price".
  *
- * The followings are the available columns in table 'user_group':
+ * The followings are the available columns in table 'material_price':
  * @property integer $id
- * @property string $name
+ * @property string $price1
+ * @property string $price2
+ * @property string $price3
+ * @property string $date_start
+ * @property string $date_end
+ * @property integer $material_id
+ * @property integer $site_id
  */
-class UserGroup extends CActiveRecord
+class MaterialPrice extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'user_group';
+		return 'material_price';
 	}
 
 	/**
@@ -25,11 +31,12 @@ class UserGroup extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name', 'required'),
-			array('name', 'length', 'max'=>255),
+			array('date_start, date_end, material_id, site_id', 'required'),
+			array('material_id, site_id', 'numerical', 'integerOnly'=>true),
+			array('price1, price2, price3', 'length', 'max'=>10),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name', 'safe', 'on'=>'search'),
+			array('id, price1, price2, price3, date_start, date_end, material_id, site_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -51,7 +58,13 @@ class UserGroup extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'name' => 'Name',
+			'price1' => 'Price1',
+			'price2' => 'Price2',
+			'price3' => 'Price3',
+			'date_start' => 'Date Start',
+			'date_end' => 'Date End',
+			'material_id' => 'Material',
+			'site_id' => 'Site',
 		);
 	}
 
@@ -74,7 +87,13 @@ class UserGroup extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('name',$this->name,true);
+		$criteria->compare('price1',$this->price1,true);
+		$criteria->compare('price2',$this->price2,true);
+		$criteria->compare('price3',$this->price3,true);
+		$criteria->compare('date_start',$this->date_start,true);
+		$criteria->compare('date_end',$this->date_end,true);
+		$criteria->compare('material_id',$this->material_id);
+		$criteria->compare('site_id',$this->site_id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -85,7 +104,7 @@ class UserGroup extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return UserGroup the static model class
+	 * @return MaterialPrice the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

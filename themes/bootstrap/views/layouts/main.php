@@ -69,7 +69,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', end
 .navbar .brand {
 display: block;
 float: left;
-padding: 10px 20px 10px;
+padding: 10px 10px 10px;
 /*margin-left: -20px;*/
 font-size: 20px;
 font-weight: 200;
@@ -80,8 +80,9 @@ text-shadow: 0 0 0 #ffffff;
         
 .navbar .nav > li > a{
 float: none;
-padding: 20px 15px 10px;
-color: #4f4d4d;
+padding: 30px 15px 10px;
+color: #6a6969;
+font-size: 18px;
 text-decoration: none;
 text-shadow: 0 0 0 #222222;
 height: 35px;
@@ -96,21 +97,22 @@ float: none;
 .navbar .nav  > li > a:hover, .nav > li > a:focus {
     float: none;
     /*padding: 20px 15px 10px;*/
-    color: #4f4d4d;
+    color: #fff;
     text-decoration: none;
+    font-weight: 600;
     text-shadow: 0 0 0 #222222;
-    background-color: #f4f7f4;
+    background-color: #789e78;
 }
 
 .navbar .nav li.dropdown.open > .dropdown-toggle, .navbar .nav li.dropdown.active > .dropdown-toggle, .navbar .nav li.dropdown.open.active > .dropdown-toggle {
-    color: #1c1b1b;
-    background-color: #f4f7f4;
-    border-color: #428bca;
+    color: #fff;
+    background-color: #789e78;
+    /* border-color: #428bca; */
 }
 
 .navbar .nav  > .active > a, .navbar .nav > .active > a:hover, .navbar .nav > .active > a:focus {
-    color: #000000;
-    background-color: #f4f7f4;
+    color: #fff;
+    background-color: #789e78;
 
 }    
 
@@ -372,12 +374,12 @@ select, input[type="file"] {
 
 .custom-nav li {
  
-  border-right: 1px solid #e8eaeb;
+  /* border-right: 1px solid #e8eaeb; */
 }
 
 .custom-nav li:first-child {
  
-  border-left: 1px solid #e8eaeb;
+  /* border-left: 1px solid #e8eaeb; */
 }
 
 .btn-pea {
@@ -418,6 +420,147 @@ table tr td {
     background:#ffffff;
 
 }
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+*{
+  margin:0px;
+  padding:0px;
+  box-sizing: border-box;
+}
+:root{
+  --color-text: #616161;
+  --color-text-btn: #ffffff;
+  --card1-gradient-color1: #f12711;
+  --card1-gradient-color2: #f5af19;
+  --card2-gradient-color1: #7F00FF;
+  --card2-gradient-color2: #E100FF;
+  --card3-gradient-color1: #3f2b96;
+  --card3-gradient-color2: #a8c0ff;
+  --card4-gradient-color1: #11998e;
+  --card4-gradient-color2: #38ef7d;
+}
+/* body{
+  font-family: 'Roboto', sans-serif;
+  background: linear-gradient(to right, #8e9eab, #eef2f3); 
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 30px;
+} */
+.card-wrap{
+  width: 220px;
+  background: #fff;
+  border-radius: 20px;
+  border: 5px solid #fff;
+  overflow: hidden;
+  color: var(--color-text);
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px,
+              rgba(0, 0, 0, 0.23) 0px 6px 6px;
+  cursor: pointer;
+  transition: all .2s ease-in-out;
+}
+.card-wrap:hover{
+  transform: scale(1.1);
+}
+.card-header{
+  height: 200px;
+  width: 100%;
+  background: red;
+  /* border-radius:100% 0% 100% 0% / 0% 50% 50% 100%; */
+  display: grid;
+  place-items: center;
+
+}
+
+.card-header:after {
+    content: "";  // :before and :after both require content
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(90deg, rgba(11,11,12,1) 0%, rgba(93,92,93,1) 100%);
+    background-color: #333;
+    /* border-radius:100% 0% 100% 0% / 0% 50% 50% 100%; */
+    opacity: .4;
+    // mix-blend-mode: color;
+    // mix-blend-mode: hard-light;
+    // mix-blend-mode: hue;
+}
+
+.card-header i{
+  color: #fff;
+  font-size: 72px;
+}
+.card-content{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 60%;
+  margin: 0 auto;
+}
+.card-title{
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 16px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  
+}
+.card-text{
+  text-align: center;
+  font-size: 12px;
+  margin-bottom: 20px;
+}
+.card-btn{
+  border: none;
+  border-radius: 100px;
+  padding: 5px 30px;
+  color: #fff;
+  font-size: 20px;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+}
+.card-header.one{
+  /* background: linear-gradient(to bottom left, var(--card1-gradient-color1), var(--card1-gradient-color2)); */
+  background-image: url('images/line_process1.jpg');
+  background-size: cover;
+
+}
+.card-header.two{
+  /* background: linear-gradient(to bottom left, var(--card2-gradient-color1), var(--card2-gradient-color2)); */
+  background-image: url('images/line_process2.jpg');
+  background-size: cover;
+}
+.card-header.three{
+  /* background: linear-gradient(to bottom left, var(--card3-gradient-color1), var(--card3-gradient-color2)); */
+  background-image: url('images/line_process3.jpg');
+  background-size: cover;
+}
+.card-header.four{
+  background: linear-gradient(to bottom left, var(--card4-gradient-color1), var(--card4-gradient-color2));
+}
+
+.card-btn.one{
+  background: linear-gradient(to left, var(--card1-gradient-color1), var(--card1-gradient-color2));
+}
+.card-btn.two{
+  background: linear-gradient(to left, var(--card2-gradient-color1), var(--card2-gradient-color2));
+}
+.card-btn.three{
+  background: linear-gradient(to left, var(--card3-gradient-color1), var(--card3-gradient-color2));
+}
+.card-btn.four{
+  background: linear-gradient(to left, var(--card4-gradient-color1), var(--card4-gradient-color2));
+}
+
+.grid-view .filters input, .grid-view .filters select {
+    margin-bottom: 0;
+    height: auto;
+    width: 100%;
+}
 </style>     
      
 <body class="body">
@@ -434,15 +577,15 @@ if(Yii::app()->user->id !="")
     'fixed'=>'top',
     'collapse'=>true,    
     'htmlOptions'=>array('class'=>'noPrint custom-nav'),
-    'brand' =>  CHtml::image(Yii::app()->getBaseUrl() . '/images/logo.png', 'Logo', array('width' => '80', 'height' => '25'))."<span class='app-name'> จค.1&nbsp;&nbsp;&nbsp;&nbsp;</span>",
+    'brand' =>  CHtml::image(Yii::app()->getBaseUrl() . '/images/logo.png', 'Logo', array('width' => '60', 'height' => '25'))." <span class='app-name'>".Yii::app()->name."</span>",
     'items'=>array(
         array(
             'class'=>'bootstrap.widgets.TbMenu',
             'encodeLabel'=>false,
             'items'=>array(
               
-                
-                array('label'=>'ผู้ดูแลระบบ ','icon'=>'eye-open', 'url'=>'#','visible'=>Yii::app()->user->isAccess('/user/index'),'items'=>array(
+                array('label'=>'Home ','icon'=>'', 'url'=>'#'),
+                array('label'=>'ผู้ดูแลระบบ ','icon'=>'', 'url'=>'#','visible'=>Yii::app()->user->isAccess('/user/index'),'items'=>array(
                      array('label'=>'ข้อมูลโครงการที่ถูกลบ', 'url'=>array('/project/flagdel'),'visible'=>Yii::app()->user->isAccess('/project/flagdel')),
                      array('label'=>'ข้อมูลผู้รับจ้าง/ผู้ว่าจ้าง', 'url'=>array('/vendor/admin'),'visible'=>Yii::app()->user->isAccess('/vendor/admin')),
                      array('label'=>'ผู้ใช้งาน', 'url'=>array('/user/index'),'visible'=>Yii::app()->user->isAccess('/user/index')),
@@ -455,10 +598,10 @@ if(Yii::app()->user->id !="")
         ),    
         array(
             'class'=>'bootstrap.widgets.TbButtonGroup',           
-            'htmlOptions'=>array('class'=>'pull-right','style'=>'margin-top:15px'),
-            'type'=>'pea', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+            'htmlOptions'=>array('class'=>'pull-right','style'=>'margin-top:25px'),
+            'type'=>'', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
             'buttons'=>array(
-                    array('label'=>Yii::app()->user->title.Yii::app()->user->firstname." ".Yii::app()->user->lastname,'icon'=>Yii::app()->user->usertype, 'url'=>'#'),
+                    array('label'=>Yii::app()->user->name,'icon'=>Yii::app()->user->usertype, 'url'=>'#'),
                     //array('label'=>Yii::app()->user->username,'icon'=>Yii::app()->user->usertype, 'url'=>'#'),
                     array('items'=>array(
                         array('label'=>'เปลี่ยนรหัสผ่าน','icon'=>'cog', 'url'=>array('/user/password/'.Yii::app()->user->ID), 'visible'=>!Yii::app()->user->isGuest),

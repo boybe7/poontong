@@ -4,13 +4,14 @@
  * This is the model class for table "user".
  *
  * The followings are the available columns in table 'user':
- * @property integer $u_id
+ * @property integer $id
  * @property string $username
  * @property string $password
- * @property integer $u_group
- * @property string $title
- * @property string $firstname
- * @property string $lastname
+ * @property string $name
+ * @property string $position
+ * @property integer $status
+ * @property integer $site_id
+ * @property integer $user_group_id
  */
 class User extends CActiveRecord
 {
@@ -22,13 +23,6 @@ class User extends CActiveRecord
 		return 'user';
 	}
 
-	public function primaryKey()
-	{
-	    return 'u_id';
-	    // For composite primary key, return an array like the following
-	    // return array('column name 1', 'column name 2');
-	}
-
 	/**
 	 * @return array validation rules for model attributes.
 	 */
@@ -37,16 +31,13 @@ class User extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('username, password, u_group,firstname,lastname', 'required'),
-			array('u_group', 'numerical', 'integerOnly'=>true),
-			array('username', 'length', 'max'=>200),
-			array('password', 'length', 'max'=>64),
-			array('title', 'length', 'max'=>10),
-			array('firstname', 'length', 'max'=>100),
-			array('lastname', 'length', 'max'=>100),
+			array('username, password, name, status, site_id, user_group_id', 'required'),
+			array('status, site_id, user_group_id', 'numerical', 'integerOnly'=>true),
+			array('username, password, name', 'length', 'max'=>255),
+			array('position', 'length', 'max'=>45),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('u_id, username, password, u_group,title,firstname,lastname,department_id', 'safe', 'on'=>'search'),
+			array('id, username, password, name, position, status, site_id, user_group_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -67,14 +58,14 @@ class User extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'u_id' => 'U',
+			'id' => 'ID',
 			'username' => 'Username',
 			'password' => 'Password',
-			'u_group' => 'กลุ่มผู้ใช้งาน',
-			'title' => 'คำนำหน้า',
-			'firstname' => 'ชื่อ',
-			'lastname' => 'นามสกุล',
-			'department_id'=>'หน่วยงาน'
+			'name' => 'Name',
+			'position' => 'Position',
+			'status' => '0=inactive, 1=active',
+			'site_id' => '99 = all',
+			'user_group_id' => 'User Group',
 		);
 	}
 
@@ -96,15 +87,15 @@ class User extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('u_id',$this->u_id);
+		$criteria->compare('id',$this->id);
 		$criteria->compare('username',$this->username,true);
 		$criteria->compare('password',$this->password,true);
-		$criteria->compare('u_group',$this->u_group);
-		$criteria->compare('title',$this->title,true);
-		$criteria->compare('firstname',$this->firstname,true);
-		$criteria->compare('lastname',$this->lastname,true);
-		$user_dept = Yii::app()->user->userdept;
-		$criteria->addCondition('department_id='.$user_dept);
+		$criteria->compare('name',$this->name,true);
+		$criteria->compare('position',$this->position,true);
+		$criteria->compare('status',$this->status);
+		$criteria->compare('site_id',$this->site_id);
+		$criteria->compare('user_group_id',$this->user_group_id);
+
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
@@ -120,6 +111,7 @@ class User extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
 	public function getGroupName($gid)
     {
         switch ($gid) {
@@ -155,5 +147,4 @@ class User extends CActiveRecord
              
             return parent::beforeSave();
     }
-
 }
