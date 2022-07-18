@@ -43,7 +43,7 @@ class UserIdentity extends CUserIdentity
         } else if(!$user->validatePassword($this->password)){
             $this->errorCode=self::ERROR_PASSWORD_INVALID;
         } else {
-            $this->_id=$user->u_id;
+            $this->_id=$user->id;
             $this->username=$user->username;
             $this->errorCode=self::ERROR_NONE;
 

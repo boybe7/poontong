@@ -24,6 +24,16 @@ $('.search-form form').submit(function(){
 
 <?php 
 
+$this->widget('bootstrap.widgets.TbButton', array(
+    'buttonType'=>'link',
+    
+    'type'=>'success',
+    'label'=>'เพิ่มวัตถุดิบ',
+    'icon'=>'plus-sign',
+    'url'=>array('create'),
+    'htmlOptions'=>array('class'=>'pull-right','style'=>'margin:0px 10px 10px 10px;'),
+)); 
+
 $this->widget('bootstrap.widgets.TbGridView',array(
 	'id'=>'material-grid',
 	'type'=>'bordered condensed',
@@ -67,7 +77,7 @@ $this->widget('bootstrap.widgets.TbGridView',array(
 			'htmlOptions'=>array('style'=>'text-align:center')
 	  	),
 		'price1'=>array(
-			'header' => '<a class="sort-link">ราคารับซื้อรายใหญ่</a>',
+			'header' => '<a class="sort-link">ราคารับซื้อ<br>รายใหญ่</a>',
 			'type'=>'raw', 
 			'value' => function($model){
 				//return $model->getPrice($model);
@@ -77,7 +87,7 @@ $this->widget('bootstrap.widgets.TbGridView',array(
 			'htmlOptions'=>array('style'=>'text-align:center')
 	  	),
 		  'price2'=>array(
-			'header' => '<a class="sort-link">ราคารับซื้อรายย่อย</a>',
+			'header' => '<a class="sort-link">ราคารับซื้อ<br>รายย่อย</a>',
 			'type'=>'raw', 
 			'value' => function($model){
 				return $model->getPriceType($model,2);
@@ -86,7 +96,7 @@ $this->widget('bootstrap.widgets.TbGridView',array(
 			'htmlOptions'=>array('style'=>'text-align:center')
 	  	),
 		  'price3'=>array(
-			'header' => '<a class="sort-link">ราคารับซื้อลูกค้าประจำ</a>',
+			'header' => '<a class="sort-link">ราคารับซื้อ<br>ลูกค้าประจำ</a>',
 			'type'=>'raw', 
 			'value' => function($model){
 				return $model->getPriceType($model,3);

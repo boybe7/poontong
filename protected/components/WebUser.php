@@ -11,19 +11,28 @@ private $_model;
 // access it by Yii::app()->user->username
 function getUsername(){
     $user = $this->loadUser(Yii::app()->user->id);
-    return $user->username;
+    if(empty($user))
+        return false;
+    else
+        return $user->username;
    // return $user->title." ".$user->firstname." ".$user->lastname;
 }
 // access it by Yii::app()->user->title
 function getTitle(){
     $user = $this->loadUser(Yii::app()->user->id);
-    return $user->title;
+    if(empty($user))
+        return false;
+    else
+        return $user->title;
     
 }
 // access it by Yii::app()->user->firstname
 function getName(){
     $user = $this->loadUser(Yii::app()->user->id);
-    return $user->name;
+    if(empty($user))
+        return false;
+    else
+        return $user->name;
     
 }
 // access it by Yii::app()->user->lastname
@@ -35,7 +44,10 @@ function getLastName(){
 
 function getSite(){
     $user = $this->loadUser(Yii::app()->user->id);
-    return $user->site_id;
+    if(empty($user))
+        return false;
+    else
+        return $user->site_id;
     
 }
 // access it by Yii::app()->user->usertype
@@ -60,32 +72,50 @@ function getUsertype(){
 // Yii::app()->user->isCashier()
  function isAdmin(){
     $user = $this->loadUser(Yii::app()->user->id);
-    return UserGroup::model()->findByPk($user->user_group_id)->name == "admin";
+    if(empty($user))
+        return false;
+    else
+        return UserGroup::model()->findByPk($user->user_group_id)->name == "admin";
     //return UserModule::isAdmin();
   }
 
 function isSuperUser(){
     $user = $this->loadUser(Yii::app()->user->id);
-    return $user->u_group == "2";
+     if(empty($user))
+        return false;
+    else
+        return $user->user_group_id == "2";
 }
 
 function isUserV2(){
     $user = $this->loadUser(Yii::app()->user->id);
-    return $user->department_id == 2;
+     if(empty($user))
+        return false;
+    else
+        return $user->department_id == 2;
 }
 
 function isUser(){
     $user = $this->loadUser(Yii::app()->user->id);
-    return $user->u_group == "3";
+     if(empty($user))
+        return false;
+    else
+        return $user->user_group_id == "3";
 }
 function isExecutive(){
     $user = $this->loadUser(Yii::app()->user->id);
-    return UserGroup::model()->findByPk($user->u_group)->group_name == "executive";
+     if(empty($user))
+        return false;
+    else
+        return UserGroup::model()->findByPk($user->user_group_id)->group_name == "executive";
 }
 
 function getGroup(){
     $user = $this->loadUser(Yii::app()->user->id);
-    return $user->user_group_id;
+     if(empty($user))
+        return false;
+    else
+        return $user->user_group_id;
 }
 
 function getAccess($url){
@@ -108,15 +138,16 @@ function getAccess($url){
 
 function isAccess($url){
   
-    $user_group = Yii::app()->user->getGroup();
+    //$user_group = Yii::app()->user->getGroup();
     // $sql = "SELECT * FROM authen LEFT JOIN  menu_tree ON authen.menu_id=menu_tree.id WHERE url LIKE '%$url%' AND group_id='$user_group'";
     // //echo $sql;
     // $command = Yii::app()->db->createCommand($sql);
     // $result = $command->queryAll();
 
-    $access = true;//!empty($result)  ? true : false;
-
-
+    $access = false;//!empty($result)  ? true : false;
+    $is_admin = !empty(Yii::app()->user) && Yii::app()->user->isAdmin() ? true : false;
+    if($url == '/user/index' && $is_admin)
+        $access = true;
     return $access;
 }
 
@@ -128,12 +159,7 @@ protected function loadUser($id=null)
     {
         if($id!==null)
             $this->_model=User::model()->findByPk($id);
-        else
-        {
-            $this->_model = new User();
-            $this->_model->username = "Guest";
-            $this->_model->u_group = 0;
-        }
+     
     }
     return $this->_model;
 }

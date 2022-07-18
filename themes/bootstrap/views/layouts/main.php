@@ -525,18 +525,18 @@ table tr td {
 }
 .card-header.one{
   /* background: linear-gradient(to bottom left, var(--card1-gradient-color1), var(--card1-gradient-color2)); */
-  background-image: url('images/line_process1.jpg');
+  background-image: url('<?=Yii::app()->baseUrl;?>/images/line_process1.jpg');
   background-size: cover;
 
 }
 .card-header.two{
   /* background: linear-gradient(to bottom left, var(--card2-gradient-color1), var(--card2-gradient-color2)); */
-  background-image: url('images/line_process2.jpg');
+  background-image: url('<?=Yii::app()->baseUrl;?>/images/line_process2.jpg');
   background-size: cover;
 }
 .card-header.three{
   /* background: linear-gradient(to bottom left, var(--card3-gradient-color1), var(--card3-gradient-color2)); */
-  background-image: url('images/line_process3.jpg');
+  background-image: url('<?=Yii::app()->baseUrl;?>/images/line_process3.jpg');
   background-size: cover;
 }
 .card-header.four{
@@ -561,16 +561,20 @@ table tr td {
     height: auto;
     width: 100%;
 }
+
+.hidden {
+    display: none
+}
 </style>     
      
 <body class="body">
 
 <?php 
  //echo Yii::app()->theme->getBaseUrl(); 
+$class_profile = Yii::app()->user->id =="" ? "hidden" : "";
 
-
-if(Yii::app()->user->id !="")
-{
+// if(Yii::app()->user->id =="")
+//{
    
 
    $this->widget('bootstrap.widgets.TbNavbar',array(
@@ -584,13 +588,12 @@ if(Yii::app()->user->id !="")
             'encodeLabel'=>false,
             'items'=>array(
               
-                array('label'=>'Home ','icon'=>'', 'url'=>'#'),
+                array('label'=>'Home ','icon'=>'', 'url'=>'#','visible'=>Yii::app()->user->isAccess('/user/index')),
                 array('label'=>'ผู้ดูแลระบบ ','icon'=>'', 'url'=>'#','visible'=>Yii::app()->user->isAccess('/user/index'),'items'=>array(
                      array('label'=>'ข้อมูลโครงการที่ถูกลบ', 'url'=>array('/project/flagdel'),'visible'=>Yii::app()->user->isAccess('/project/flagdel')),
                      array('label'=>'ข้อมูลผู้รับจ้าง/ผู้ว่าจ้าง', 'url'=>array('/vendor/admin'),'visible'=>Yii::app()->user->isAccess('/vendor/admin')),
                      array('label'=>'ผู้ใช้งาน', 'url'=>array('/user/index'),'visible'=>Yii::app()->user->isAccess('/user/index')),
                      array('label'=>'กำหนดสิทธิผู้ใช้งาน', 'url'=>array('/authen/index'),'visible'=>Yii::app()->user->isAccess('/authen/index')),
-                     array('label'=>'คู่มือผู้ดูแลระบบ', 'url'=>array('./admin_manual.pdf'),'visible'=>Yii::app()->user->isAdmin()),
                      
                     ),
                 ),
@@ -598,7 +601,7 @@ if(Yii::app()->user->id !="")
         ),    
         array(
             'class'=>'bootstrap.widgets.TbButtonGroup',           
-            'htmlOptions'=>array('class'=>'pull-right','style'=>'margin-top:25px'),
+            'htmlOptions'=>array('class'=>'pull-right '.$class_profile,'style'=>'margin-top:25px'),
             'type'=>'', // '', 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
             'buttons'=>array(
                     array('label'=>Yii::app()->user->name,'icon'=>Yii::app()->user->usertype, 'url'=>'#'),
@@ -613,16 +616,27 @@ if(Yii::app()->user->id !="")
         ),
         ),
     ));
- }
-else{
-    $this->widget('bootstrap.widgets.TbNavbar',array(
-    'fixed'=>'top',
-    'collapse'=>true,    
-    'htmlOptions'=>array('class'=>'noprint custom-nav'),
-    'brand' =>  CHtml::image(Yii::app()->getBaseUrl() . '../images/logo.png', 'Logo', array('width' => '80', 'height' => '30'))."<span class='app-name-login'> ".Yii::app()->name." </span>",
-   
-    ));
-}     
+// }
+// else{
+//     $this->widget('bootstrap.widgets.TbNavbar',array(
+//     'fixed'=>'top',
+//     'collapse'=>true,    
+//     'htmlOptions'=>array('class'=>'noPrint custom-nav'),
+//     'brand' =>  CHtml::image(Yii::app()->getBaseUrl() . '../images/logo.png', 'Logo', array('width' => '60', 'height' => '25'))."<span class='app-name-login'> ".Yii::app()->name." </span>",
+//      'items'=>array(
+//         array(
+//             'class'=>'bootstrap.widgets.TbMenu',
+//             'encodeLabel'=>false,
+//             'items'=>array(
+              
+//                 array('label'=>'Home ','icon'=>'', 'url'=>'#'),
+              
+//             ),
+//         ),
+         
+//     )      
+//     ));
+// }     
  
    ?>
 
