@@ -1,6 +1,8 @@
 <?php $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
 	'id'=>'material-form',
 	'enableAjaxValidation'=>false,
+	'type'=>'horizontal',
+	'htmlOptions'=>  array('class'=>'well')
 )); ?>
 
 	<p class="help-block">Fields with <span class="required">*</span> are required.</p>
@@ -15,12 +17,31 @@
 
 	<?php echo $form->textFieldRow($model,'have_label',array('class'=>'span5')); ?>
 
-	<div class="form-actions">
-		<?php $this->widget('bootstrap.widgets.TbButton', array(
-			'buttonType'=>'submit',
-			'type'=>'primary',
-			'label'=>$model->isNewRecord ? 'Create' : 'Save',
-		)); ?>
-	</div>
+	<div class="row-fluid">
+		<div class="span12 form-actions ">
+			<?php 
+	                
+	      
+	     		
+	     		$this->widget('bootstrap.widgets.TbButton', array(
+			         'buttonType'=>'submit',
+			         'htmlOptions'=>array('class'=>'pull-right','style'=>'margin:0px 10px 0px 10px;'),
+			         'type'=>'primary',
+			         'label'=>'บันทึก',
+			                    
+			    )); 
+
+			    
+	      		$this->widget('bootstrap.widgets.TbButton', array(
+				   'buttonType'=>'link',
+				   'type'=>'danger',
+				   'label'=>'ยกเลิก',
+	         		'htmlOptions'=>array('class'=>'pull-right'),               
+	          		'url'=>array("admin"), 
+			  	)); 
+	         
+	    ?>
+		</div>
+	  </div>
 
 <?php $this->endWidget(); ?>

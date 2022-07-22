@@ -1,11 +1,13 @@
 <?php
 $this->breadcrumbs=array(
-	'Materials'=>array('index'),
+	'Customers'=>array('index'),
 	'Create',
 );
 
+
 ?>
 
-<h3>เพิ่มข้อมูลวัตถุดิบ</h3>
+
+<h3>เพิ่มข้อมูลลูกค้า</h3>
 
 <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
