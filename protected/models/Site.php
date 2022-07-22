@@ -57,10 +57,10 @@ class Site extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'name' => 'Name',
-			'status' => 'Status',
-			'address' => 'Address',
-			'telephone' => 'Telephone',
+			'name' => 'ชื่อโรงงาน',
+			'status' => 'สถานะ',
+			'address' => 'ที่อยู่ติดต่อ',
+			'telephone' => 'เบอร์โทร',
 			'email' => 'Email',
 		);
 	}

@@ -27,6 +27,11 @@
 
 			?>
 		</div>
+		
+	</div>
+
+	<div class="row-fluid">
+		
 		<div class="span4">
 			<?php 
 		   if(Yii::app()->user->isAdmin())	
