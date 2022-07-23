@@ -5,14 +5,9 @@ $this->breadcrumbs=array(
 	'Update',
 );
 
-$this->menu=array(
-	array('label'=>'List Site','url'=>array('index')),
-	array('label'=>'Create Site','url'=>array('create')),
-	array('label'=>'View Site','url'=>array('view','id'=>$model->id)),
-	array('label'=>'Manage Site','url'=>array('admin')),
-);
+
 ?>
 
-<h1>Update Site <?php echo $model->id; ?></h1>
+<h3>แก้ไขข้อมูลโรงงาน</h3>
 
 <?php echo $this->renderPartial('_form',array('model'=>$model)); ?>

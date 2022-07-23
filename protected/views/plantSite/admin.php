@@ -49,7 +49,7 @@ $this->widget('bootstrap.widgets.TbGridView',array(
 	'columns'=>array(
 		'name'=>array(
 			'name' => 'name',
-			'headerHtmlOptions' => array('style' => 'width:30%;text-align:center;background-color: #f5f5f5'),  	            	  	
+			'headerHtmlOptions' => array('style' => 'width:25%;text-align:center;background-color: #f5f5f5'),  	            	  	
 			'htmlOptions'=>array('style'=>'text-align:left')
 	  	),
 	  	'address'=>array(
@@ -59,13 +59,25 @@ $this->widget('bootstrap.widgets.TbGridView',array(
 	  	),
 	  	'telephone'=>array(
 			'name' => 'telephone',
-			'headerHtmlOptions' => array('style' => 'width:20%;text-align:center;background-color: #f5f5f5'),  	            	  	
+			'headerHtmlOptions' => array('style' => 'width:15%;text-align:center;background-color: #f5f5f5'),  	            	  	
 			'htmlOptions'=>array('style'=>'text-align:left')
 	  	),
 		'email'=>array(
 			'name' => 'email',
-			'headerHtmlOptions' => array('style' => 'width:20%;text-align:center;background-color: #f5f5f5'),  	            	  	
+			'headerHtmlOptions' => array('style' => 'width:15%;text-align:center;background-color: #f5f5f5'),  	            	  	
 			'htmlOptions'=>array('style'=>'text-align:left')
+	  	),
+	  	'status'=>array(
+			'name' => 'status',
+			'value' => function($model){
+				    if($model->status=='0')
+					   return 'ไม่ใช้งาน';
+					if($model->status=='1')
+					   return 'ใช้งาน';		
+				  },
+			'filter'=>CHtml::activeDropDownList($model, 'status', array('1' => 'ใช้งาน', '0' => 'ไม่ใช้งาน'),array('empty'=>'')),
+			'headerHtmlOptions' => array('style' => 'width:10%;text-align:center;background-color: #f5f5f5'),  	            	  	
+			'htmlOptions'=>array('style'=>'text-align:center')
 	  	),
 		array(
 			'header' => '<a class="sort-link"></a>',

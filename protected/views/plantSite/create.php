@@ -4,12 +4,9 @@ $this->breadcrumbs=array(
 	'Create',
 );
 
-$this->menu=array(
-	array('label'=>'List Site','url'=>array('index')),
-	array('label'=>'Manage Site','url'=>array('admin')),
-);
+
 ?>
 
-<h1>Create Site</h1>
+<h3>เพิ่มข้อมูลโรงงาน</h3>
 
 <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
