@@ -69,6 +69,8 @@ class CustomerController extends Controller
 		if(isset($_POST['Customer']))
 		{
 			$model->attributes=$_POST['Customer'];
+
+			$model->site_id = empty($model->site_id) || $model->site_id=='' ? Yii::app()->user->getSite() : $model->site_id; 
 			if($model->save())
 				$this->redirect(array('index'));
 		}
@@ -93,6 +95,8 @@ class CustomerController extends Controller
 		if(isset($_POST['Customer']))
 		{
 			$model->attributes=$_POST['Customer'];
+
+			$model->site_id = empty($model->site_id) || $model->site_id=='' ? Yii::app()->user->getSite() : $model->site_id; 
 			if($model->save())
 				$this->redirect(array('index'));
 		}

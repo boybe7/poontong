@@ -5,14 +5,8 @@ $this->breadcrumbs=array(
 	'Update',
 );
 
-$this->menu=array(
-	array('label'=>'List Customer','url'=>array('index')),
-	array('label'=>'Create Customer','url'=>array('create')),
-	array('label'=>'View Customer','url'=>array('view','id'=>$model->id)),
-	array('label'=>'Manage Customer','url'=>array('admin')),
-);
+
 ?>
 
-<h1>Update Customer <?php echo $model->id; ?></h1>
-
+<h3>แก้ไขข้อมูลลูกค้า</h3>
 <?php echo $this->renderPartial('_form',array('model'=>$model)); ?>

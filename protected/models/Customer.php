@@ -96,6 +96,24 @@ class Customer extends CActiveRecord
 		));
 	}
 
+	public function searchBySite($site_id)
+	{
+		// @todo Please modify the following code to remove attributes that should not be searched.
+
+		$criteria=new CDbCriteria;
+
+		$criteria->compare('id',$this->id);
+		$criteria->compare('name',$this->name,true);
+		$criteria->compare('address',$this->address,true);
+		$criteria->compare('phone',$this->phone,true);
+		$criteria->compare('type',$this->type,true);
+		$criteria->compare('site_id',$site_id);
+
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+		));
+	}
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
