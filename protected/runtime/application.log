@@ -16535,3 +16535,136 @@ Stack trace:
 REQUEST_URI=/poontong/plantsite/index
 HTTP_REFERER=http://localhost/poontong/plantsite/create
 ---
+2022/07/23 11:52:22 [error] [exception.CException] exception 'CException' with message 'BootstrapCode and its behaviors do not have a method or closure named "widget".' in C:\xampp\htdocs\poontong\framework\base\CComponent.php:266
+Stack trace:
+#0 C:\xampp\htdocs\poontong\protected\extensions\bootstrap\gii\bootstrap\templates\custom\_form.php(41): CComponent->__call('widget', Array)
+#1 C:\xampp\htdocs\poontong\protected\extensions\bootstrap\gii\bootstrap\templates\custom\_form.php(41): BootstrapCode->widget('bootstrap.widge...', Array)
+#2 C:\xampp\htdocs\poontong\framework\gii\CCodeModel.php(321): require('C:\\xampp\\htdocs...')
+#3 C:\xampp\htdocs\poontong\framework\gii\generators\crud\CrudCode.php(97): CCodeModel->render('C:\\xampp\\htdocs...')
+#4 C:\xampp\htdocs\poontong\framework\gii\CCodeGenerator.php(162): CrudCode->prepare()
+#5 C:\xampp\htdocs\poontong\framework\gii\CCodeGenerator.php(63): CCodeGenerator->prepare()
+#6 C:\xampp\htdocs\poontong\framework\web\actions\CInlineAction.php(49): CCodeGenerator->actionIndex()
+#7 C:\xampp\htdocs\poontong\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#8 C:\xampp\htdocs\poontong\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#9 C:\xampp\htdocs\poontong\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#10 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(282): CController->run('index')
+#11 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(141): CWebApplication->runController('gii/bootstrap/i...')
+#12 C:\xampp\htdocs\poontong\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#13 C:\xampp\htdocs\poontong\index.php(13): CApplication->run()
+#14 {main}
+REQUEST_URI=/poontong/gii/bootstrap/index
+HTTP_REFERER=http://localhost/poontong/gii/bootstrap/index
+---
+2022/07/24 17:23:17 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'ระบบไม่สามารถดำเนินการ "dist" ตามคำสั่งได้' in C:\xampp\htdocs\poontong\framework\web\CController.php:483
+Stack trace:
+#0 C:\xampp\htdocs\poontong\framework\web\CController.php(270): CController->missingAction('dist')
+#1 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(282): CController->run('dist')
+#2 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(141): CWebApplication->runController('material/dist/j...')
+#3 C:\xampp\htdocs\poontong\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#4 C:\xampp\htdocs\poontong\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/poontong/material/dist/jquery.maskMoney.js
+HTTP_REFERER=http://localhost/poontong/material/create
+---
+2022/07/24 17:24:23 [error] [php] Undefined variable: cs (C:\xampp\htdocs\poontong\themes\bootstrap\views\layouts\main.php:22)
+Stack trace:
+#0 C:\xampp\htdocs\poontong\framework\web\CController.php(784): MaterialController->renderFile()
+#1 C:\xampp\htdocs\poontong\protected\controllers\MaterialController.php(78): MaterialController->render()
+#2 C:\xampp\htdocs\poontong\framework\web\actions\CInlineAction.php(49): MaterialController->actionCreate()
+#3 C:\xampp\htdocs\poontong\framework\web\CController.php(308): CInlineAction->runWithParams()
+#4 C:\xampp\htdocs\poontong\framework\web\filters\CFilterChain.php(133): MaterialController->runAction()
+#5 C:\xampp\htdocs\poontong\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#6 C:\xampp\htdocs\poontong\framework\web\CController.php(1145): CAccessControlFilter->filter()
+#7 C:\xampp\htdocs\poontong\framework\web\filters\CInlineFilter.php(58): MaterialController->filterAccessControl()
+#8 C:\xampp\htdocs\poontong\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter()
+#9 C:\xampp\htdocs\poontong\framework\web\CController.php(291): CFilterChain->run()
+#10 C:\xampp\htdocs\poontong\framework\web\CController.php(265): MaterialController->runActionWithFilters()
+#11 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(282): MaterialController->run()
+#12 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#13 C:\xampp\htdocs\poontong\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#14 C:\xampp\htdocs\poontong\index.php(13): CWebApplication->run()
+REQUEST_URI=/poontong/material/create
+in C:\xampp\htdocs\poontong\themes\bootstrap\views\layouts\main.php (22)
+in C:\xampp\htdocs\poontong\protected\controllers\MaterialController.php (78)
+in C:\xampp\htdocs\poontong\index.php (13)
+2022/07/24 17:24:33 [error] [exception.CException] exception 'CException' with message 'CWebApplication and its behaviors do not have a method or closure named "baseUrl".' in C:\xampp\htdocs\poontong\framework\base\CComponent.php:266
+Stack trace:
+#0 C:\xampp\htdocs\poontong\themes\bootstrap\views\layouts\main.php(22): CComponent->__call('baseUrl', Array)
+#1 C:\xampp\htdocs\poontong\themes\bootstrap\views\layouts\main.php(22): CWebApplication->baseUrl()
+#2 C:\xampp\htdocs\poontong\framework\web\CBaseController.php(126): require('C:\\xampp\\htdocs...')
+#3 C:\xampp\htdocs\poontong\framework\web\CBaseController.php(95): CBaseController->renderInternal('C:\\xampp\\htdocs...', Array, true)
+#4 C:\xampp\htdocs\poontong\framework\web\CController.php(784): CBaseController->renderFile('C:\\xampp\\htdocs...', Array, true)
+#5 C:\xampp\htdocs\poontong\protected\controllers\MaterialController.php(78): CController->render('create', Array)
+#6 C:\xampp\htdocs\poontong\framework\web\actions\CInlineAction.php(49): MaterialController->actionCreate()
+#7 C:\xampp\htdocs\poontong\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#8 C:\xampp\htdocs\poontong\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#9 C:\xampp\htdocs\poontong\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#10 C:\xampp\htdocs\poontong\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#11 C:\xampp\htdocs\poontong\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#12 C:\xampp\htdocs\poontong\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#13 C:\xampp\htdocs\poontong\framework\web\CController.php(291): CFilterChain->run()
+#14 C:\xampp\htdocs\poontong\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#15 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(282): CController->run('create')
+#16 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(141): CWebApplication->runController('material/create')
+#17 C:\xampp\htdocs\poontong\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#18 C:\xampp\htdocs\poontong\index.php(13): CApplication->run()
+#19 {main}
+REQUEST_URI=/poontong/material/create
+HTTP_REFERER=http://localhost/poontong/material/
+---
+2022/07/24 17:24:57 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "dist/jquery.maskMoney.js".' in C:\xampp\htdocs\poontong\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(141): CWebApplication->runController('dist/jquery.mas...')
+#1 C:\xampp\htdocs\poontong\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#2 C:\xampp\htdocs\poontong\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/poontong/dist/jquery.maskMoney.js
+HTTP_REFERER=http://localhost/poontong/material/create
+---
+2022/07/24 19:47:37 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "materail/index".' in C:\xampp\htdocs\poontong\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(141): CWebApplication->runController('materail/index')
+#1 C:\xampp\htdocs\poontong\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#2 C:\xampp\htdocs\poontong\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/poontong/materail/index
+---
+2022/07/25 00:36:23 [error] [exception.CHttpException.403] exception 'CHttpException' with message 'คุณไม่ได้รับอนุญาตให้ดำเนินการดังกล่าว' in C:\xampp\htdocs\poontong\framework\web\auth\CAccessControlFilter.php:182
+Stack trace:
+#0 C:\xampp\htdocs\poontong\framework\web\auth\CAccessControlFilter.php(145): CAccessControlFilter->accessDenied(Object(WebUser), '\xE0\xB8\x84\xE0\xB8\xB8\xE0\xB8\x93\xE0\xB9\x84\xE0\xB8\xA1...')
+#1 C:\xampp\htdocs\poontong\framework\web\filters\CFilter.php(38): CAccessControlFilter->preFilter(Object(CFilterChain))
+#2 C:\xampp\htdocs\poontong\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#3 C:\xampp\htdocs\poontong\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#4 C:\xampp\htdocs\poontong\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#5 C:\xampp\htdocs\poontong\framework\web\CController.php(291): CFilterChain->run()
+#6 C:\xampp\htdocs\poontong\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#7 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(282): CController->run('GetCustomers')
+#8 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(141): CWebApplication->runController('Customer/GetCus...')
+#9 C:\xampp\htdocs\poontong\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#10 C:\xampp\htdocs\poontong\index.php(13): CApplication->run()
+#11 {main}
+REQUEST_URI=/poontong/Customer/GetCustomers?term=v
+HTTP_REFERER=http://localhost/poontong/buymaterialinput/create
+---
+2022/07/25 00:51:13 [error] [exception.CException] exception 'CException' with message 'คุณสมบัติ "Customer.telephone" ยังไม่ถูกกำหนด' in C:\xampp\htdocs\poontong\framework\base\CComponent.php:130
+Stack trace:
+#0 C:\xampp\htdocs\poontong\framework\db\ar\CActiveRecord.php(145): CComponent->__get('telephone')
+#1 C:\xampp\htdocs\poontong\framework\base\CModel.php(596): CActiveRecord->__get('telephone')
+#2 C:\xampp\htdocs\poontong\protected\controllers\CustomerController.php(196): CModel->offsetGet('telephone')
+#3 C:\xampp\htdocs\poontong\framework\web\actions\CInlineAction.php(49): CustomerController->actionGetCustomers()
+#4 C:\xampp\htdocs\poontong\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#5 C:\xampp\htdocs\poontong\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#6 C:\xampp\htdocs\poontong\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#7 C:\xampp\htdocs\poontong\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#8 C:\xampp\htdocs\poontong\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#9 C:\xampp\htdocs\poontong\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#10 C:\xampp\htdocs\poontong\framework\web\CController.php(291): CFilterChain->run()
+#11 C:\xampp\htdocs\poontong\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(282): CController->run('GetCustomers')
+#13 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(141): CWebApplication->runController('Customer/GetCus...')
+#14 C:\xampp\htdocs\poontong\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#15 C:\xampp\htdocs\poontong\index.php(13): CApplication->run()
+#16 {main}
+REQUEST_URI=/poontong/Customer/GetCustomers?term=s
+HTTP_REFERER=http://localhost/poontong/buymaterialinput/create
+---

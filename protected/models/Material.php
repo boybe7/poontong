@@ -29,12 +29,12 @@ class Material extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('name, unit', 'required'),
-			array('is_compressed, have_label,material_group_id', 'numerical', 'integerOnly'=>true),
+			array('is_compressed, have_label,material_group_id,site_id', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>255),
 			array('unit', 'length', 'max'=>45),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, unit, is_compressed, have_label, material_group_id', 'safe', 'on'=>'search'),
+			array('id, name, unit, is_compressed, have_label, material_group_id,price1,price2,price3,sell,site_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -61,6 +61,11 @@ class Material extends CActiveRecord
 			'is_compressed' => 'Is Compressed',
 			'have_label' => 'Have Label',
 			'material_group_id' => 'ประเภท',
+			'price1' => 'ราคารับซื้อรายใหญ่',
+			'price2' => 'ราคารับซื้อรายย่อย',
+			'price3' => 'ราคารับซื้อลูกค้าประจำ',
+			'sell' => 'ราคาขาย',
+			'site_id' => 'โรงงาน',
 		);
 	}
 
@@ -82,12 +87,20 @@ class Material extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
+		if(!Yii::app()->user->isAdmin())
+			$this->site_id = Yii::app()->user->getSite();
+
 		$criteria->compare('id',$this->id);
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('unit',$this->unit,true);
 		$criteria->compare('is_compressed',$this->is_compressed);
 		$criteria->compare('have_label',$this->have_label);
 		$criteria->compare('material_group_id',$this->material_group_id);
+		$criteria->compare('price1',$this->price1);
+		$criteria->compare('price2',$this->price2);
+		$criteria->compare('price3',$this->price3);
+		$criteria->compare('sell',$this->sell);
+		$criteria->compare('site_id',$this->site_id);
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));

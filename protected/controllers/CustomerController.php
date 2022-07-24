@@ -27,7 +27,7 @@ class CustomerController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
+				'actions'=>array('index','view','GetCustomers'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -181,4 +181,29 @@ class CustomerController extends Controller
 			Yii::app()->end();
 		}
 	}
+
+	public function actionGetCustomers(){
+            $request=trim($_GET['term']);
+                    
+            $models=Customer::model()->findAll(array("condition"=>"name like '%$request%'"));
+            $data=array();
+            foreach($models as $model){
+               
+                $data[] = array(
+                        'id'=>$model['id'],
+                        'label'=>$model['name'],
+                        'address'=>$model['address'],
+                        'phone'=>$model['phone'],
+              
+                );
+
+            }
+
+
+
+            $this->layout='empty';
+            echo json_encode($data);
+        
+    }
+
 }

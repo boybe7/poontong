@@ -1,6 +1,6 @@
 <?php
 
-class MaterialController extends Controller
+class BuyMaterialInputController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -61,14 +61,14 @@ class MaterialController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new Material;
+		$model=new BuyMaterialInput;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Material']))
+		if(isset($_POST['BuyMaterialInput']))
 		{
-			$model->attributes=$_POST['Material'];
+			$model->attributes=$_POST['BuyMaterialInput'];
 			if($model->save())
 				$this->redirect(array('index'));
 		}
@@ -90,17 +90,11 @@ class MaterialController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Material']))
+		if(isset($_POST['BuyMaterialInput']))
 		{
-			$model->attributes=$_POST['Material'];
-			$model->price1 = str_replace(",","",$_POST['Material']['price1']);
-			$model->price2 = str_replace(",","",$_POST['Material']['price2']);
-			$model->price3 = str_replace(",","",$_POST['Material']['price3']);
-			$model->sell = str_replace(",","",$_POST['Material']['sell']);
-			//$model->save();
+			$model->attributes=$_POST['BuyMaterialInput'];
 			if($model->save())
-			 		$this->redirect(array('index'));
-
+				$this->redirect(array('index'));
 		}
 
 		$this->render('update',array(
@@ -133,10 +127,10 @@ class MaterialController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$model=new Material('search');
+		$model=new BuyMaterialInput('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Material']))
-			$model->attributes=$_GET['Material'];
+		if(isset($_GET['BuyMaterialInput']))
+			$model->attributes=$_GET['BuyMaterialInput'];
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -148,10 +142,10 @@ class MaterialController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$model=new Material('search');
+		$model=new BuyMaterialInput('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Material']))
-			$model->attributes=$_GET['Material'];
+		if(isset($_GET['BuyMaterialInput']))
+			$model->attributes=$_GET['BuyMaterialInput'];
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -165,7 +159,7 @@ class MaterialController extends Controller
 	 */
 	public function loadModel($id)
 	{
-		$model=Material::model()->findByPk($id);
+		$model=BuyMaterialInput::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -177,7 +171,7 @@ class MaterialController extends Controller
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='material-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='buy-material-input-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();

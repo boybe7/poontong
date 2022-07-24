@@ -8,7 +8,7 @@
 
 
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
-<!-- <script type="text/javascript" src="/themes/bootstrap/js/jquery.yiigridview.js"></script> -->
+<!-- <script type="text/javascript" src="dist/jquery.maskMoney.js"></script> -->
 
 	<?php 
        /* Yii::app()->getClientScript()->reset(); 
@@ -18,8 +18,8 @@
 
         echo '<script type="text/javascript" src="'.Yii::app()->theme->getBaseUrl().'/js/jquery.yiigridview.js"></script>';
         Yii::app()->bootstrap->init();
-        //$cs = Yii::app()->clientScript;
-        //$cs->registerScriptFile(Yii::app()->theme->getBaseUrl().'/js/jquery.yiigridview.js');
+        $cs = Yii::app()->clientScript;
+        $cs->registerScriptFile(Yii::app()->baseUrl.'/dist/js/jquery.maskMoney.js');
   ?>
 </head>
 
