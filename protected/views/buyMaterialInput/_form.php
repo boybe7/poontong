@@ -68,24 +68,22 @@
 	</div>
 	
 </div>
+
 <div class='row-fluid'>
-	<?php echo $form->textFieldRow($model,'customer_id',array('class'=>'span5')); ?>
+	<div class="span3">
+	<?php echo $form->textFieldRow($model,'car_no',array('class'=>'span12','maxlength'=>15)); ?>
+	</div>
+	<div class="span3">
+	<?php echo $form->textFieldRow($model,'weight_in',array('class'=>'span12','maxlength'=>15)); ?>
+	</div>
+	<div class="span3">
+	<?php echo $form->textFieldRow($model,'weight_out',array('class'=>'span12','maxlength'=>15)); ?>
+	</div>
+	<div class="span3">
+	<?php echo $form->textFieldRow($model,'weight_loss',array('class'=>'span12','maxlength'=>15)); ?>
+	</div>
 </div>
-<div class='row-fluid'>
-	<?php echo $form->textFieldRow($model,'bill_no',array('class'=>'span5','maxlength'=>45)); ?>
-</div>
-<div class='row-fluid'>
-	<?php echo $form->textFieldRow($model,'car_no',array('class'=>'span5','maxlength'=>15)); ?>
-</div>
-<div class='row-fluid'>
-	<?php echo $form->textFieldRow($model,'weight_in',array('class'=>'span5','maxlength'=>10)); ?>
-</div>
-<div class='row-fluid'>
-	<?php echo $form->textFieldRow($model,'weight_out',array('class'=>'span5','maxlength'=>10)); ?>
-</div>
-<div class='row-fluid'>
-	<?php echo $form->textFieldRow($model,'weight_loss',array('class'=>'span5','maxlength'=>10)); ?>
-</div>
+
 <div class='row-fluid'>
 	<?php echo $form->textFieldRow($model,'weight_net',array('class'=>'span5','maxlength'=>10)); ?>
 </div>
