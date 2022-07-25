@@ -46,12 +46,12 @@ if(Yii::app()->user->isAdmin())
 			
 			'name'=>array(
 				'name' => 'name',
-				'headerHtmlOptions' => array('style' => 'width:25%;text-align:center;background-color: #f5f5f5'),  	            	  	
+				'headerHtmlOptions' => array('style' => 'width:22%;text-align:center;background-color: #f5f5f5'),  	            	  	
 				'htmlOptions'=>array('style'=>'text-align:left')
 		  	),
 			'address'=>array(
 				'name' => 'address',
-				'headerHtmlOptions' => array('style' => 'width:35%;text-align:center;background-color: #f5f5f5'),  	            	  	
+				'headerHtmlOptions' => array('style' => 'width:31%;text-align:center;background-color: #f5f5f5'),  	            	  	
 				'htmlOptions'=>array('style'=>'text-align:left')
 		  	),
 		  	'phone'=>array(
@@ -68,6 +68,20 @@ if(Yii::app()->user->isAdmin())
 					   return 'ผู้ซื้อ';		
 				  },
 			    'filter'=>CHtml::activeDropDownList($model, 'type', array('S' => 'ผู้ขาย', 'B' => 'ผู้ซื้อ'),array('empty'=>'')), 
+				'headerHtmlOptions' => array('style' => 'width:7%;text-align:center;background-color: #f5f5f5'),  	            	  	
+				'htmlOptions'=>array('style'=>'text-align:center')
+		  	),
+		  	'group'=>array(
+				'name' => 'group_id',
+				'value' => function($model){
+				    if($model->group_id=='1')
+					   return 'รายใหญ่';
+					elseif($model->group_id=='2')
+					   return 'รายย่อย';	
+					elseif($model->group_id=='3')
+					   return 'ประจำ';		
+				  },
+			    'filter'=>CHtml::activeDropDownList($model, 'group_id', array("1" => "รายใหญ่", "2" => "รายย่อย", "3" => "ประจำ"),array('empty'=>'')), 
 				'headerHtmlOptions' => array('style' => 'width:7%;text-align:center;background-color: #f5f5f5'),  	            	  	
 				'htmlOptions'=>array('style'=>'text-align:center')
 		  	),

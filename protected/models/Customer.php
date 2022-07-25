@@ -29,14 +29,14 @@ class Customer extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, site_id', 'required'),
-			array('site_id', 'numerical', 'integerOnly'=>true),
+			array('name, site_id, group_id', 'required'),
+			array('site_id,group_id', 'numerical', 'integerOnly'=>true),
 			array('name, address', 'length', 'max'=>255),
 			array('phone', 'length', 'max'=>45),
 			array('type', 'length', 'max'=>2),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, address, phone, type, site_id', 'safe', 'on'=>'search'),
+			array('id, name, address, phone, type, site_id, group_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -62,7 +62,8 @@ class Customer extends CActiveRecord
 			'address' => 'ที่อยู่',
 			'phone' => 'เบอร์โทร',
 			'type' => 'ประเภท',
-			'site_id' => 'Site',
+			'site_id' => 'โรงงาน',
+			'group_id' => 'กลุ่มลูกค้า',
 		);
 	}
 
@@ -90,7 +91,7 @@ class Customer extends CActiveRecord
 		$criteria->compare('phone',$this->phone,true);
 		$criteria->compare('type',$this->type,true);
 		$criteria->compare('site_id',$this->site_id);
-
+		$criteria->compare('group_id',$this->group_id);
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
@@ -108,7 +109,7 @@ class Customer extends CActiveRecord
 		$criteria->compare('phone',$this->phone,true);
 		$criteria->compare('type',$this->type,true);
 		$criteria->compare('site_id',$site_id);
-
+		$criteria->compare('group_id',$this->group_id);
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));

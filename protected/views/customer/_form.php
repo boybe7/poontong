@@ -31,6 +31,18 @@
 	</div>
 
 	<div class="row-fluid">
+		<div class="span4">
+			<?php 
+
+		 	 $typelist = array("1" => "ลูกค้ารายใหญ่", "2" => "ลูกค้ารายย่อย", "3" => "ลูกค้าประจำ");
+             echo $form->dropDownListRow($model, 'group_id', $typelist, array('class'=>'span12'), array('options' => array('type'=>array('selected'=>true)))); 
+
+			?>
+		</div>
+		
+	</div>
+
+	<div class="row-fluid">
 		
 		<div class="span4">
 			<?php 
