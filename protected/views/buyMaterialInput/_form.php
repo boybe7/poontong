@@ -7,8 +7,9 @@
 	<p class="help-block">Fields with <span class="required">*</span> are required.</p>
 
 	<?php echo $form->errorSummary($model); ?>
-
-<div class='row-fluid'>
+<fieldset class="scheduler-border">
+    <legend class="scheduler-border"><?php $img = Yii::app()->baseUrl."/images/customer.png"; echo '<img src="'.$img.'">'; ?></legend>
+<div class='row-fluid div-scheduler-border'>
 	<div class="span8">
 		<?php 
 		  			echo CHtml::activeLabelEx($model, 'customer_id');
@@ -79,8 +80,11 @@
 	</div>
 	
 </div>
+</fieldset>
 
-<div class='row-fluid'>
+<fieldset class="scheduler-border">
+    <legend class="scheduler-border"><?php $img = Yii::app()->baseUrl."/images/cargo-truck.png"; echo '<img src="'.$img.'">'; ?></legend>
+<div class='row-fluid div-scheduler-border'>
 	<div class="span4">
 	<?php echo $form->textFieldRow($model,'car_no',array('class'=>'span12','maxlength'=>15)); ?>
 	</div>
@@ -97,7 +101,7 @@
 	<?php echo $form->textFieldRow($model,'weight_net',array('class'=>'span12','maxlength'=>15)); ?>
 	</div>
 </div>
-
+</fieldset>
 <div class='row-fluid'>
 	<?php echo $form->textFieldRow($model,'weight_net',array('class'=>'span5','maxlength'=>10)); ?>
 </div>
