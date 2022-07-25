@@ -40,6 +40,7 @@
                                            //console.log(ui.item.id)
                                            $("#address").val(ui.item.address);
                                            $("#phone").val(ui.item.phone);
+                                           $("#group_id").val(ui.item.group_id);
                                           
                                      }',
                                      //'close'=>'js:function(){$(this).val("");}',
@@ -54,7 +55,16 @@
 
 		 ?>
 	</div>
-	<div class="span4">
+	<div class="span2">
+			<label for='group_id'>ลูกค้า</label>
+			<?php 
+
+		 	 $typelist = array("1" => "ลูกค้ารายใหญ่", "2" => "ลูกค้ารายย่อย", "3" => "ลูกค้าประจำ");
+		 	 echo CHtml::dropDownList('group_id', '',$typelist,array('class'=>'span12','empty' => '----เลือก----'));
+         
+			?>
+	</div>
+	<div class="span2">
 		<?php echo $form->textFieldRow($model,'bill_no',array('class'=>'span12','maxlength'=>255)); ?>
 	</div>	
 </div>

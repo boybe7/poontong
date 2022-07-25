@@ -195,6 +195,7 @@ class CustomerController extends Controller
                         'label'=>$model['name'],
                         'address'=>$model['address'],
                         'phone'=>$model['phone'],
+                        'group_id'=>$model['group_id'],
               
                 );
 
