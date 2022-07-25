@@ -77,7 +77,7 @@ class BuyMaterialInput extends CActiveRecord
 			'car_no' => 'ทะเบียนรถ',
 			'weight_in' => 'น้ำหนักเข้า',
 			'weight_out' => 'น้ำหนักออก',
-			'weight_loss' => 'Weight Loss',
+			'weight_loss' => 'ของเสีย',
 			'weight_net' => 'น้ำหนักสุทธิ',
 			'price_unit' => 'ราคา/หน่วย',
 			'material_id' => 'วัตถุดิบ',

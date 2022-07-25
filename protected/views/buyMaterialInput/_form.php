@@ -22,6 +22,7 @@
                                     dataType: "json",
                                     data: {
                                         term: request.term,
+                                        type: "B"
                                        
                                     },
                                     success: function (data) {
@@ -70,17 +71,20 @@
 </div>
 
 <div class='row-fluid'>
-	<div class="span3">
+	<div class="span4">
 	<?php echo $form->textFieldRow($model,'car_no',array('class'=>'span12','maxlength'=>15)); ?>
 	</div>
-	<div class="span3">
+	<div class="span2">
 	<?php echo $form->textFieldRow($model,'weight_in',array('class'=>'span12','maxlength'=>15)); ?>
 	</div>
-	<div class="span3">
+	<div class="span2">
 	<?php echo $form->textFieldRow($model,'weight_out',array('class'=>'span12','maxlength'=>15)); ?>
 	</div>
-	<div class="span3">
+	<div class="span2">
 	<?php echo $form->textFieldRow($model,'weight_loss',array('class'=>'span12','maxlength'=>15)); ?>
+	</div>
+	<div class="span2">
+	<?php echo $form->textFieldRow($model,'weight_net',array('class'=>'span12','maxlength'=>15)); ?>
 	</div>
 </div>
 

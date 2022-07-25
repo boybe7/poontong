@@ -184,8 +184,9 @@ class CustomerController extends Controller
 
 	public function actionGetCustomers(){
             $request=trim($_GET['term']);
+            $type = $_GET['type'];
                     
-            $models=Customer::model()->findAll(array("condition"=>"name like '%$request%'"));
+            $models=Customer::model()->findAll(array("condition"=>"name like '%$request%' AND type='$type' "));
             $data=array();
             foreach($models as $model){
                
