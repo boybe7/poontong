@@ -84,7 +84,7 @@ class BuyMaterialInput extends CActiveRecord
 			'price_net' => 'ราคารวม',
 			'last_update' => 'Last Update',
 			'update_by' => 'Update By',
-			'site_id' => 'Site',
+			'site_id' => 'โรงงาน',
 			'note' => 'หมายเหตุ',
 		);
 	}

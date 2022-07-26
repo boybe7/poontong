@@ -1,3 +1,19 @@
+<script type="text/javascript">
+  
+  $(function(){
+      
+
+      $( "input[id*='BuyMaterialInput_customer_id']" ).autocomplete({
+       
+                minLength: 0
+      }).bind('focus', function () {
+             //console.log("focus");
+                $(this).autocomplete("search");
+      });
+
+  });
+ </script>
+
 <?php $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
 	'id'=>'buy-material-input-form',
 	'enableAjaxValidation'=>false,
@@ -10,6 +26,21 @@
 	<div class='row-fluid'>
 		<div class="span2 pull-right">
 			<?php echo $form->textFieldRow($model,'bill_no',array('class'=>'span12','maxlength'=>255)); ?>
+		</div>	
+		<div class="span2">
+			<?php  	
+				if(Yii::app()->user->isAdmin())
+				{
+					$typelist = CHtml::listData(Site::model()->findAll(),'id','name');
+		   		 	echo $form->dropDownListRow($model, 'site_id', $typelist,array('class'=>'span12','ajax' => 
+                            array(
+                                'type'=>'POST', 
+                                'url'=>CController::createUrl('Ajax/GetMaterialOption'),
+                                'data'=>array('site_id' => 'js:this.value'),
+                                'update'=>'#BuyMaterialInput_material_id', 
+                            )), array('options' => array('site_id'=>array('selected'=>true))));  
+		   		} 
+		    ?>
 		</div>	
 	</div>
 <fieldset class="scheduler-border">
@@ -62,7 +93,7 @@
 		 ?>
 	</div>
 	<div class="span2">
-			<label for='group_id'>ลูกค้า</label>
+			<label for='group_id'>ประเภท</label>
 			<?php 
 
 		 	 $typelist = array("1" => "ลูกค้ารายใหญ่", "2" => "ลูกค้ารายย่อย", "3" => "ลูกค้าประจำ");
@@ -106,7 +137,22 @@
 </div>
 </fieldset>
 <div class='row-fluid'>
-	<?php echo $form->textFieldRow($model,'weight_net',array('class'=>'span5','maxlength'=>10)); ?>
+	<div class="span8">
+		<?php 
+		  			
+            	if(!Yii::app()->user->isAdmin())
+				{
+					$typelist = CHtml::listData(Material::model()->findAll('site_id=:id', array(':id' => Yii::app()->user->getSite())),'id','name');
+		   		 	echo $form->dropDownListRow($model, 'material_id', $typelist,array('class'=>'span12'), array('options' => array('site_id'=>array('selected'=>true))));  
+		   		} 
+		   		else
+		   		{
+		   			$typelist = CHtml::listData(Material::model()->findAll('site_id=:id', array(':id' => 1)),'id','name');
+		   		 	echo $form->dropDownListRow($model, 'material_id', $typelist,array('class'=>'span12'), array('options' => array('site_id'=>array('selected'=>true))));  
+		   		}
+
+		 ?>
+	</div>
 </div>
 <div class='row-fluid'>
 	<?php echo $form->textFieldRow($model,'price_unit',array('class'=>'span5','maxlength'=>10)); ?>

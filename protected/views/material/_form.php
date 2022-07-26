@@ -25,7 +25,7 @@
 		</div>
 		<div class="span2">
 			<?php  	$typelist = CHtml::listData(MaterialGroup::model()->findAll(),'id','name');
-		   		 	echo $form->dropDownListRow($model, 'material_group_id', $typelist,array('class'=>'span12'), array('options' => array('site_id'=>array('selected'=>true))));   
+		   		 	echo $form->dropDownListRow($model, 'material_group_id', $typelist,array('class'=>'span12'), array('options' => array('material_group_id'=>array('selected'=>true))));   
 		    ?>
 		</div>	
 		<div class="span2">
@@ -54,7 +54,18 @@
 		</div>
 	</div>
 	<div class="row-fluid">
-	<?php echo $form->textFieldRow($model,'sell',array('class'=>'span3','style'=>'text-align:right')); ?>
+		<div class="span3">
+		<?php echo $form->textFieldRow($model,'sell',array('class'=>'span12','style'=>'text-align:right')); ?>
+		</div>
+		<div class="span2">
+			<?php  	
+				if(Yii::app()->user->isAdmin())
+				{
+					$typelist = CHtml::listData(Site::model()->findAll(),'id','name');
+		   		 	echo $form->dropDownListRow($model, 'site_id', $typelist,array('class'=>'span12'), array('options' => array('site_id'=>array('selected'=>true))));  
+		   		} 
+		    ?>
+		</div>	
 	</div>
 	<div class="row-fluid">
 		<div class="span12 form-actions ">

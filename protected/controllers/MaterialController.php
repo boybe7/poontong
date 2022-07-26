@@ -27,7 +27,7 @@ class MaterialController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
+				'actions'=>array('index','view','GetMaterial'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -69,6 +69,11 @@ class MaterialController extends Controller
 		if(isset($_POST['Material']))
 		{
 			$model->attributes=$_POST['Material'];
+			$model->price1 = str_replace(",","",$_POST['Material']['price1']);
+			$model->price2 = str_replace(",","",$_POST['Material']['price2']);
+			$model->price3 = str_replace(",","",$_POST['Material']['price3']);
+			$model->sell = str_replace(",","",$_POST['Material']['sell']);
+			$model->site_id = empty($model->site_id) || $model->site_id=='' ? Yii::app()->user->getSite() : $model->site_id; 
 			if($model->save())
 				$this->redirect(array('index'));
 		}
@@ -97,6 +102,7 @@ class MaterialController extends Controller
 			$model->price2 = str_replace(",","",$_POST['Material']['price2']);
 			$model->price3 = str_replace(",","",$_POST['Material']['price3']);
 			$model->sell = str_replace(",","",$_POST['Material']['sell']);
+			$model->site_id = empty($model->site_id) || $model->site_id=='' ? Yii::app()->user->getSite() : $model->site_id; 
 			//$model->save();
 			if($model->save())
 			 		$this->redirect(array('index'));
@@ -183,4 +189,29 @@ class MaterialController extends Controller
 			Yii::app()->end();
 		}
 	}
+
+	public function actionGetMaterial(){
+            $request=trim($_GET['term']);
+            $site_id = Yii::app()->user->isAdmin() ? " " : " AND site_id='".Yii::app()->user->getSite().'"' ; 
+                    
+            $models=Material::model()->findAll(array("condition"=>"name like '%$request%' ".$site_id));
+            //echo "name like '%$request%' '$site_id' ";
+            $data=array();
+            foreach($models as $model){
+               
+                $data[] = array(
+                        'id'=>$model['id'],
+                        'label'=>$model['name'],
+                        'site_id'=>$model['site_id'],
+              
+                );
+
+            }
+
+
+
+            $this->layout='empty';
+            echo json_encode($data);
+        
+    }
 }
