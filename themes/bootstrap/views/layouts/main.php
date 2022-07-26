@@ -567,7 +567,7 @@ table tr td {
 }
 
 fieldset.scheduler-border {
-  border: 1px solid #a19999 !important;
+  border: 1px solid #a5cfa5 !important;
   border-radius: 5px;
   padding: 0 1.4em 1.4em 1.4em !important;
   margin: 0 0 1.5em 0 !important;
