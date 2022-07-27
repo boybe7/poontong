@@ -590,6 +590,9 @@ legend.scheduler-border {
 .div-scheduler-border{
   margin-top: -15px;
 }
+input.number {
+    text-align: right !important;
+}
 </style>     
      
 <body class="body">

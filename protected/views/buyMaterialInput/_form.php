@@ -11,6 +11,12 @@
                 $(this).autocomplete("search");
       });
 
+      $( "#BuyMaterialInput_weight_in,#BuyMaterialInput_weight_out,#BuyMaterialInput_weight_loss" ).bind('keyup', function () {
+            var net = $("#BuyMaterialInput_weight_in").val() - $("#BuyMaterialInput_weight_out").val() - $("#BuyMaterialInput_weight_loss").val();
+            
+            $("#BuyMaterialInput_weight_net").val(net)
+      });
+
   });
  </script>
 
@@ -123,16 +129,16 @@
 	<?php echo $form->textFieldRow($model,'car_no',array('class'=>'span12','maxlength'=>15)); ?>
 	</div>
 	<div class="span2">
-	<?php echo $form->textFieldRow($model,'weight_in',array('class'=>'span12','maxlength'=>15)); ?>
+	<?php echo $form->textFieldRow($model,'weight_in',array('class'=>'span12 number','maxlength'=>15)); ?>
 	</div>
 	<div class="span2">
-	<?php echo $form->textFieldRow($model,'weight_out',array('class'=>'span12','maxlength'=>15)); ?>
+	<?php echo $form->textFieldRow($model,'weight_out',array('class'=>'span12  number','maxlength'=>15)); ?>
 	</div>
 	<div class="span2">
-	<?php echo $form->textFieldRow($model,'weight_loss',array('class'=>'span12','maxlength'=>15)); ?>
+	<?php echo $form->textFieldRow($model,'weight_loss',array('class'=>'span12  number','maxlength'=>15)); ?>
 	</div>
 	<div class="span2">
-	<?php echo $form->textFieldRow($model,'weight_net',array('class'=>'span12','maxlength'=>15)); ?>
+	<?php echo $form->textFieldRow($model,'weight_net',array('class'=>'span12  number','maxlength'=>15)); ?>
 	</div>
 </div>
 </fieldset>

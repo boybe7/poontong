@@ -41,14 +41,14 @@ class BuyMaterialInput extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('customer, buy_date, customer_id, bill_no, weight_net, material_id, price_net, last_update, update_by, site_id', 'required'),
-			array('customer_id, material_id, update_by, site_id', 'numerical', 'integerOnly'=>true),
+			array('customer_id, material_id, update_by, site_id,percent_mixed,percent_moisture', 'numerical', 'integerOnly'=>true),
 			array('customer, note', 'length', 'max'=>255),
 			array('bill_no', 'length', 'max'=>45),
 			array('car_no', 'length', 'max'=>15),
 			array('weight_in, weight_out, weight_loss, weight_net, price_unit, price_net', 'length', 'max'=>10),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, customer, buy_date, customer_id, bill_no, car_no, weight_in, weight_out, weight_loss, weight_net, price_unit, material_id, price_net, last_update, update_by, site_id, note', 'safe', 'on'=>'search'),
+			array('id, customer, buy_date, customer_id, bill_no, car_no, weight_in, weight_out, weight_loss, weight_net, price_unit, material_id, price_net, last_update, update_by, site_id, note,percent_mixed,percent_moisture', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -86,6 +86,8 @@ class BuyMaterialInput extends CActiveRecord
 			'update_by' => 'Update By',
 			'site_id' => 'โรงงาน',
 			'note' => 'หมายเหตุ',
+			'percent_moisture'=>'หักความชื้น %',
+			'percent_mixed'=>'หักสิ่งเจือปน %'
 		);
 	}
 
@@ -124,7 +126,8 @@ class BuyMaterialInput extends CActiveRecord
 		$criteria->compare('update_by',$this->update_by);
 		$criteria->compare('site_id',$this->site_id);
 		$criteria->compare('note',$this->note,true);
-
+		$criteria->compare('percent_moisture',$this->percent_moisture);
+		$criteria->compare('percent_mixed',$this->percent_mixed);
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));

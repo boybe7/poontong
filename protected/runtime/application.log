@@ -16995,3 +16995,38 @@ Stack trace:
 REQUEST_URI=/poontong/buymaterialinput/create
 HTTP_REFERER=http://localhost/poontong/buymaterialinput/admin
 ---
+2022/07/27 11:35:20 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'site_id' in 'where clause'. The SQL statement executed was: SELECT * FROM `material` `t` WHERE site_id=:id.
+in D:\xampp5\htdocs\poontong\protected\views\buyMaterialInput\_form.php (150)
+in D:\xampp5\htdocs\poontong\protected\views\buyMaterialInput\create.php (12)
+in D:\xampp5\htdocs\poontong\protected\controllers\BuyMaterialInputController.php (78)
+2022/07/27 11:35:20 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand ล้มเหลวในการดำเนินการเรียกลักษณะของ SQL: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'site_id' in 'where clause'. The SQL statement executed was: SELECT * FROM `material` `t` WHERE site_id=:id' in D:\xampp5\htdocs\poontong\framework\db\CDbCommand.php:543
+Stack trace:
+#0 D:\xampp5\htdocs\poontong\framework\db\CDbCommand.php(396): CDbCommand->queryInternal('fetchAll', Array, Array)
+#1 D:\xampp5\htdocs\poontong\framework\db\ar\CActiveRecord.php(1351): CDbCommand->queryAll()
+#2 D:\xampp5\htdocs\poontong\framework\db\ar\CActiveRecord.php(1470): CActiveRecord->query(Object(CDbCriteria), true)
+#3 D:\xampp5\htdocs\poontong\protected\views\buyMaterialInput\_form.php(150): CActiveRecord->findAll('site_id=:id', Array)
+#4 D:\xampp5\htdocs\poontong\framework\web\CBaseController.php(126): require('D:\\xampp5\\htdoc...')
+#5 D:\xampp5\htdocs\poontong\framework\web\CBaseController.php(95): CBaseController->renderInternal('D:\\xampp5\\htdoc...', Array, true)
+#6 D:\xampp5\htdocs\poontong\framework\web\CController.php(869): CBaseController->renderFile('D:\\xampp5\\htdoc...', Array, true)
+#7 D:\xampp5\htdocs\poontong\protected\views\buyMaterialInput\create.php(12): CController->renderPartial('_form', Array)
+#8 D:\xampp5\htdocs\poontong\framework\web\CBaseController.php(126): require('D:\\xampp5\\htdoc...')
+#9 D:\xampp5\htdocs\poontong\framework\web\CBaseController.php(95): CBaseController->renderInternal('D:\\xampp5\\htdoc...', Array, true)
+#10 D:\xampp5\htdocs\poontong\framework\web\CController.php(869): CBaseController->renderFile('D:\\xampp5\\htdoc...', Array, true)
+#11 D:\xampp5\htdocs\poontong\framework\web\CController.php(782): CController->renderPartial('create', Array, true)
+#12 D:\xampp5\htdocs\poontong\protected\controllers\BuyMaterialInputController.php(78): CController->render('create', Array)
+#13 D:\xampp5\htdocs\poontong\framework\web\actions\CInlineAction.php(49): BuyMaterialInputController->actionCreate()
+#14 D:\xampp5\htdocs\poontong\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#15 D:\xampp5\htdocs\poontong\framework\web\filters\CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#16 D:\xampp5\htdocs\poontong\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#17 D:\xampp5\htdocs\poontong\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#18 D:\xampp5\htdocs\poontong\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#19 D:\xampp5\htdocs\poontong\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#20 D:\xampp5\htdocs\poontong\framework\web\CController.php(291): CFilterChain->run()
+#21 D:\xampp5\htdocs\poontong\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#22 D:\xampp5\htdocs\poontong\framework\web\CWebApplication.php(282): CController->run('create')
+#23 D:\xampp5\htdocs\poontong\framework\web\CWebApplication.php(141): CWebApplication->runController('buymaterialinpu...')
+#24 D:\xampp5\htdocs\poontong\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#25 D:\xampp5\htdocs\poontong\index.php(13): CApplication->run()
+#26 {main}
+REQUEST_URI=/poontong/buymaterialinput/create
+---
