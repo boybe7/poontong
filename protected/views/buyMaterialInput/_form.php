@@ -11,10 +11,31 @@
                 $(this).autocomplete("search");
       });
 
-      $( "#BuyMaterialInput_weight_in,#BuyMaterialInput_weight_out,#BuyMaterialInput_weight_loss" ).bind('keyup', function () {
-            var net = $("#BuyMaterialInput_weight_in").val() - $("#BuyMaterialInput_weight_out").val() - $("#BuyMaterialInput_weight_loss").val();
+      $( "#BuyMaterialInput_weight_in,#BuyMaterialInput_weight_out,#BuyMaterialInput_weight_loss,#BuyMaterialInput_percent_mixed,#BuyMaterialInput_percent_moisture" ).bind('keyup', function () {
+            //var net = $("#BuyMaterialInput_weight_in").val() - $("#BuyMaterialInput_weight_out").val() - $("#BuyMaterialInput_weight_loss").val();
+
+            var weight = $("#BuyMaterialInput_weight_in").val() - $("#BuyMaterialInput_weight_out").val();
+            var mixed = 0;
+            var moisture = 0;
+            if($("#BuyMaterialInput_percent_mixed").val()!="" && $("#BuyMaterialInput_percent_mixed").val()!=0)
+            	mixed = $("#BuyMaterialInput_percent_mixed").val()/100.00;
+            
+            if($("#BuyMaterialInput_percent_moisture").val()!="" && $("#BuyMaterialInput_percent_moisture").val()!=0)
+            	moisture = $("#BuyMaterialInput_percent_moisture").val()/100.00;
+            
+            var net = weight - weight*mixed - weight*moisture;
             
             $("#BuyMaterialInput_weight_net").val(net)
+      });
+
+      $( "#group_id,#BuyMaterialInput_material_id" ).bind('change', function () {
+            var group_customer = $("#group_id").val();
+            var material_id = $("#BuyMaterialInput_material_id").val();
+
+            if(group_customer!="" && material_id!="")
+            {
+            	
+            }
       });
 
   });
@@ -134,8 +155,11 @@
 	<div class="span2">
 	<?php echo $form->textFieldRow($model,'weight_out',array('class'=>'span12  number','maxlength'=>15)); ?>
 	</div>
-	<div class="span2">
-	<?php echo $form->textFieldRow($model,'weight_loss',array('class'=>'span12  number','maxlength'=>15)); ?>
+	<div class="span1">
+	<?php echo $form->textFieldRow($model,'percent_mixed',array('class'=>'span12  number','maxlength'=>15)); ?>
+	</div>
+	<div class="span1">
+	<?php echo $form->textFieldRow($model,'percent_moisture',array('class'=>'span12  number','maxlength'=>15)); ?>
 	</div>
 	<div class="span2">
 	<?php echo $form->textFieldRow($model,'weight_net',array('class'=>'span12  number','maxlength'=>15)); ?>
@@ -159,27 +183,16 @@
 
 		 ?>
 	</div>
+	<div class='span1'>
+		<?php echo $form->textFieldRow($model,'price_unit',array('class'=>'span12 number','maxlength'=>10)); ?>
+	</div>
+	<div class='span3'>
+		<?php echo $form->textFieldRow($model,'price_net',array('class'=>'span12 number','maxlength'=>10)); ?>
+	</div>
 </div>
+
 <div class='row-fluid'>
-	<?php echo $form->textFieldRow($model,'price_unit',array('class'=>'span5','maxlength'=>10)); ?>
-</div>
-<div class='row-fluid'>
-	<?php echo $form->textFieldRow($model,'material_id',array('class'=>'span5')); ?>
-</div>
-<div class='row-fluid'>
-	<?php echo $form->textFieldRow($model,'price_net',array('class'=>'span5','maxlength'=>10)); ?>
-</div>
-<div class='row-fluid'>
-	<?php echo $form->textFieldRow($model,'last_update',array('class'=>'span5')); ?>
-</div>
-<div class='row-fluid'>
-	<?php echo $form->textFieldRow($model,'update_by',array('class'=>'span5')); ?>
-</div>
-<div class='row-fluid'>
-	<?php echo $form->textFieldRow($model,'site_id',array('class'=>'span5')); ?>
-</div>
-<div class='row-fluid'>
-	<?php echo $form->textFieldRow($model,'note',array('class'=>'span5','maxlength'=>255)); ?>
+	<?php echo $form->textFieldRow($model,'note',array('class'=>'span12','maxlength'=>255)); ?>
 </div>
 
 	<div class="row-fluid">

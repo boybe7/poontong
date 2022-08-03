@@ -86,8 +86,8 @@ class BuyMaterialInput extends CActiveRecord
 			'update_by' => 'Update By',
 			'site_id' => 'โรงงาน',
 			'note' => 'หมายเหตุ',
-			'percent_moisture'=>'หักความชื้น %',
-			'percent_mixed'=>'หักสิ่งเจือปน %'
+			'percent_moisture'=>'ความชื้น %',
+			'percent_mixed'=>'สิ่งเจือปน %'
 		);
 	}
 
