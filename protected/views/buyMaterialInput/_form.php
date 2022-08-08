@@ -24,19 +24,18 @@
             	moisture = $("#BuyMaterialInput_percent_moisture").val()/100.00;
             
             var net = weight - weight*mixed - weight*moisture;
+
+
+
             
             $("#BuyMaterialInput_weight_net").val(net)
+
+            var price = $("#BuyMaterialInput_price_unit").val();
+            //console.log(net+"x"+price+"="+(net*price))
+            $("#BuyMaterialInput_price_net").val((net*price).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'))
       });
 
-      $( "#group_id,#BuyMaterialInput_material_id" ).bind('change', function () {
-            var group_customer = $("#group_id").val();
-            var material_id = $("#BuyMaterialInput_material_id").val();
-
-            if(group_customer!="" && material_id!="")
-            {
-            	
-            }
-      });
+      
 
   });
  </script>
@@ -77,8 +76,8 @@
 		<?php 
 		  			echo CHtml::activeLabelEx($model, 'customer_id');
 					$this->widget('zii.widgets.jui.CJuiAutoComplete', array(
-                            'name'=>'customer_id',
-                            'id'=>'customer_id',
+                            'name'=>'BuyMaterialInput[customer_id]',
+                            'id'=>'BuyMaterialInput_customer_id',
                             'value'=>'',//empty($vendor[0])? '' : $vendor[0]['pc_code']." ".$vendor[0]['v_name'],
                            'source'=>'js: function(request, response) {
                                 $.ajax({
@@ -86,7 +85,7 @@
                                     dataType: "json",
                                     data: {
                                         term: request.term,
-                                        type: "B"
+                                        type: "S"
                                        
                                     },
                                     success: function (data) {
@@ -102,9 +101,7 @@
                                      'select'=>'js: function(event, ui) {
                                         
                                            //console.log(ui.item.id)
-                                           $("#address").val(ui.item.address);
-                                           $("#phone").val(ui.item.phone);
-                                           $("#group_id").val(ui.item.group_id);
+                                         
                                           
                                      }',
                                      //'close'=>'js:function(){$(this).val("");}',
@@ -167,7 +164,7 @@
 </div>
 </fieldset>
 <div class='row-fluid'>
-	<div class="span8">
+	<div class="span7">
 		<?php 
 		  			
             	if(!Yii::app()->user->isAdmin())
@@ -183,7 +180,7 @@
 
 		 ?>
 	</div>
-	<div class='span1'>
+	<div class='span2'>
 		<?php echo $form->textFieldRow($model,'price_unit',array('class'=>'span12 number','maxlength'=>10)); ?>
 	</div>
 	<div class='span3'>
@@ -192,7 +189,7 @@
 </div>
 
 <div class='row-fluid'>
-	<?php echo $form->textFieldRow($model,'note',array('class'=>'span12','maxlength'=>255)); ?>
+	<?php echo $form->textAreaRow($model,'note',array('rows'=>5, 'cols'=>50, 'class'=>'span12','maxlength'=>255)); ?>
 </div>
 
 	<div class="row-fluid">
@@ -216,3 +213,35 @@
 	  </div>
 
 <?php $this->endWidget(); ?>
+
+
+<?php
+
+Yii::app()->clientScript->registerScript('loadMaterialPrice', '
+$( "#group_id,#BuyMaterialInput_material_id" ).bind("change", function () {
+            var group_customer = $("#group_id").val();
+            var material_id = $("#BuyMaterialInput_material_id").val();
+
+            var _url = "' . Yii::app()->controller->createUrl("Material/GetPrice").'" ;
+            if(group_customer!="" && material_id!="")
+            {
+            	$.ajax({
+			        url: _url,
+			        data : {group_customer:group_customer,material_id:material_id},
+			        success:function(response){
+			                              
+			              $("#BuyMaterialInput_price_unit").val(response)
+			              var net = $("#BuyMaterialInput_weight_net").val();
+			              var price = response;
+            			  $("#BuyMaterialInput_price_net").val((net*price).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,"))
+			        }
+
+			    });
+            }
+});
+
+
+', CClientScript::POS_END);
+
+?>
+

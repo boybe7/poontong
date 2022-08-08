@@ -27,7 +27,7 @@ class MaterialController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view','GetMaterial'),
+				'actions'=>array('index','view','GetMaterial','GetPrice'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -212,6 +212,26 @@ class MaterialController extends Controller
 
             $this->layout='empty';
             echo json_encode($data);
+        
+    }
+
+    public function actionGetPrice(){
+            $group_customer = $_GET['group_customer'];
+            $material_id = $_GET['material_id'];
+            
+            $model=Material::model()->findByPk($material_id);
+            
+            $price = 0;
+            if(!empty($model))
+            {
+            	if($group_customer==1)
+            		$price = $model->price1;
+            	elseif($group_customer==2)
+            		$price = $model->price2;
+            	elseif($group_customer==3)	
+            		$price = $model->price3;
+            }
+            echo $price;
         
     }
 }

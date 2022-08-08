@@ -69,8 +69,27 @@ class BuyMaterialInputController extends Controller
 		if(isset($_POST['BuyMaterialInput']))
 		{
 			$model->attributes=$_POST['BuyMaterialInput'];
-			if($model->save())
-				$this->redirect(array('index'));
+			
+			//--if customer not exist then add new customer----//
+			$modelCustomer = Customer::model()->findByPk($model->customer_id);
+			if(empty($modelCustomer))
+			{
+				header('Content-type: text/plain');
+				//print_r($_POST['BuyMaterialInput']);
+				$modelCustomer = new Customer;
+				$modelCustomer->name = $model->customer_id;
+				$group_id = empty($_POST["group_id"]) ? 0 : $_POST["group_id"];
+				$modelCustomer->group_id = $group_id;
+				$modelCustomer->address = $_POST["address"];
+				$modelCustomer->phone = $_POST["phone"];
+				$modelCustomer->type = "S";
+				$modelCustomer->site_id = $model->site_id;
+				$modelCustomer->save();	
+				exit;
+			}
+
+			//if($model->save())
+			//	$this->redirect(array('index'));
 		}
 
 		$this->render('create',array(
