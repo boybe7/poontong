@@ -3,7 +3,7 @@
   $(function(){
       
 
-      $( "input[id*='BuyMaterialInput_customer_id']" ).autocomplete({
+      $( "input[id*='customer_id']" ).autocomplete({
        
                 minLength: 0
       }).bind('focus', function () {
@@ -75,9 +75,10 @@
 	<div class="span8">
 		<?php 
 		  			echo CHtml::activeLabelEx($model, 'customer_id');
+		  			$form->hiddenField($model,'customer_id');
 					$this->widget('zii.widgets.jui.CJuiAutoComplete', array(
-                            'name'=>'BuyMaterialInput[customer_id]',
-                            'id'=>'BuyMaterialInput_customer_id',
+                            'name'=>'customer_id',
+                            'id'=>'customer_id',
                             'value'=>'',//empty($vendor[0])? '' : $vendor[0]['pc_code']." ".$vendor[0]['v_name'],
                            'source'=>'js: function(request, response) {
                                 $.ajax({
@@ -100,7 +101,8 @@
                                      'minLength'=>0,
                                      'select'=>'js: function(event, ui) {
                                         
-                                           //console.log(ui.item.id)
+                                           $("#BuyMaterialInput_customer_id").val(ui.item.id)
+                                           $("#group_id").val(ui.item.group_id)
                                          
                                           
                                      }',
@@ -170,12 +172,12 @@
             	if(!Yii::app()->user->isAdmin())
 				{
 					$typelist = CHtml::listData(Material::model()->findAll('site_id=:id', array(':id' => Yii::app()->user->getSite())),'id','name');
-		   		 	echo $form->dropDownListRow($model, 'material_id', $typelist,array('class'=>'span12'), array('options' => array('site_id'=>array('selected'=>true))));  
+		   		 	echo $form->dropDownListRow($model, 'material_id', $typelist,array('class'=>'span12','empty'=>'--เลือก--',), array('options' => array('site_id'=>array('selected'=>true))));  
 		   		} 
 		   		else
 		   		{
 		   			$typelist = CHtml::listData(Material::model()->findAll('site_id=:id', array(':id' => 1)),'id','name');
-		   		 	echo $form->dropDownListRow($model, 'material_id', $typelist,array('class'=>'span12'), array('options' => array('site_id'=>array('selected'=>true))));  
+		   		 	echo $form->dropDownListRow($model, 'material_id', $typelist,array('class'=>'span12','empty'=>'--เลือก--'), array('options' => array('site_id'=>array('selected'=>true))));  
 		   		}
 
 		 ?>

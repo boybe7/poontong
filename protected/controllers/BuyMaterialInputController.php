@@ -63,21 +63,41 @@ class BuyMaterialInputController extends Controller
 	{
 		$model=new BuyMaterialInput;
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+		//running invoice_no
+            $year = date('Y');
+            $sql = 'SELECT MAX(bill_no) as max_no FROM buy_material_input  WHERE site_id="'.Yii::app()->user->getSite().'" AND YEAR(buy_date)='.$year;
+            $command = Yii::app()->db->createCommand($sql);
+            $result = $command->queryAll();
+            $max_no = $result[0]['max_no']+1;
+            $year_th = $year+543;
+            $no_str = $max_no;
+            if($max_no<10)
+            {
+                $no_str = "00".$max_no;
+            }
+            else if($max_no<100)
+            {
+                $no_str = "0".$max_no;
+            }
+
+        $model->bill_no = $no_str;   
+
+        
 
 		if(isset($_POST['BuyMaterialInput']))
 		{
+
+			header('Content-type: text/plain'); 
 			$model->attributes=$_POST['BuyMaterialInput'];
 			
 			//--if customer not exist then add new customer----//
 			$modelCustomer = Customer::model()->findByPk($model->customer_id);
 			if(empty($modelCustomer))
 			{
-				header('Content-type: text/plain');
+				
 				//print_r($_POST['BuyMaterialInput']);
 				$modelCustomer = new Customer;
-				$modelCustomer->name = $model->customer_id;
+				$modelCustomer->name = $_POST["customer_id"];
 				$group_id = empty($_POST["group_id"]) ? 0 : $_POST["group_id"];
 				$modelCustomer->group_id = $group_id;
 				$modelCustomer->address = $_POST["address"];
@@ -85,11 +105,24 @@ class BuyMaterialInputController extends Controller
 				$modelCustomer->type = "S";
 				$modelCustomer->site_id = $model->site_id;
 				$modelCustomer->save();	
-				exit;
+				
+
 			}
 
-			//if($model->save())
-			//	$this->redirect(array('index'));
+			$model->customer_id = $modelCustomer->id;
+			$model->customer = $modelCustomer->name;
+
+			$model->update_by = Yii::app()->user->ID;
+			$model->last_update =  (date("Y")).date("-m-d H:i:s");
+			$model->buy_date =  (date("Y")).date("-m-d");
+
+			
+
+			if($model->save())
+				$this->redirect(array('index'));
+
+			print_r($model);
+			exit;
 		}
 
 		$this->render('create',array(
