@@ -65,12 +65,8 @@ class BuyMaterialInputController extends Controller
 
 		//running invoice_no
             $year = date('Y');
-<<<<<<< HEAD
             $site = Yii::app()->user->isAdmin() ? 1 : Yii::app()->user->getSite();
             $sql = 'SELECT MAX(bill_no) as max_no FROM buy_material_input  WHERE site_id='.$site.' AND YEAR(buy_date)='.$year;
-=======
-            $sql = 'SELECT MAX(bill_no) as max_no FROM buy_material_input  WHERE site_id="'.Yii::app()->user->getSite().'" AND YEAR(buy_date)='.$year;
->>>>>>> 1f4e06a329c9776fdf39afdda0d066f3ce7d2086
             $command = Yii::app()->db->createCommand($sql);
             $result = $command->queryAll();
             $max_no = $result[0]['max_no']+1;
@@ -116,11 +112,7 @@ class BuyMaterialInputController extends Controller
 			}
 
 			$model->customer_id = $modelCustomer->id;
-<<<<<<< HEAD
 			//$model->customer = $modelCustomer->name;
-=======
-			$model->customer = $modelCustomer->name;
->>>>>>> 1f4e06a329c9776fdf39afdda0d066f3ce7d2086
 
 			$model->update_by = Yii::app()->user->ID;
 			$model->last_update =  (date("Y")).date("-m-d H:i:s");
