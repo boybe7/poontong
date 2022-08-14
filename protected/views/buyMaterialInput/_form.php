@@ -81,6 +81,7 @@
 	<div class="span8">
 		<?php 
 		  			echo CHtml::activeLabelEx($model, 'customer_id');
+<<<<<<< HEAD
 
 		  			$customer = Customer::model()->findByPk($model->customer_id);
 		  			$customer_address = "";
@@ -97,6 +98,13 @@
                             'name'=>'customer_id',
                             'id'=>'customer_id',
                             'value'=>empty($customer)? '' : $customer->name,
+=======
+		  			$form->hiddenField($model,'customer_id');
+					$this->widget('zii.widgets.jui.CJuiAutoComplete', array(
+                            'name'=>'customer_id',
+                            'id'=>'customer_id',
+                            'value'=>'',//empty($vendor[0])? '' : $vendor[0]['pc_code']." ".$vendor[0]['v_name'],
+>>>>>>> 1f4e06a329c9776fdf39afdda0d066f3ce7d2086
                            'source'=>'js: function(request, response) {
                                 $.ajax({
                                     url: "'.$this->createUrl('Customer/GetCustomers').'",
@@ -119,8 +127,11 @@
                                      'select'=>'js: function(event, ui) {
                                         
                                            $("#BuyMaterialInput_customer_id").val(ui.item.id)
+<<<<<<< HEAD
                                            $("#address").val(ui.item.address)
                                            $("#phone").val(ui.item.phone)
+=======
+>>>>>>> 1f4e06a329c9776fdf39afdda0d066f3ce7d2086
                                            $("#group_id").val(ui.item.group_id)
                                          
                                           
