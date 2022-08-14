@@ -3,7 +3,7 @@
   $(function(){
       
 
-      $( "input[id*='BuyMaterialInput_customer_id']" ).autocomplete({
+      $( "input[id*='customer_id']" ).autocomplete({
        
                 minLength: 0
       }).bind('focus', function () {
@@ -51,10 +51,12 @@
 	<?php echo $form->errorSummary($model); ?>
 	<div class='row-fluid'>
 		<div class="span2 pull-right">
-			<?php echo $form->textFieldRow($model,'bill_no',array('class'=>'span12','maxlength'=>255)); ?>
+			<?php echo $form->textFieldRow($model,'bill_no',array('class'=>'span12  number','maxlength'=>255)); ?>
 		</div>	
 		<div class="span2">
 			<?php  	
+
+
 				if(Yii::app()->user->isAdmin())
 				{
 					$typelist = CHtml::listData(Site::model()->findAll(),'id','name');
@@ -65,6 +67,10 @@
                                 'data'=>array('site_id' => 'js:this.value'),
                                 'update'=>'#BuyMaterialInput_material_id', 
                             )), array('options' => array('site_id'=>array('selected'=>true))));  
+		   		}
+		   		else{
+		   			$model->site_id = Yii::app()->user->getSite();
+		   			echo $form->hiddenField($model,'site_id');
 		   		} 
 		    ?>
 		</div>	
@@ -75,10 +81,22 @@
 	<div class="span8">
 		<?php 
 		  			echo CHtml::activeLabelEx($model, 'customer_id');
+
+		  			$customer = Customer::model()->findByPk($model->customer_id);
+		  			$customer_address = "";
+		  			$customer_group = "";
+		  			$customer_phone = "";
+		  			if(!empty($customer))
+		  			{
+		  				$customer_address = $customer->address;
+		  				$customer_group = $customer->group_id;
+		  				$customer_phone = $customer->phone;
+		  			}
+		  			echo $form->hiddenField($model,'customer_id');
 					$this->widget('zii.widgets.jui.CJuiAutoComplete', array(
-                            'name'=>'BuyMaterialInput[customer_id]',
-                            'id'=>'BuyMaterialInput_customer_id',
-                            'value'=>'',//empty($vendor[0])? '' : $vendor[0]['pc_code']." ".$vendor[0]['v_name'],
+                            'name'=>'customer_id',
+                            'id'=>'customer_id',
+                            'value'=>empty($customer)? '' : $customer->name,
                            'source'=>'js: function(request, response) {
                                 $.ajax({
                                     url: "'.$this->createUrl('Customer/GetCustomers').'",
@@ -100,7 +118,10 @@
                                      'minLength'=>0,
                                      'select'=>'js: function(event, ui) {
                                         
-                                           //console.log(ui.item.id)
+                                           $("#BuyMaterialInput_customer_id").val(ui.item.id)
+                                           $("#address").val(ui.item.address)
+                                           $("#phone").val(ui.item.phone)
+                                           $("#group_id").val(ui.item.group_id)
                                          
                                           
                                      }',
@@ -121,7 +142,7 @@
 			<?php 
 
 		 	 $typelist = array("1" => "ลูกค้ารายใหญ่", "2" => "ลูกค้ารายย่อย", "3" => "ลูกค้าประจำ");
-		 	 echo CHtml::dropDownList('group_id', '',$typelist,array('class'=>'span12','empty' => '----เลือก----'));
+		 	 echo CHtml::dropDownList('group_id', $customer_group,$typelist,array('class'=>'span12','empty' => '----เลือก----'));
          
 			?>
 	</div>
@@ -130,11 +151,11 @@
 <div class='row-fluid'>
 	<div class="span8">
 		<label for='address'>ที่อยู่</label>
-		<?php echo CHtml::textField('address','',array('class'=>'span12','maxlength'=>255)); ?>
+		<?php echo CHtml::textField('address',$customer_address,array('class'=>'span12','maxlength'=>255)); ?>
 	</div>	
 	<div class="span4">
 		<label for='phone'>เบอร์โทร</label>
-		<?php echo CHtml::textField('phone','',array('class'=>'span12','maxlength'=>255)); ?>
+		<?php echo CHtml::textField('phone',$customer_phone,array('class'=>'span12','maxlength'=>255)); ?>
 	</div>
 	
 </div>
@@ -170,12 +191,12 @@
             	if(!Yii::app()->user->isAdmin())
 				{
 					$typelist = CHtml::listData(Material::model()->findAll('site_id=:id', array(':id' => Yii::app()->user->getSite())),'id','name');
-		   		 	echo $form->dropDownListRow($model, 'material_id', $typelist,array('class'=>'span12'), array('options' => array('site_id'=>array('selected'=>true))));  
+		   		 	echo $form->dropDownListRow($model, 'material_id', $typelist,array('class'=>'span12','empty'=>'--เลือก--',), array('options' => array('site_id'=>array('selected'=>true))));  
 		   		} 
 		   		else
 		   		{
 		   			$typelist = CHtml::listData(Material::model()->findAll('site_id=:id', array(':id' => 1)),'id','name');
-		   		 	echo $form->dropDownListRow($model, 'material_id', $typelist,array('class'=>'span12'), array('options' => array('site_id'=>array('selected'=>true))));  
+		   		 	echo $form->dropDownListRow($model, 'material_id', $typelist,array('class'=>'span12','empty'=>'--เลือก--'), array('options' => array('site_id'=>array('selected'=>true))));  
 		   		}
 
 		 ?>

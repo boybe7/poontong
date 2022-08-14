@@ -27,7 +27,7 @@
 
 .dropdown-menu {
    /*background-color: #f4f7f4;*/
-   
+   margin-top: 15px;
 }
 .navbar .nav > li > .dropdown-menu:after {
   /*border-bottom: 6px solid #f4f7f4;*/
@@ -113,6 +113,9 @@ float: none;
 .navbar .nav  > .active > a, .navbar .nav > .active > a:hover, .navbar .nav > .active > a:focus {
     color: #fff;
     background-color: #789e78;
+    -webkit-box-shadow: inset 0 3px 8px rgb(0 0 0 / 0%);
+    -moz-box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0);
+    box-shadow: inset 0 3px 8px rgb(0 0 0 / 0%);
 
 }    
 
@@ -616,10 +619,10 @@ $class_profile = Yii::app()->user->id =="" ? "hidden" : "";
             'encodeLabel'=>false,
             'items'=>array(
               
-                array('label'=>'Home ','icon'=>'', 'url'=>'#','visible'=>Yii::app()->user->isAccess('/user/index')),
+                array('label'=>'ซื้อ ','icon'=>'', 'url'=>array('/buymaterialinput/index'),'visible'=>Yii::app()->user->isAccess('/buymaterialinput/index')),
                 array('label'=>'ผู้ดูแลระบบ ','icon'=>'', 'url'=>'#','visible'=>Yii::app()->user->isAccess('/user/index'),'items'=>array(
-                     array('label'=>'ข้อมูลโครงการที่ถูกลบ', 'url'=>array('/project/flagdel'),'visible'=>Yii::app()->user->isAccess('/project/flagdel')),
-                     array('label'=>'ข้อมูลผู้รับจ้าง/ผู้ว่าจ้าง', 'url'=>array('/vendor/admin'),'visible'=>Yii::app()->user->isAccess('/vendor/admin')),
+                     array('label'=>'ข้อมูลวัตถุดิบ', 'url'=>array('/material/index'),'visible'=>Yii::app()->user->isAccess('/material/index')),
+                     array('label'=>'ข้อมูลลูกค้า', 'url'=>array('/customer/index'),'visible'=>Yii::app()->user->isAccess('/customer/index')),
                      array('label'=>'ผู้ใช้งาน', 'url'=>array('/user/index'),'visible'=>Yii::app()->user->isAccess('/user/index')),
                      array('label'=>'กำหนดสิทธิผู้ใช้งาน', 'url'=>array('/authen/index'),'visible'=>Yii::app()->user->isAccess('/authen/index')),
                      
