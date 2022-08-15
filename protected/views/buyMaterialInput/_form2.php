@@ -76,7 +76,7 @@
 		</div>	
 	</div>
 <fieldset class="scheduler-border">
-    <legend class="scheduler-border">ลูกค้า</legend>
+    <legend class="scheduler-border"><?php $img = Yii::app()->baseUrl."/images/customer.png"; echo '<img src="'.$img.'">'; ?></legend>
 <div class='row-fluid div-scheduler-border'>
 	<div class="span8">
 		<?php 
@@ -162,112 +162,52 @@
 </fieldset>
 
 <fieldset class="scheduler-border">
-    <legend class="scheduler-border">รายการซื้อวัตถุดิบ</legend>
-	<div class='row-fluid div-scheduler-border'>
-
-		<div class="span5">
-			<?php 
-			  			
-	            	if(!Yii::app()->user->isAdmin())
-					{
-						$typelist = CHtml::listData(Material::model()->findAll('site_id=:id', array(':id' => Yii::app()->user->getSite())),'id','name');
-			   		 	echo $form->dropDownListRow($model, 'material_id', $typelist,array('class'=>'span12','empty'=>'--เลือก--',), array('options' => array('site_id'=>array('selected'=>true))));  
-			   		} 
-			   		else
-			   		{
-			   			$typelist = CHtml::listData(Material::model()->findAll('site_id=:id', array(':id' => 1)),'id','name');
-			   		 	echo $form->dropDownListRow($model, 'material_id', $typelist,array('class'=>'span12','empty'=>'--เลือก--'), array('options' => array('site_id'=>array('selected'=>true))));  
-			   		}
-
-			 ?>
-		</div>
-		<div class='span2'>
-			<?php echo $form->textFieldRow($model,'price_unit',array('class'=>'span12 number','maxlength'=>10)); ?>
-		</div>
-		<div class='span2'>
-			<?php echo $form->textFieldRow($model,'price_net',array('class'=>'span12 number','maxlength'=>10)); ?>
-		</div>
-		<div class='span2'>
-			<?php
-
-					$this->widget('bootstrap.widgets.TbButton', array(
-			              'buttonType'=>'link',
-			              
-			              'type'=>'success',
-			              'label'=>'เพิ่มรายการ',
-			              'icon'=>'plus-sign',
-			              
-			              'htmlOptions'=>array(
-			                'class'=>'',
-			                'style'=>'margin:25px 0px 0px 0px;',
-						     'onclick'=>'
-						           
-											js:bootbox.confirm($("#modal-body3").html(),"ยกเลิก","ตกลง",
-					                   			function(confirmed){
-					                   	 	     
-		                                			if(confirmed)
-					                   	 		    {
-
-					                   	 		    	$.ajax({
-															type: "POST",
-															url: "../contractChangeHistory/createTemp",
-															dataType:"json",
-															data: $(".modal-body #contract-change-history-form").serialize()
-															})									
-															.done(function( msg ) {
-																
-																jQuery.fn.yiiGridView.update("change-grid");
-																//($("#approve-grid").yiiGridView("update",{}));
-																
-																if(msg.status=="failure")
-																{
-																	$("#modal-body3").html(msg.div);
-																	js:bootbox.confirm($("#modal-body3").html(),"ยกเลิก","ตกลง",
-										                   			function(confirmed){
-										                   	 	        
-										                   	 			
-							                                			if(confirmed)
-										                   	 		    {
-										                   	 		    	
-										                   	 		    	$.ajax({
-																				type: "POST",
-																				url: "../contractChangeHistory/createTemp",
-																				dataType:"json",
-																				//contentType:"application/json; charset=utf-8",
-																				data: $(".modal-body #contract-change-history-form").serialize()
-																				})
-																				.done(function( msg ) {
-																					if(msg.status=="failure")
-																					{
-																						js:bootbox.alert("<font color=red>!!!!บันทึกไม่สำเร็จ</font>","ตกลง");
-																					}
-																					else{
-																						//js:bootbox.alert("บันทึกสำเร็จ","ตกลง");
-																						jQuery.fn.yiiGridView.update("change-grid");
-																
-																					}
-																				});
-										                   	 		    }
-																	})
-																}
-																else{
-																	//js:bootbox.alert("บันทึกสำเร็จ","ตกลง");
-
-																}
-															});
-													
-					                   	 		    }
-												})
-													
-												',
-					                
-			              ),
-			          ));
-
-			?>
-		</div>
+    <legend class="scheduler-border"><?php $img = Yii::app()->baseUrl."/images/cargo-truck.png"; echo '<img src="'.$img.'">'; ?></legend>
+<div class='row-fluid div-scheduler-border'>
+	<div class="span4">
+	<?php echo $form->textFieldRow($model,'car_no',array('class'=>'span12','maxlength'=>15)); ?>
 	</div>
-</fieldset>	
+	<div class="span2">
+	<?php echo $form->textFieldRow($model,'weight_in',array('class'=>'span12 number','maxlength'=>15)); ?>
+	</div>
+	<div class="span2">
+	<?php echo $form->textFieldRow($model,'weight_out',array('class'=>'span12  number','maxlength'=>15)); ?>
+	</div>
+	<div class="span1">
+	<?php echo $form->textFieldRow($model,'percent_mixed',array('class'=>'span12  number','maxlength'=>15)); ?>
+	</div>
+	<div class="span1">
+	<?php echo $form->textFieldRow($model,'percent_moisture',array('class'=>'span12  number','maxlength'=>15)); ?>
+	</div>
+	<div class="span2">
+	<?php echo $form->textFieldRow($model,'weight_net',array('class'=>'span12  number','maxlength'=>15)); ?>
+	</div>
+</div>
+</fieldset>
+<div class='row-fluid'>
+	<div class="span7">
+		<?php 
+		  			
+            	if(!Yii::app()->user->isAdmin())
+				{
+					$typelist = CHtml::listData(Material::model()->findAll('site_id=:id', array(':id' => Yii::app()->user->getSite())),'id','name');
+		   		 	echo $form->dropDownListRow($model, 'material_id', $typelist,array('class'=>'span12','empty'=>'--เลือก--',), array('options' => array('site_id'=>array('selected'=>true))));  
+		   		} 
+		   		else
+		   		{
+		   			$typelist = CHtml::listData(Material::model()->findAll('site_id=:id', array(':id' => 1)),'id','name');
+		   		 	echo $form->dropDownListRow($model, 'material_id', $typelist,array('class'=>'span12','empty'=>'--เลือก--'), array('options' => array('site_id'=>array('selected'=>true))));  
+		   		}
+
+		 ?>
+	</div>
+	<div class='span2'>
+		<?php echo $form->textFieldRow($model,'price_unit',array('class'=>'span12 number','maxlength'=>10)); ?>
+	</div>
+	<div class='span3'>
+		<?php echo $form->textFieldRow($model,'price_net',array('class'=>'span12 number','maxlength'=>10)); ?>
+	</div>
+</div>
 
 <div class='row-fluid'>
 	<?php echo $form->textAreaRow($model,'note',array('rows'=>5, 'cols'=>50, 'class'=>'span12','maxlength'=>255)); ?>
