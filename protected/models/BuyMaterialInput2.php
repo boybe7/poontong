@@ -5,9 +5,18 @@
  *
  * The followings are the available columns in table 'buy_material_input':
  * @property integer $id
+ * @property string $customer
  * @property string $buy_date
  * @property integer $customer_id
  * @property string $bill_no
+ * @property string $car_no
+ * @property string $weight_in
+ * @property string $weight_out
+ * @property string $weight_loss
+ * @property string $weight_net
+ * @property string $price_unit
+ * @property integer $material_id
+ * @property string $price_net
  * @property string $last_update
  * @property integer $update_by
  * @property integer $site_id
@@ -31,13 +40,14 @@ class BuyMaterialInput extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('buy_date, customer_id, bill_no, last_update, update_by, site_id', 'required'),
-			array('customer_id, update_by, site_id', 'numerical', 'integerOnly'=>true),
+			array(' buy_date, customer_id, bill_no, weight_net, material_id, price_net, last_update, update_by, site_id', 'required'),
+			array('customer_id, material_id, update_by, site_id,percent_mixed,percent_moisture', 'numerical', 'integerOnly'=>true),
 			array('bill_no', 'length', 'max'=>45),
-			array('note', 'length', 'max'=>255),
+			array('car_no', 'length', 'max'=>15),
+			array('weight_in, weight_out, weight_loss, weight_net, price_unit, price_net', 'length', 'max'=>10),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, buy_date, customer_id, bill_no, last_update, update_by, site_id, note', 'safe', 'on'=>'search'),
+			array('id,  buy_date, customer_id, bill_no, car_no, weight_in, weight_out, weight_loss, weight_net, price_unit, material_id, price_net, last_update, update_by, site_id, note,percent_mixed,percent_moisture', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -59,13 +69,24 @@ class BuyMaterialInput extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
+			//'customer' => 'ชื่อลูกค้า',
 			'buy_date' => 'วันที่รับซื้อ',
 			'customer_id' => 'ชื่อลูกค้า',
 			'bill_no' => 'เลขที่ใบรับซื้อ',
+			'car_no' => 'ทะเบียนรถ',
+			'weight_in' => 'น้ำหนักเข้า',
+			'weight_out' => 'น้ำหนักออก',
+			'weight_loss' => 'ของเสีย',
+			'weight_net' => 'น้ำหนักสุทธิ',
+			'price_unit' => 'ราคา/หน่วย',
+			'material_id' => 'วัตถุดิบ',
+			'price_net' => 'ราคารวม',
 			'last_update' => 'Last Update',
 			'update_by' => 'Update By',
-			'site_id' => 'Site',
+			'site_id' => 'โรงงาน',
 			'note' => 'หมายเหตุ',
+			'percent_moisture'=>'ความชื้น %',
+			'percent_mixed'=>'สิ่งเจือปน %'
 		);
 	}
 
@@ -88,14 +109,24 @@ class BuyMaterialInput extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
+		//$criteria->compare('customer',$this->customer,true);
 		$criteria->compare('buy_date',$this->buy_date,true);
 		$criteria->compare('customer_id',$this->customer_id);
 		$criteria->compare('bill_no',$this->bill_no,true);
+		$criteria->compare('car_no',$this->car_no,true);
+		$criteria->compare('weight_in',$this->weight_in,true);
+		$criteria->compare('weight_out',$this->weight_out,true);
+		$criteria->compare('weight_loss',$this->weight_loss,true);
+		$criteria->compare('weight_net',$this->weight_net,true);
+		$criteria->compare('price_unit',$this->price_unit,true);
+		$criteria->compare('material_id',$this->material_id);
+		$criteria->compare('price_net',$this->price_net,true);
 		$criteria->compare('last_update',$this->last_update,true);
 		$criteria->compare('update_by',$this->update_by);
 		$criteria->compare('site_id',$this->site_id);
 		$criteria->compare('note',$this->note,true);
-
+		$criteria->compare('percent_moisture',$this->percent_moisture);
+		$criteria->compare('percent_mixed',$this->percent_mixed);
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
@@ -112,5 +143,14 @@ class BuyMaterialInput extends CActiveRecord
 		return parent::model($className);
 	}
 
-
+	public function beforeSave()
+    {
+        
+		$this->weight_in = str_replace(",", "", $this->weight_in); 
+		$this->weight_out = str_replace(",", "", $this->weight_out); 
+		$this->weight_net = str_replace(",", "", $this->weight_net); 
+		$this->price_net = str_replace(",", "", $this->price_net); 
+		 
+		return parent::beforeSave();  
+	}
 }

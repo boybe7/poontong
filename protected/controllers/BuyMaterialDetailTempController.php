@@ -1,6 +1,6 @@
 <?php
 
-class MaterialController extends Controller
+class BuyMaterialDetailTempController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -27,7 +27,7 @@ class MaterialController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view','GetMaterial','GetPrice'),
+				'actions'=>array('index','view'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -61,26 +61,24 @@ class MaterialController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new Material;
+		$model=new BuyMaterialDetailTemp;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Material']))
+		if(isset($_POST['BuyMaterialDetailTemp']))
 		{
-			$model->attributes=$_POST['Material'];
-			$model->price1 = str_replace(",","",$_POST['Material']['price1']);
-			$model->price2 = str_replace(",","",$_POST['Material']['price2']);
-			$model->price3 = str_replace(",","",$_POST['Material']['price3']);
-			$model->sell = str_replace(",","",$_POST['Material']['sell']);
-			$model->site_id = empty($model->site_id) || $model->site_id=='' ? Yii::app()->user->getSite() : $model->site_id; 
+			$model->attributes=$_POST['BuyMaterialDetailTemp'];
+			$model->user_id = Yii::app()->user->ID;
 			if($model->save())
-				$this->redirect(array('index'));
+					echo CJSON::encode(array('success' => true));
+			else
+					echo CJSON::encode(array('fail' => true));
 		}
-
-		$this->render('create',array(
-			'model'=>$model,
-		));
+		else
+		{
+			$this->renderPartial('_form', array('model'=>$model), false, true);
+		}
 	}
 
 	/**
@@ -95,18 +93,11 @@ class MaterialController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Material']))
+		if(isset($_POST['BuyMaterialDetailTemp']))
 		{
-			$model->attributes=$_POST['Material'];
-			$model->price1 = str_replace(",","",$_POST['Material']['price1']);
-			$model->price2 = str_replace(",","",$_POST['Material']['price2']);
-			$model->price3 = str_replace(",","",$_POST['Material']['price3']);
-			$model->sell = str_replace(",","",$_POST['Material']['sell']);
-			$model->site_id = empty($model->site_id) || $model->site_id=='' ? Yii::app()->user->getSite() : $model->site_id; 
-			//$model->save();
+			$model->attributes=$_POST['BuyMaterialDetailTemp'];
 			if($model->save())
-			 		$this->redirect(array('index'));
-
+				$this->redirect(array('index'));
 		}
 
 		$this->render('update',array(
@@ -139,10 +130,10 @@ class MaterialController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$model=new Material('search');
+		$model=new BuyMaterialDetailTemp('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Material']))
-			$model->attributes=$_GET['Material'];
+		if(isset($_GET['BuyMaterialDetailTemp']))
+			$model->attributes=$_GET['BuyMaterialDetailTemp'];
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -154,10 +145,10 @@ class MaterialController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$model=new Material('search');
+		$model=new BuyMaterialDetailTemp('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Material']))
-			$model->attributes=$_GET['Material'];
+		if(isset($_GET['BuyMaterialDetailTemp']))
+			$model->attributes=$_GET['BuyMaterialDetailTemp'];
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -171,7 +162,7 @@ class MaterialController extends Controller
 	 */
 	public function loadModel($id)
 	{
-		$model=Material::model()->findByPk($id);
+		$model=BuyMaterialDetailTemp::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -183,57 +174,10 @@ class MaterialController extends Controller
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='material-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='buy-material-detail-temp-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
 	}
-
-	public function actionGetMaterial(){
-            $request=trim($_GET['term']);
-            $site_id = Yii::app()->user->isAdmin() ? " " : " AND site_id='".Yii::app()->user->getSite().'"' ; 
-                    
-            $models=Material::model()->findAll(array("condition"=>"name like '%$request%' ".$site_id));
-            //echo "name like '%$request%' '$site_id' ";
-            $data=array();
-            foreach($models as $model){
-               
-                $data[] = array(
-                        'id'=>$model['id'],
-                        'label'=>$model['name'],
-                        'site_id'=>$model['site_id'],
-              
-                );
-
-            }
-
-
-
-            $this->layout='empty';
-            echo json_encode($data);
-        
-    }
-
-    public function actionGetPrice(){
-            $group_customer = $_GET['group_customer'];
-            $material_id = $_GET['material_id'];
-            
-            $model=Material::model()->findByPk($material_id);
-            
-            $price = 0;
-            if(!empty($model))
-            {
-            	if($group_customer==1)
-            		$price = $model->price1;
-            	elseif($group_customer==2)
-            		$price = $model->price2;
-            	elseif($group_customer==3)	
-            		$price = $model->price3;
-            	else
-            		$price = $model->price2;
-            }
-            echo $price;
-        
-    }
 }

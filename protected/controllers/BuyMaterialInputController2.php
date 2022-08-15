@@ -1,6 +1,6 @@
 <?php
 
-class MaterialController extends Controller
+class BuyMaterialInputController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -27,7 +27,7 @@ class MaterialController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view','GetMaterial','GetPrice'),
+				'actions'=>array('index','view'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -61,21 +61,70 @@ class MaterialController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new Material;
+		$model=new BuyMaterialInput;
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+		//running invoice_no
+            $year = date('Y');
+            $site = Yii::app()->user->isAdmin() ? 1 : Yii::app()->user->getSite();
+            $sql = 'SELECT MAX(bill_no) as max_no FROM buy_material_input  WHERE site_id='.$site.' AND YEAR(buy_date)='.$year;
+            $command = Yii::app()->db->createCommand($sql);
+            $result = $command->queryAll();
+            $max_no = $result[0]['max_no']+1;
+            $year_th = $year+543;
+            $no_str = $max_no;
+            if($max_no<10)
+            {
+                $no_str = "00".$max_no;
+            }
+            else if($max_no<100)
+            {
+                $no_str = "0".$max_no;
+            }
 
-		if(isset($_POST['Material']))
+        $model->bill_no = $no_str;   
+
+        
+
+		if(isset($_POST['BuyMaterialInput']))
 		{
-			$model->attributes=$_POST['Material'];
-			$model->price1 = str_replace(",","",$_POST['Material']['price1']);
-			$model->price2 = str_replace(",","",$_POST['Material']['price2']);
-			$model->price3 = str_replace(",","",$_POST['Material']['price3']);
-			$model->sell = str_replace(",","",$_POST['Material']['sell']);
-			$model->site_id = empty($model->site_id) || $model->site_id=='' ? Yii::app()->user->getSite() : $model->site_id; 
+
+			header('Content-type: text/plain'); 
+			$model->attributes=$_POST['BuyMaterialInput'];
+			$model->note = $_POST['BuyMaterialInput']['note'];
+			
+			//--if customer not exist then add new customer----//
+			$modelCustomer = Customer::model()->findByPk($model->customer_id);
+			if(empty($modelCustomer))
+			{
+				
+				//print_r($_POST['BuyMaterialInput']);
+				$modelCustomer = new Customer;
+				$modelCustomer->name = $_POST["customer_id"];
+				$group_id = empty($_POST["group_id"]) ? 0 : $_POST["group_id"];
+				$modelCustomer->group_id = $group_id;
+				$modelCustomer->address = $_POST["address"];
+				$modelCustomer->phone = $_POST["phone"];
+				$modelCustomer->type = "S";
+				$modelCustomer->site_id = $model->site_id;
+				$modelCustomer->save();	
+				
+
+			}
+
+			$model->customer_id = $modelCustomer->id;
+			//$model->customer = $modelCustomer->name;
+
+			$model->update_by = Yii::app()->user->ID;
+			$model->last_update =  (date("Y")).date("-m-d H:i:s");
+			$model->buy_date =  (date("Y")).date("-m-d");
+
+			
+
 			if($model->save())
 				$this->redirect(array('index'));
+
+			print_r($model);
+			exit;
 		}
 
 		$this->render('create',array(
@@ -95,18 +144,45 @@ class MaterialController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Material']))
+		if(isset($_POST['BuyMaterialInput']))
 		{
-			$model->attributes=$_POST['Material'];
-			$model->price1 = str_replace(",","",$_POST['Material']['price1']);
-			$model->price2 = str_replace(",","",$_POST['Material']['price2']);
-			$model->price3 = str_replace(",","",$_POST['Material']['price3']);
-			$model->sell = str_replace(",","",$_POST['Material']['sell']);
-			$model->site_id = empty($model->site_id) || $model->site_id=='' ? Yii::app()->user->getSite() : $model->site_id; 
-			//$model->save();
-			if($model->save())
-			 		$this->redirect(array('index'));
+			header('Content-type: text/plain'); 
+			$model->attributes=$_POST['BuyMaterialInput'];
+			$model->note = $_POST['BuyMaterialInput']['note'];
+			
+			//--if customer not exist then add new customer----//
+			$modelCustomer = Customer::model()->findByPk($model->customer_id);
+			if(empty($modelCustomer))
+			{
+				
+				//print_r($_POST['BuyMaterialInput']);
+				$modelCustomer = new Customer;
+				$modelCustomer->name = $_POST["customer_id"];
+				$group_id = empty($_POST["group_id"]) ? 0 : $_POST["group_id"];
+				$modelCustomer->group_id = $group_id;
+				$modelCustomer->address = $_POST["address"];
+				$modelCustomer->phone = $_POST["phone"];
+				$modelCustomer->type = "S";
+				$modelCustomer->site_id = $model->site_id;
+				$modelCustomer->save();	
+				
 
+			}
+
+			$model->customer_id = $modelCustomer->id;
+			//$model->customer = $modelCustomer->name;
+
+			$model->update_by = Yii::app()->user->ID;
+			$model->last_update =  (date("Y")).date("-m-d H:i:s");
+			$model->buy_date =  (date("Y")).date("-m-d");
+
+			
+
+			if($model->save())
+				$this->redirect(array('index'));
+
+			print_r($model);
+			exit;
 		}
 
 		$this->render('update',array(
@@ -139,10 +215,10 @@ class MaterialController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$model=new Material('search');
+		$model=new BuyMaterialInput('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Material']))
-			$model->attributes=$_GET['Material'];
+		if(isset($_GET['BuyMaterialInput']))
+			$model->attributes=$_GET['BuyMaterialInput'];
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -154,10 +230,10 @@ class MaterialController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$model=new Material('search');
+		$model=new BuyMaterialInput('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Material']))
-			$model->attributes=$_GET['Material'];
+		if(isset($_GET['BuyMaterialInput']))
+			$model->attributes=$_GET['BuyMaterialInput'];
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -171,7 +247,7 @@ class MaterialController extends Controller
 	 */
 	public function loadModel($id)
 	{
-		$model=Material::model()->findByPk($id);
+		$model=BuyMaterialInput::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -183,57 +259,10 @@ class MaterialController extends Controller
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='material-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='buy-material-input-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
 	}
-
-	public function actionGetMaterial(){
-            $request=trim($_GET['term']);
-            $site_id = Yii::app()->user->isAdmin() ? " " : " AND site_id='".Yii::app()->user->getSite().'"' ; 
-                    
-            $models=Material::model()->findAll(array("condition"=>"name like '%$request%' ".$site_id));
-            //echo "name like '%$request%' '$site_id' ";
-            $data=array();
-            foreach($models as $model){
-               
-                $data[] = array(
-                        'id'=>$model['id'],
-                        'label'=>$model['name'],
-                        'site_id'=>$model['site_id'],
-              
-                );
-
-            }
-
-
-
-            $this->layout='empty';
-            echo json_encode($data);
-        
-    }
-
-    public function actionGetPrice(){
-            $group_customer = $_GET['group_customer'];
-            $material_id = $_GET['material_id'];
-            
-            $model=Material::model()->findByPk($material_id);
-            
-            $price = 0;
-            if(!empty($model))
-            {
-            	if($group_customer==1)
-            		$price = $model->price1;
-            	elseif($group_customer==2)
-            		$price = $model->price2;
-            	elseif($group_customer==3)	
-            		$price = $model->price3;
-            	else
-            		$price = $model->price2;
-            }
-            echo $price;
-        
-    }
 }

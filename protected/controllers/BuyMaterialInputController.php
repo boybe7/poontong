@@ -31,7 +31,7 @@ class BuyMaterialInputController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
+				'actions'=>array('create','update','createItemDetailTemp','deleteDetailTemp','updateDetailTemp','createItemDetail','deleteDetail','updateDetail'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -81,7 +81,29 @@ class BuyMaterialInputController extends Controller
                 $no_str = "0".$max_no;
             }
 
-        $model->bill_no = $no_str;   
+        $model->bill_no = $no_str; 
+
+        //add first item for fix editable gridview
+        $temp = BuyMaterialDetailTemp::model()->findAll("flag=1");
+        if(empty($temp))
+        {
+        	$temp = new BuyMaterialDetailTemp;
+        	$temp->buy_id = 0;
+        	$temp->user_id = Yii::app()->user->ID;
+        	$temp->flag = 1;
+        	$temp->amount = 0;
+        	$temp->price_unit = 0;
+        	$temp->price_net = 0;
+        	$temp->material_id = 0;
+        	$temp->save();
+        }  
+
+        if (!Yii::app()->request->isAjaxRequest)
+        {
+        	BuyMaterialDetailTemp::model()->deleteAll("user_id= :user_id AND flag!=1", [":user_id" =>Yii::app()->user->ID]);
+        	Kpi::model()->deleteAll();
+        }
+	        
 
         
 
@@ -174,8 +196,6 @@ class BuyMaterialInputController extends Controller
 
 			$model->update_by = Yii::app()->user->ID;
 			$model->last_update =  (date("Y")).date("-m-d H:i:s");
-			$model->buy_date =  (date("Y")).date("-m-d");
-
 			
 
 			if($model->save())
@@ -265,4 +285,41 @@ class BuyMaterialInputController extends Controller
 			Yii::app()->end();
 		}
 	}
+
+	public function actionCreateItemDetailTemp()
+	{
+
+		$model = new BuyMaterialDetailTemp;
+		$model->material_id = $_POST['material_id'];
+		$model->price_unit = $_POST['price_unit'];
+		$model->price_net = $_POST['price_net'];
+		$model->amount = $_POST['amount'];
+		$model->buy_id = 0;
+		$model->user_id = Yii::app()->user->ID;
+
+		if($model->save())
+	        echo 'success';
+	    else
+	    	echo 'fail';
+	}
+
+	public function actionDeleteDetailTemp($id)
+	{
+		$model = BuyMaterialDetailTemp::model()->findByPk($id);
+		$model->delete();
+
+	}
+
+
+	public function actionUpdateDetailTemp()
+    {
+	    $es = new EditableSaver('BuyMaterialDetailTemp');
+	    try {
+	    	$es->update();
+	    } catch(CException $e) {
+	    	echo CJSON::encode(array('success' => false, 'msg' => $e->getMessage()));
+	    	return;
+	    }
+	    echo CJSON::encode(array('success' => true));
+    }
 }

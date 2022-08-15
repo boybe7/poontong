@@ -40,28 +40,39 @@ $this->breadcrumbs=array(
 				$m =  Customer::model()->FindByPk($model->customer_id);
 				return empty($m) ? "" : $m->name;
 			 },
-			'headerHtmlOptions' => array('style' => 'width:28%;text-align:center;background-color: #f5f5f5'),  	            	  	
+			'headerHtmlOptions' => array('style' => 'width:20%;text-align:center;background-color: #f5f5f5'),  	            	  	
 			'htmlOptions'=>array('style'=>'text-align:left')
 	  	),
 	  	'material_id'=>array(
-			'header' => '<a class="sort-link">รายการวัตถุดิบ</a>',
+			'name' => 'material_id',
 			'value' => function($model){
-				
-				return "";
+				$m =  Material::model()->FindByPk($model->material_id);
+				return empty($m) ? "" : $m->name;
 			 },
 			'filter'=>CHtml::listData(Material::model()->findAll(), 'id', 'name'), 
-			'headerHtmlOptions' => array('style' => 'width:25%;text-align:center;background-color: #f5f5f5'),  	            	  	
+			'headerHtmlOptions' => array('style' => 'width:20%;text-align:center;background-color: #f5f5f5'),  	            	  	
 			'htmlOptions'=>array('style'=>'text-align:center')
 	  	),
-		
+		'price_unit'=>array(
+			'name' => 'price_unit',
+			'filter'=> false,
+			'headerHtmlOptions' => array('style' => 'width:10%;text-align:center;background-color: #f5f5f5'),  	            	  	
+			'htmlOptions'=>array('style'=>'text-align:right')
+	  	),
+	  	'weight_net'=>array(
+			'name' => 'weight_net',
+			'filter'=> false,
+			'headerHtmlOptions' => array('style' => 'width:10%;text-align:center;background-color: #f5f5f5'),  	            	  	
+			'htmlOptions'=>array('style'=>'text-align:right')
+	  	),
 	  	'price_net'=>array(
-			'header' => '<a class="sort-link">ราคารวม(บาท)</a>',
+			'name' => 'price_net',
 			'filter'=> false,
 			'value' => function($model){
 				
-				return "";//number_format($model->price_net,2);
+				return number_format($model->price_net,2);
 			 },
-			'headerHtmlOptions' => array('style' => 'width:15%;text-align:center;background-color: #f5f5f5'),  	            	  	
+			'headerHtmlOptions' => array('style' => 'width:10%;text-align:center;background-color: #f5f5f5'),  	            	  	
 			'htmlOptions'=>array('style'=>'text-align:right')
 	  	),
 	  	'note'=>array(

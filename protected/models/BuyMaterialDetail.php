@@ -1,26 +1,24 @@
 <?php
 
 /**
- * This is the model class for table "buy_material_input".
+ * This is the model class for table "buy_material_detail".
  *
- * The followings are the available columns in table 'buy_material_input':
+ * The followings are the available columns in table 'buy_material_detail':
  * @property integer $id
- * @property string $buy_date
- * @property integer $customer_id
- * @property string $bill_no
- * @property string $last_update
- * @property integer $update_by
- * @property integer $site_id
- * @property string $note
+ * @property integer $material_id
+ * @property integer $amount
+ * @property string $price_unit
+ * @property string $price_net
+ * @property integer $buy_id
  */
-class BuyMaterialInput extends CActiveRecord
+class BuyMaterialDetail extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'buy_material_input';
+		return 'buy_material_detail';
 	}
 
 	/**
@@ -31,13 +29,13 @@ class BuyMaterialInput extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('buy_date, customer_id, bill_no, last_update, update_by, site_id', 'required'),
-			array('customer_id, update_by, site_id', 'numerical', 'integerOnly'=>true),
-			array('bill_no', 'length', 'max'=>45),
-			array('note', 'length', 'max'=>255),
+			array('material_id, amount, price_unit, price_net, buy_id', 'required'),
+			array('material_id,  buy_id', 'numerical', 'integerOnly'=>true),
+			array('price_unit', 'length', 'max'=>10),
+			array('price_net', 'length', 'max'=>15),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, buy_date, customer_id, bill_no, last_update, update_by, site_id, note', 'safe', 'on'=>'search'),
+			array('id, material_id, amount, price_unit, price_net, buy_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -59,13 +57,11 @@ class BuyMaterialInput extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'buy_date' => 'วันที่รับซื้อ',
-			'customer_id' => 'ชื่อลูกค้า',
-			'bill_no' => 'เลขที่ใบรับซื้อ',
-			'last_update' => 'Last Update',
-			'update_by' => 'Update By',
-			'site_id' => 'Site',
-			'note' => 'หมายเหตุ',
+			'material_id' => 'วัตถุดิบ',
+			'amount' => 'จำนวน',
+			'price_unit' => 'ราคาต่อหน่วย',
+			'price_net' => 'ราคารวม',
+			'buy_id' => 'Buy',
 		);
 	}
 
@@ -88,13 +84,11 @@ class BuyMaterialInput extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('buy_date',$this->buy_date,true);
-		$criteria->compare('customer_id',$this->customer_id);
-		$criteria->compare('bill_no',$this->bill_no,true);
-		$criteria->compare('last_update',$this->last_update,true);
-		$criteria->compare('update_by',$this->update_by);
-		$criteria->compare('site_id',$this->site_id);
-		$criteria->compare('note',$this->note,true);
+		$criteria->compare('material_id',$this->material_id);
+		$criteria->compare('amount',$this->amount);
+		$criteria->compare('price_unit',$this->price_unit,true);
+		$criteria->compare('price_net',$this->price_net,true);
+		$criteria->compare('buy_id',$this->buy_id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -105,12 +99,20 @@ class BuyMaterialInput extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return BuyMaterialInput the static model class
+	 * @return BuyMaterialDetail the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
 
-
+	public function beforeSave()
+    {
+        
+		$this->amount = str_replace(",", "", $this->amount); 
+		$this->price_unit = str_replace(",", "", $this->price_unit); 
+		$this->price_net = str_replace(",", "", $this->price_net); 
+		 
+		return parent::beforeSave();  
+	}
 }

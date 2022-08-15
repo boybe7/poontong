@@ -1,3 +1,8 @@
+<style type="text/css">
+	.hidden_row{
+		display: none;
+	}
+</style>
 <script type="text/javascript">
   
   $(function(){
@@ -165,30 +170,39 @@
     <legend class="scheduler-border">รายการซื้อวัตถุดิบ</legend>
 	<div class='row-fluid div-scheduler-border'>
 
-		<div class="span5">
+		<div class="span4"><label for="material_id">วัตถุดิบ</label>
 			<?php 
 			  			
 	            	if(!Yii::app()->user->isAdmin())
 					{
 						$typelist = CHtml::listData(Material::model()->findAll('site_id=:id', array(':id' => Yii::app()->user->getSite())),'id','name');
-			   		 	echo $form->dropDownListRow($model, 'material_id', $typelist,array('class'=>'span12','empty'=>'--เลือก--',), array('options' => array('site_id'=>array('selected'=>true))));  
+			   		 	echo CHtml::dropDownList('material_id', "",$typelist,array('class'=>'span12','empty' => '----เลือก----')); 
 			   		} 
 			   		else
 			   		{
 			   			$typelist = CHtml::listData(Material::model()->findAll('site_id=:id', array(':id' => 1)),'id','name');
-			   		 	echo $form->dropDownListRow($model, 'material_id', $typelist,array('class'=>'span12','empty'=>'--เลือก--'), array('options' => array('site_id'=>array('selected'=>true))));  
+			   		 	echo CHtml::dropDownList('material_id', "",$typelist,array('class'=>'span12','empty' => '----เลือก----'));   
 			   		}
 
 			 ?>
 		</div>
-		<div class='span2'>
-			<?php echo $form->textFieldRow($model,'price_unit',array('class'=>'span12 number','maxlength'=>10)); ?>
+		<div class='span2'><label for="price_unit">ราคาต่อหน่วย</label>
+			<?php 
+			   echo CHtml::textField('price_unit','',array('class'=>'span12 number','maxlength'=>10)); 
+			?>
 		</div>
-		<div class='span2'>
-			<?php echo $form->textFieldRow($model,'price_net',array('class'=>'span12 number','maxlength'=>10)); ?>
+		<div class='span2'><label for="amount">จำนวน</label>
+			<?php 
+			   echo CHtml::textField('amount','',array('class'=>'span12 number','maxlength'=>10)); 
+			?>
+		</div>
+		<div class='span2'><label for="price_net">ราคารวม</label>
+			<?php echo CHtml::textField('price_net',"",array('class'=>'span12 number','maxlength'=>10)); ?>
 		</div>
 		<div class='span2'>
 			<?php
+
+
 
 					$this->widget('bootstrap.widgets.TbButton', array(
 			              'buttonType'=>'link',
@@ -200,66 +214,27 @@
 			              'htmlOptions'=>array(
 			                'class'=>'',
 			                'style'=>'margin:25px 0px 0px 0px;',
-						     'onclick'=>'
+						    'onclick'=>'
 						           
-											js:bootbox.confirm($("#modal-body3").html(),"ยกเลิก","ตกลง",
-					                   			function(confirmed){
-					                   	 	     
-		                                			if(confirmed)
-					                   	 		    {
-
-					                   	 		    	$.ajax({
-															type: "POST",
-															url: "../contractChangeHistory/createTemp",
-															dataType:"json",
-															data: $(".modal-body #contract-change-history-form").serialize()
-															})									
-															.done(function( msg ) {
-																
-																jQuery.fn.yiiGridView.update("change-grid");
-																//($("#approve-grid").yiiGridView("update",{}));
-																
-																if(msg.status=="failure")
-																{
-																	$("#modal-body3").html(msg.div);
-																	js:bootbox.confirm($("#modal-body3").html(),"ยกเลิก","ตกลง",
-										                   			function(confirmed){
-										                   	 	        
-										                   	 			
-							                                			if(confirmed)
-										                   	 		    {
-										                   	 		    	
-										                   	 		    	$.ajax({
-																				type: "POST",
-																				url: "../contractChangeHistory/createTemp",
-																				dataType:"json",
-																				//contentType:"application/json; charset=utf-8",
-																				data: $(".modal-body #contract-change-history-form").serialize()
-																				})
-																				.done(function( msg ) {
-																					if(msg.status=="failure")
-																					{
-																						js:bootbox.alert("<font color=red>!!!!บันทึกไม่สำเร็จ</font>","ตกลง");
-																					}
-																					else{
-																						//js:bootbox.alert("บันทึกสำเร็จ","ตกลง");
-																						jQuery.fn.yiiGridView.update("change-grid");
-																
-																					}
-																				});
-										                   	 		    }
-																	})
-																}
-																else{
-																	//js:bootbox.alert("บันทึกสำเร็จ","ตกลง");
-
-																}
-															});
+								$.ajax({
+										type: "POST",
+										url: "' .CController::createUrl('BuyMaterialInput/CreateItemDetailTemp'). '",										
+										data: {
+	                                        material_id: $("#material_id").val(),
+	                                        price_unit: $("#price_unit").val(),
+	                                        price_net: $("#price_net").val(),
+	                                        amount:$("#amount").val()
+                                       
+                                    	}
+									})									
+									.done(function( msg ) {
 													
-					                   	 		    }
-												})
+										// jQuery.fn.yiiGridView.update("buy-item-grid");
+										$("#buy-item-grid").yiiGridView("update",{});
+                                                                             
+									})	
 													
-												',
+							',
 					                
 			              ),
 			          ));
@@ -267,7 +242,155 @@
 			?>
 		</div>
 	</div>
+	<div>
+		<?php
+
+		$modelTemp = new BuyMaterialDetailTemp;
+			$this->widget('bootstrap.widgets.TbGridView',array(
+					'id'=>'buy-item-grid',
+					
+				    'type'=>'bordered condensed',
+					'dataProvider'=>$modelTemp->search(),
+					//'filter'=>$model,
+					'selectableRows' => 2,
+					'enableSorting' => false,
+					'rowCssClassExpression'=>'($row == 0) ? "hidden_row" : "" ',
+				    'htmlOptions'=>array('style'=>'padding-top:10px;'),
+				    'enablePagination' => true,
+				    'summaryText'=>'',//'Displaying {start}-{end} of {count} results.',
+					'columns'=>array(
+						    'No.'=>array(
+						        'header'=>'ลำดับ',
+						        'headerHtmlOptions' => array('style' => 'width:3%;text-align:center;background-color: #eeeeee'),  	            	  		
+								'htmlOptions'=>array(
+	  	            	  			'style'=>'text-align:center'
+
+	  	        				),
+						        'value'=>'$this->grid->dataProvider->pagination->currentPage * $this->grid->dataProvider->pagination->pageSize + ($row)',
+						      ),
+							'material_id'=>array(
+								'name' => 'material_id',
+								'value' => function($model){
+									$m =  Material::model()->FindByPk($model->material_id);
+									return empty($m) ? "" : $m->name;
+								 },
+								'filter'=>false, 
+								'headerHtmlOptions' => array('style' => 'width:28%;text-align:center;background-color: #f5f5f5'),  	            	  	
+								'htmlOptions'=>array('style'=>'text-align:left')
+						  	),
+					  	    'price_unit'=>array(
+					  	    	
+								'name' => 'price_unit',
+								'class' => 'editable.EditableColumn',
+								'editable' => array( //editable section
+								
+									'title'=>'แก้ไข ',
+									'url' => $this->createUrl('BuyMaterialInput/updateDetailTemp'),
+									'success' => 'js: function(response, newValue) {
+														if(!response.success) return response.msg;
+
+														$("#buy-item-grid").yiiGridView("update",{});
+													}',
+									'options' => array(
+										'ajaxOptions' => array('dataType' => 'json'),
+
+									), 
+									'placement' => 'right',
+					'display' => 'js: function() {
+					
+					    
+					}'
+									
+								),
+								'filter'=> false,
+								'headerHtmlOptions' => array('style' => 'width:10%;text-align:center;background-color: #f5f5f5'),  	            	  	
+								'htmlOptions'=>array('style'=>'text-align:right')
+						  	),
+						  	'amount'=>array(
+								'name' => 'amount',
+								'class' => 'editable.EditableColumn',
+								'editable' => array( //editable section
+								
+									'title'=>'แก้ไข ',
+									'url' => $this->createUrl('BuyMaterialInput/updateDetailTemp'),
+									'success' => 'js: function(response, newValue) {
+														if(!response.success) return response.msg;
+
+														$("#buy-item-grid").yiiGridView("update",{});
+													}',
+									'options' => array(
+										'ajaxOptions' => array('dataType' => 'json'),
+
+									), 
+									'placement' => 'right'
+									
+								),
+								'filter'=> false,
+								'value' => function($model){
+									
+									return number_format($model->amount,2);
+								 },
+								'headerHtmlOptions' => array('style' => 'width:10%;text-align:center;background-color: #f5f5f5'),  	            	  	
+								'htmlOptions'=>array('style'=>'text-align:right')
+						  	),
+						  	'price_net'=>array(
+								'name' => 'price_net',
+								'class' => 'editable.EditableColumn',
+								'editable' => array( //editable section
+								
+									'title'=>'แก้ไข ',
+									'url' => $this->createUrl('BuyMaterialInput/updateDetailTemp'),
+									'success' => 'js: function(response, newValue) {
+														if(!response.success) return response.msg;
+
+														$("#buy-item-grid").yiiGridView("update",{});
+													}',
+									'options' => array(
+										'ajaxOptions' => array('dataType' => 'json'),
+
+									), 
+									'placement' => 'right'
+									
+								),
+								'filter'=> false,
+								'value' => function($model){
+									
+									return number_format($model->price_net,2);
+								 },
+								'headerHtmlOptions' => array('style' => 'width:10%;text-align:center;background-color: #f5f5f5'),  	            	  	
+								'htmlOptions'=>array('style'=>'text-align:right')
+						  	),
+					  	   
+					  	    array(
+								'class'=>'bootstrap.widgets.TbButtonColumn',
+								'headerHtmlOptions' => array('style' => 'width:5%;text-align:center;background-color: #eeeeee'),
+								'template' => '{delete}',
+								// 'deleteConfirmation'=>'js:bootbox.confirm("Are you sure to want to delete")',
+								'buttons'=>array(
+										'delete'=>array(
+											'url'=>'Yii::app()->createUrl("BuyMaterialInput/deleteDetailTemp", array("id"=>$data->id))',	
+
+										),
+										
+
+									)
+
+								
+							),
+						)
+
+					));
+
+
+
+
+
+
+
+		?>
+	</div>
 </fieldset>	
+
 
 <div class='row-fluid'>
 	<?php echo $form->textAreaRow($model,'note',array('rows'=>5, 'cols'=>50, 'class'=>'span12','maxlength'=>255)); ?>
@@ -299,22 +422,22 @@
 <?php
 
 Yii::app()->clientScript->registerScript('loadMaterialPrice', '
-$( "#group_id,#BuyMaterialInput_material_id" ).bind("change", function () {
+$( "#group_id,#material_id,#amount").bind("change", function () {
             var group_customer = $("#group_id").val();
-            var material_id = $("#BuyMaterialInput_material_id").val();
+            var material_id = $("#material_id").val();
 
             var _url = "' . Yii::app()->controller->createUrl("Material/GetPrice").'" ;
-            if(group_customer!="" && material_id!="")
+            if(group_customer!="" || material_id!="")
             {
             	$.ajax({
 			        url: _url,
 			        data : {group_customer:group_customer,material_id:material_id},
 			        success:function(response){
 			                              
-			              $("#BuyMaterialInput_price_unit").val(response)
-			              var net = $("#BuyMaterialInput_weight_net").val();
+			              $("#price_unit").val(response)
+			              var net = $("#amount").val();
 			              var price = response;
-            			  $("#BuyMaterialInput_price_net").val((net*price).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,"))
+            			  $("#price_net").val((net*price).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,"))
 			        }
 
 			    });
