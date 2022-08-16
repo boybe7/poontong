@@ -46,12 +46,13 @@ $this->breadcrumbs=array(
 	  	'material_id'=>array(
 			'header' => '<a class="sort-link">รายการวัตถุดิบ</a>',
 			'value' => function($model){
-				
-				return "";
+				$data = $model->getItem($model->id);
+				return $data;
 			 },
+			 'type'=>'raw',
 			'filter'=>CHtml::listData(Material::model()->findAll(), 'id', 'name'), 
 			'headerHtmlOptions' => array('style' => 'width:25%;text-align:center;background-color: #f5f5f5'),  	            	  	
-			'htmlOptions'=>array('style'=>'text-align:center')
+			'htmlOptions'=>array('style'=>'text-align:left')
 	  	),
 		
 	  	'price_net'=>array(
@@ -59,7 +60,8 @@ $this->breadcrumbs=array(
 			'filter'=> false,
 			'value' => function($model){
 				
-				return "";//number_format($model->price_net,2);
+				$data = $model->getTotal($model->id);
+				return number_format($data,2);
 			 },
 			'headerHtmlOptions' => array('style' => 'width:15%;text-align:center;background-color: #f5f5f5'),  	            	  	
 			'htmlOptions'=>array('style'=>'text-align:right')
@@ -74,7 +76,32 @@ $this->breadcrumbs=array(
 			'header' => '<a class="sort-link"></a>',
 			'class'=>'bootstrap.widgets.TbButtonColumn',
 			'headerHtmlOptions' => array('style' => 'width:10%;text-align:center;background-color: #f5f5f5'),
-			'template' => '{delete} {update}'
+			'template' => '{print} {delete} {update}',
+			'buttons'=>array(
+				'print'=>array(
+								'click'=>'function(){
+										filename = "billno"+$.now()+".pdf";
+										console.log(filename)
+										link = $(this).attr("href");
+									    $.ajax({
+									        url: link,
+									        data: {filename: filename},
+									        success:function(response){
+									             
+									             window.open("../report/temp/"+filename, "_blank", "fullscreen=yes", "clearcache=yes");              
+									            
+									        }
+
+									    });
+
+									   return false; 
+								}',
+								'url'=>'Yii::app()->createUrl("BuyMaterialInput/print", array("id"=>$data->id))',
+								'options'=>array(),
+						      'icon' => 'icon-print',	
+
+							)
+			)
 		),
 	),
 )); ?>

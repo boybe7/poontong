@@ -119,4 +119,15 @@ class BuyMaterialDetailTemp extends CActiveRecord
 		 
 		return parent::beforeSave();  
 	}
+
+	public static function getTotals($provider)
+	{
+		$total=0;
+
+	    foreach($provider->data as $item)
+
+	        $total+=$item->price_net;
+
+	    return $total;
+	}
 }

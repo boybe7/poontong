@@ -218,7 +218,7 @@
 						           
 								$.ajax({
 										type: "POST",
-										url: "' .CController::createUrl('BuyMaterialInput/CreateItemDetailTemp'). '",										
+										url: "' .CController::createUrl('BuyMaterialInput/CreateItemDetail/'.$model->id). '",										
 										data: {
 	                                        material_id: $("#material_id").val(),
 	                                        price_unit: $("#price_unit").val(),
@@ -250,7 +250,7 @@
 	<div>
 		<?php
 
-		$modelTemp = new BuyMaterialDetailTemp;
+		$modelTemp = new BuyMaterialDetail;
 			$this->widget('bootstrap.widgets.TbGridView',array(
 					'id'=>'buy-item-grid',
 					
@@ -290,7 +290,7 @@
 								'editable' => array( //editable section
 								
 									'title'=>'แก้ไข ',
-									'url' => $this->createUrl('BuyMaterialInput/updateDetailTemp'),
+									'url' => $this->createUrl('BuyMaterialInput/updateDetail'),
 									'success' => 'js: function(response, newValue) {
 														if(!response.success) return response.msg;
 
@@ -314,7 +314,7 @@
 								'editable' => array( //editable section
 								
 									'title'=>'แก้ไข ',
-									'url' => $this->createUrl('BuyMaterialInput/updateDetailTemp'),
+									'url' => $this->createUrl('BuyMaterialInput/updateDetail'),
 									'success' => 'js: function(response, newValue) {
 														if(!response.success) return response.msg;
 
@@ -341,7 +341,7 @@
 								'editable' => array( //editable section
 								
 									'title'=>'แก้ไข ',
-									'url' => $this->createUrl('BuyMaterialInput/updateDetailTemp'),
+									'url' => $this->createUrl('BuyMaterialInput/updateDetail'),
 									'success' => 'js: function(response, newValue) {
 														if(!response.success) return response.msg;
 
@@ -361,7 +361,7 @@
 								 },
 								'headerHtmlOptions' => array('style' => 'width:10%;text-align:center;background-color: #f5f5f5'),  	            	  	
 								'htmlOptions'=>array('style'=>'text-align:right'),
-								'footer'=>number_format($modelTemp->getTotals($modelTemp->search()),2),
+								'footer'=>number_format($modelTemp->getTotals($modelTemp->searchByBuy($model->id)),2),
 								'footerHtmlOptions'=>array('style' => 'font-weight:bold;text-align:right;background-color: #ffe7e7'),
 						  	),
 					  	   
@@ -372,7 +372,7 @@
 								// 'deleteConfirmation'=>'js:bootbox.confirm("Are you sure to want to delete")',
 								'buttons'=>array(
 										'delete'=>array(
-											'url'=>'Yii::app()->createUrl("BuyMaterialInput/deleteDetailTemp", array("id"=>$data->id))',	
+											'url'=>'Yii::app()->createUrl("BuyMaterialInput/deleteDetail", array("id"=>$data->id))',	
 
 										),
 										

@@ -27,15 +27,15 @@ class BuyMaterialInputController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
+				'actions'=>array('index','view','print'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update','createItemDetailTemp','deleteDetailTemp','updateDetailTemp','createItemDetail','deleteDetail','updateDetail'),
+				'actions'=>array('create','update','createItemDetailTemp','deleteDetailTemp','updateDetailTemp','createItemDetail','deleteDetail','updateDetail','delete'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
+				'actions'=>array('admin'),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -98,11 +98,6 @@ class BuyMaterialInputController extends Controller
         	$temp->save();
         }  
 
-        if (!Yii::app()->request->isAjaxRequest)
-        {
-        	BuyMaterialDetailTemp::model()->deleteAll("user_id= :user_id AND flag!=1", [":user_id" =>Yii::app()->user->ID]);
-        	Kpi::model()->deleteAll();
-        }
 	        
 
         
@@ -143,11 +138,32 @@ class BuyMaterialInputController extends Controller
 			
 
 			if($model->save())
-				$this->redirect(array('index'));
+			{
+				$temp = BuyMaterialDetailTemp::model()->findAll("user_id=:user_id AND flag is NULL", [":user_id" =>Yii::app()->user->ID]);
 
-			print_r($model);
-			exit;
+				foreach ($temp as $key => $value) {
+					$modelDetail = new BuyMaterialDetail;
+					$modelDetail->material_id = $value->material_id;
+					$modelDetail->price_unit = $value->price_unit;
+					$modelDetail->amount = $value->amount;
+					$modelDetail->price_net = $value->price_net;
+					$modelDetail->buy_id = $model->id;
+					$modelDetail->save();
+					//print_r($modelDetail);
+				}
+        	
+				$this->redirect(array('index'));
+			}
+
+			//print_r($model);
+			//exit;
 		}
+		else if (!Yii::app()->request->isAjaxRequest)
+        {
+        	//header('Content-type: text/plain'); 
+        	BuyMaterialDetailTemp::model()->deleteAll("user_id=:user_id AND flag is NULL", [":user_id" =>Yii::app()->user->ID]);
+        	
+        }
 
 		$this->render('create',array(
 			'model'=>$model,
@@ -221,6 +237,8 @@ class BuyMaterialInputController extends Controller
 		{
 			// we only allow deletion via POST request
 			$this->loadModel($id)->delete();
+
+			BuyMaterialDetail::model()->deleteAll("buy_id=:buy_id", [":buy_id" =>$id]);
 
 			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 			if(!isset($_GET['ajax']))
@@ -322,4 +340,50 @@ class BuyMaterialInputController extends Controller
 	    }
 	    echo CJSON::encode(array('success' => true));
     }
+
+    public function actionCreateItemDetail($id)
+	{
+
+		$model = new BuyMaterialDetail;
+		$model->material_id = $_POST['material_id'];
+		$model->price_unit = $_POST['price_unit'];
+		$model->price_net = $_POST['price_net'];
+		$model->amount = $_POST['amount'];
+		$model->buy_id = $id;
+
+		if($model->save())
+	        echo 'success';
+	    else
+	    	echo 'fail';
+	}
+
+	public function actionDeleteDetail($id)
+	{
+		$model = BuyMaterialDetail::model()->findByPk($id);
+		$model->delete();
+
+	}
+
+
+	public function actionUpdateDetail()
+    {
+	    $es = new EditableSaver('BuyMaterialDetail');
+	    try {
+	    	$es->update();
+	    } catch(CException $e) {
+	    	echo CJSON::encode(array('success' => false, 'msg' => $e->getMessage()));
+	    	return;
+	    }
+	    echo CJSON::encode(array('success' => true));
+    }
+
+
+    public function actionPrint($id){
+
+    	if(Yii::app()->request->isAjaxRequest)
+		$this->render('_formPDF',array('filename' => $_GET['filename'],'id'=>$id,'model'=>$this->loadModel($id)));
+
+	
+
+	}
 }

@@ -112,5 +112,22 @@ class BuyMaterialInput extends CActiveRecord
 		return parent::model($className);
 	}
 
+	public function getItem($id)
+    {
+    	$sql= 'SELECT * FROM buy_material_detail LEFT JOIN material ON material_id=material.id WHERE buy_id='.$id;
+    	$model = Yii::app()->db->createCommand($sql)->queryAll();
+    	$str = "";
+    	foreach ($model as $key => $value) {
+    		$str .= $value['name'].' จำนวน '.$value['amount'].' กก.<br>'; 
+    	}
+    	return $str;
+    }
 
+    public function getTotal($id)
+    {
+    	$sql= 'SELECT sum(price_net) as total FROM buy_material_detail LEFT JOIN material ON material_id=material.id WHERE buy_id='.$id;
+    	$model = Yii::app()->db->createCommand($sql)->queryAll();
+    	
+    	return $model[0]['total'];
+    }
 }

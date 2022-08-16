@@ -95,6 +95,24 @@ class BuyMaterialDetail extends CActiveRecord
 		));
 	}
 
+	public function searchByBuy($id)
+	{
+		// @todo Please modify the following code to remove attributes that should not be searched.
+
+		$criteria=new CDbCriteria;
+
+		$criteria->compare('id',$this->id);
+		$criteria->compare('material_id',$this->material_id);
+		$criteria->compare('amount',$this->amount);
+		$criteria->compare('price_unit',$this->price_unit,true);
+		$criteria->compare('price_net',$this->price_net,true);
+		$criteria->compare('buy_id',$id);
+
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+		));
+	}
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
@@ -114,5 +132,16 @@ class BuyMaterialDetail extends CActiveRecord
 		$this->price_net = str_replace(",", "", $this->price_net); 
 		 
 		return parent::beforeSave();  
+	}
+
+	public static function getTotals($provider)
+	{
+		$total=0;
+
+	    foreach($provider->data as $item)
+
+	        $total+=$item->price_net;
+
+	    return $total;
 	}
 }
