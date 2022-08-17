@@ -827,3 +827,82 @@ REQUEST_URI=/poontong/buymaterialinput/index
 in C:\xampp\htdocs\poontong\protected\extensions\bootstrap\widgets\TbGridView.php (91)
 in C:\xampp\htdocs\poontong\protected\extensions\bootstrap\widgets\TbGridView.php (49)
 in C:\xampp\htdocs\poontong\protected\views\buyMaterialInput\admin.php (105)
+2022/08/18 00:45:02 [error] [php] Undefined variable: site (C:\xampp\htdocs\poontong\protected\views\buyMaterialInput\_formPDF.php:97)
+Stack trace:
+#0 C:\xampp\htdocs\poontong\framework\web\CController.php(869): BuyMaterialInputController->renderFile()
+#1 C:\xampp\htdocs\poontong\framework\web\CController.php(782): BuyMaterialInputController->renderPartial()
+#2 C:\xampp\htdocs\poontong\protected\controllers\BuyMaterialInputController.php(384): BuyMaterialInputController->render()
+#3 unknown(0): BuyMaterialInputController->actionPrint()
+#4 C:\xampp\htdocs\poontong\framework\web\actions\CAction.php(108): ReflectionMethod->invokeArgs()
+#5 C:\xampp\htdocs\poontong\framework\web\actions\CInlineAction.php(47): CInlineAction->runWithParamsInternal()
+#6 C:\xampp\htdocs\poontong\framework\web\CController.php(308): CInlineAction->runWithParams()
+#7 C:\xampp\htdocs\poontong\framework\web\filters\CFilterChain.php(133): BuyMaterialInputController->runAction()
+#8 C:\xampp\htdocs\poontong\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#9 C:\xampp\htdocs\poontong\framework\web\CController.php(1145): CAccessControlFilter->filter()
+#10 C:\xampp\htdocs\poontong\framework\web\filters\CInlineFilter.php(58): BuyMaterialInputController->filterAccessControl()
+#11 C:\xampp\htdocs\poontong\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter()
+#12 C:\xampp\htdocs\poontong\framework\web\CController.php(291): CFilterChain->run()
+#13 C:\xampp\htdocs\poontong\framework\web\CController.php(265): BuyMaterialInputController->runActionWithFilters()
+#14 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(282): BuyMaterialInputController->run()
+#15 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#16 C:\xampp\htdocs\poontong\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#17 C:\xampp\htdocs\poontong\index.php(13): CWebApplication->run()
+REQUEST_URI=/poontong/BuyMaterialInput/print/10?filename=billno1660758302170.pdf
+in C:\xampp\htdocs\poontong\protected\views\buyMaterialInput\_formPDF.php (97)
+in C:\xampp\htdocs\poontong\protected\controllers\BuyMaterialInputController.php (384)
+in C:\xampp\htdocs\poontong\index.php (13)
+2022/08/18 00:58:26 [error] [php] Undefined variable: model (C:\xampp\htdocs\poontong\protected\views\buyMaterialInput\_formPDF.php:14)
+Stack trace:
+#0 C:\xampp\htdocs\poontong\protected\tcpdf\tcpdf.php(3116): MYPDF->startPage()
+#1 C:\xampp\htdocs\poontong\protected\views\buyMaterialInput\_formPDF.php(103): MYPDF->AddPage()
+#2 C:\xampp\htdocs\poontong\framework\web\CBaseController.php(126): require()
+#3 C:\xampp\htdocs\poontong\framework\web\CBaseController.php(95): BuyMaterialInputController->renderInternal()
+#4 C:\xampp\htdocs\poontong\framework\web\CController.php(869): BuyMaterialInputController->renderFile()
+#5 C:\xampp\htdocs\poontong\framework\web\CController.php(782): BuyMaterialInputController->renderPartial()
+#6 C:\xampp\htdocs\poontong\protected\controllers\BuyMaterialInputController.php(384): BuyMaterialInputController->render()
+#7 unknown(0): BuyMaterialInputController->actionPrint()
+#8 C:\xampp\htdocs\poontong\framework\web\actions\CAction.php(108): ReflectionMethod->invokeArgs()
+#9 C:\xampp\htdocs\poontong\framework\web\actions\CInlineAction.php(47): CInlineAction->runWithParamsInternal()
+#10 C:\xampp\htdocs\poontong\framework\web\CController.php(308): CInlineAction->runWithParams()
+#11 C:\xampp\htdocs\poontong\framework\web\filters\CFilterChain.php(133): BuyMaterialInputController->runAction()
+#12 C:\xampp\htdocs\poontong\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#13 C:\xampp\htdocs\poontong\framework\web\CController.php(1145): CAccessControlFilter->filter()
+#14 C:\xampp\htdocs\poontong\framework\web\filters\CInlineFilter.php(58): BuyMaterialInputController->filterAccessControl()
+#15 C:\xampp\htdocs\poontong\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter()
+#16 C:\xampp\htdocs\poontong\framework\web\CController.php(291): CFilterChain->run()
+#17 C:\xampp\htdocs\poontong\framework\web\CController.php(265): BuyMaterialInputController->runActionWithFilters()
+#18 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(282): BuyMaterialInputController->run()
+#19 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#20 C:\xampp\htdocs\poontong\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#21 C:\xampp\htdocs\poontong\index.php(13): CWebApplication->run()
+REQUEST_URI=/poontong/BuyMaterialInput/print/10?filename=billno1660759106474.pdf
+in C:\xampp\htdocs\poontong\protected\views\buyMaterialInput\_formPDF.php (14)
+in C:\xampp\htdocs\poontong\protected\tcpdf\tcpdf.php (3537)
+in C:\xampp\htdocs\poontong\protected\tcpdf\tcpdf.php (3204)
+2022/08/18 01:05:21 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "report/temp/billno1660759520954.pdf".' in C:\xampp\htdocs\poontong\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(141): CWebApplication->runController('report/temp/bil...')
+#1 C:\xampp\htdocs\poontong\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#2 C:\xampp\htdocs\poontong\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/poontong/report/temp/billno1660759520954.pdf
+HTTP_REFERER=http://localhost/poontong/buymaterialinput/index
+---
+2022/08/18 01:05:32 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "report/temp/billno1660759532132.pdf".' in C:\xampp\htdocs\poontong\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(141): CWebApplication->runController('report/temp/bil...')
+#1 C:\xampp\htdocs\poontong\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#2 C:\xampp\htdocs\poontong\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/poontong/report/temp/billno1660759532132.pdf
+HTTP_REFERER=http://localhost/poontong/buymaterialinput/index
+---
+2022/08/18 01:07:28 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "report/temp/billno1660759647979.pdf".' in C:\xampp\htdocs\poontong\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(141): CWebApplication->runController('report/temp/bil...')
+#1 C:\xampp\htdocs\poontong\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#2 C:\xampp\htdocs\poontong\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/poontong/report/temp/billno1660759647979.pdf
+HTTP_REFERER=http://localhost/poontong/buymaterialinput/index
+---
