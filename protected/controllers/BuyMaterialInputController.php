@@ -380,6 +380,28 @@ class BuyMaterialInputController extends Controller
 
     public function actionPrint($id){
 
+    	//delete old file
+    	$path = $_SERVER['DOCUMENT_ROOT'].'/poontong/report/temp/';
+		foreach (glob($path."*") as $file) {
+		        $filelastmodified = filemtime($file);
+		        //echo $file."<br>";
+		        //echo (time() - $filelastmodified);
+		        //24 hours in a day * 3600 seconds per hour
+		        if((time() - $filelastmodified) > 12*3600)
+		        {
+		           if(chmod($path, 0777)){
+						echo "chmod ok";
+						if(unlink($file))
+							echo $file;
+				    }else{
+				        echo "chmod is fail";
+				    }	
+		           
+		        }
+
+		    }
+
+
     	if(Yii::app()->request->isAjaxRequest)
 		$this->render('_formPDF',array('filename' => $_GET['filename'],'id'=>$id,'model'=>$this->loadModel($id)));
 

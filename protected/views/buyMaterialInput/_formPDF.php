@@ -113,13 +113,13 @@ $html .= '<table border=0><tr style="font-weight:bold;font-size:16px;"><td width
 $html .= '<td width="50%" style="text-align:right">วันที่ : '.$model->buy_date.'</td></tr>';
 $html .= '<tr style="font-weight:bold;font-size:16px;"><td colspan=2>ลูกค้า : '.Customer::model()->findByPk($model->customer_id)->name.'</td></tr></table>';
 
-$html .= '<br><br><table border=1><tr style="font-weight:bold;font-size:16px;">
-			<td width="45%" style="text-align:center;">รายการ</td><td width="15%" style="text-align:center;">จำนวน</td><td width="20%" style="text-align:right;">ราคาต่อหน่วย</td><td width="20%" style="text-align:right;">รวมเงิน</td></tr>';
+$html .= '<br><br><table style=""><tr style="font-weight:bold;font-size:16px;">
+			<td width="45%" style="border-top:1px solid black;border-bottom:1px solid black;text-align:center;">รายการ</td><td width="15%" style="border-top:1px solid black;border-bottom:1px solid black;text-align:center;">จำนวน</td><td width="20%" style="border-top:1px solid black;border-bottom:1px solid black;text-align:right;">ราคาต่อหน่วย</td><td width="20%" style="border-top:1px solid black;border-bottom:1px solid black;text-align:right;">รวมเงิน</td></tr>';
 $details = BuyMaterialDetail::model()->findAll('buy_id='.$model->id);
 $total = 0;
 foreach ($details as $key => $value) {
 	$html .=  '<tr>';
-		$html .=  '<td>'.Material::model()->findByPk($value->material_id)->name.'</td>';
+		$html .=  '<td style="">'.Material::model()->findByPk($value->material_id)->name.'</td>';
 		$html .=  '<td style="text-align:center;">'.$value->amount.'</td>';
 		$html .=  '<td style="text-align:right;">'.number_format($value->price_unit,2).'</td>';
 		$html .=  '<td style="text-align:right;">'.number_format($value->price_net,2).'</td>';
@@ -128,12 +128,13 @@ foreach ($details as $key => $value) {
 	$total += $value->price_net;
 }
 $html .=  '<tr style="font-weight:bold;font-size:16px;">';
-		$html .=  '<td colspan=3 width="80%" style="text-align:center;">รวมเป็นเงินทั้งหมด</td>';
-		$html .=  '<td width="20%" style="text-align:right;">'.number_format($total,2).'</td>';
+		$html .=  '<td colspan=3 width="80%" style="border-top:1px solid black;border-bottom:1px solid black;text-align:center;">รวมเป็นเงินทั้งหมด</td>';
+		$html .=  '<td width="20%" style="border-top:1px solid black;border-bottom:1px solid black;text-align:right;">'.number_format($total,2).'</td>';
 $html .=  '</tr>';
 $html .= '</table>';
     
-  
+$html .= '<br><br><br><br><table border=0><tr style="font-size:16px;"><td width="50%"></td>';
+$html .= '<td width="50%" style="text-align:right">ผู้รับของ _____________________</td></tr></table>';  
   
 $pdf->AddPage('P','A5');
 $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
