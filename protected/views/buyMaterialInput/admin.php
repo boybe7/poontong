@@ -30,7 +30,7 @@ $this->breadcrumbs=array(
 	'columns'=>array(
 		'buy_date'=>array(
 			'name' => 'buy_date',
-			'filter'=> false,
+			//'filter'=> false,
 			'headerHtmlOptions' => array('style' => 'width:10%;text-align:center;background-color: #f5f5f5'),  	            	  	
 			'htmlOptions'=>array('style'=>'text-align:center')
 	  	),
@@ -40,7 +40,7 @@ $this->breadcrumbs=array(
 				$m =  Customer::model()->FindByPk($model->customer_id);
 				return empty($m) ? "" : $m->name;
 			 },
-			'headerHtmlOptions' => array('style' => 'width:28%;text-align:center;background-color: #f5f5f5'),  	            	  	
+			'headerHtmlOptions' => array('style' => 'width:20%;text-align:center;background-color: #f5f5f5'),  	            	  	
 			'htmlOptions'=>array('style'=>'text-align:left')
 	  	),
 	  	'material_id'=>array(
@@ -51,7 +51,7 @@ $this->breadcrumbs=array(
 			 },
 			 'type'=>'raw',
 			'filter'=>CHtml::listData(Material::model()->findAll(), 'id', 'name'), 
-			'headerHtmlOptions' => array('style' => 'width:25%;text-align:center;background-color: #f5f5f5'),  	            	  	
+			'headerHtmlOptions' => array('style' => 'width:33%;text-align:center;background-color: #f5f5f5'),  	            	  	
 			'htmlOptions'=>array('style'=>'text-align:left')
 	  	),
 		
