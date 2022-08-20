@@ -118,7 +118,7 @@ class BuyMaterialInput extends CActiveRecord
     	$model = Yii::app()->db->createCommand($sql)->queryAll();
     	$str = "";
     	foreach ($model as $key => $value) {
-    		$str .= $value['name'].' จำนวน '.$value['amount'].' กก.<br>'; 
+    		$str .= $value['name'].' จำนวน '.number_format($value['amount'],2).' กก.<br>'; 
     	}
     	return $str;
     }

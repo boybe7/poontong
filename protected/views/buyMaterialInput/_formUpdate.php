@@ -16,29 +16,18 @@
                 $(this).autocomplete("search");
       });
 
-      $( "#BuyMaterialInput_weight_in,#BuyMaterialInput_weight_out,#BuyMaterialInput_weight_loss,#BuyMaterialInput_percent_mixed,#BuyMaterialInput_percent_moisture" ).bind('keyup', function () {
-            //var net = $("#BuyMaterialInput_weight_in").val() - $("#BuyMaterialInput_weight_out").val() - $("#BuyMaterialInput_weight_loss").val();
-
-            var weight = $("#BuyMaterialInput_weight_in").val() - $("#BuyMaterialInput_weight_out").val();
-            var mixed = 0;
-            var moisture = 0;
-            if($("#BuyMaterialInput_percent_mixed").val()!="" && $("#BuyMaterialInput_percent_mixed").val()!=0)
-            	mixed = $("#BuyMaterialInput_percent_mixed").val()/100.00;
+      $( "#weight_in,#weight_out,#weight_loss" ).bind('keyup', function () {
             
-            if($("#BuyMaterialInput_percent_moisture").val()!="" && $("#BuyMaterialInput_percent_moisture").val()!=0)
-            	moisture = $("#BuyMaterialInput_percent_moisture").val()/100.00;
+            var weight = $("#weight_in").val() - $("#weight_out").val()- $("#weight_loss").val();
             
-            var net = weight - weight*mixed - weight*moisture;
+            $("#amount").val(weight)
 
-
-
-            
-            $("#BuyMaterialInput_weight_net").val(net)
-
-            var price = $("#BuyMaterialInput_price_unit").val();
+            var price = $("#price_unit").val();
             //console.log(net+"x"+price+"="+(net*price))
-            $("#BuyMaterialInput_price_net").val((net*price).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'))
+            $("#price_net").val((weight*price).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'))
       });
+
+      
 
       
 
@@ -170,7 +159,7 @@
     <legend class="scheduler-border">รายการซื้อวัตถุดิบ</legend>
 	<div class='row-fluid div-scheduler-border'>
 
-		<div class="span4"><label for="material_id">วัตถุดิบ</label>
+		<div class="span6"><label for="material_id">วัตถุดิบ</label>
 			<?php 
 			  			
 	            	if(!Yii::app()->user->isAdmin())
@@ -186,18 +175,35 @@
 
 			 ?>
 		</div>
-		<div class='span2'><label for="price_unit">ราคาต่อหน่วย</label>
+		<div class='span2'><label for="price_unit">ราคา/หน่วย</label>
 			<?php 
 			   echo CHtml::textField('price_unit','',array('class'=>'span12 number','maxlength'=>10)); 
 			?>
 		</div>
-		<div class='span2'><label for="amount">จำนวน</label>
+	</div>
+	<div class="row-fluid">	
+		<div class='span2'><label for="weight_in">นน.เข้า</label>
 			<?php 
-			   echo CHtml::textField('amount','',array('class'=>'span12 number','maxlength'=>10)); 
+			   echo CHtml::textField('weight_in','',array('class'=>'span12 number','maxlength'=>10)); 
+			?>
+		</div>
+		<div class='span2'><label for="weight_out">นน.ออก</label>
+			<?php 
+			   echo CHtml::textField('weight_out','',array('class'=>'span12 number','maxlength'=>10)); 
+			?>
+		</div>
+		<div class='span2'><label for="weight_loss">ของเสีย</label>
+			<?php 
+			   echo CHtml::textField('weight_loss','',array('class'=>'span12 number','maxlength'=>10)); 
+			?>
+		</div>
+		<div class='span2'><label for="amount">นน.สุทธิ</label>
+			<?php 
+			   echo CHtml::textField('amount','',array('class'=>'span12 number','maxlength'=>10,'disabled'=>true)); 
 			?>
 		</div>
 		<div class='span2'><label for="price_net">ราคารวม</label>
-			<?php echo CHtml::textField('price_net',"",array('class'=>'span12 number','maxlength'=>10)); ?>
+			<?php echo CHtml::textField('price_net',"",array('class'=>'span12 number','maxlength'=>10,'disabled'=>true)); ?>
 		</div>
 		<div class='span2'>
 			<?php
@@ -223,6 +229,9 @@
 	                                        material_id: $("#material_id").val(),
 	                                        price_unit: $("#price_unit").val(),
 	                                        price_net: $("#price_net").val(),
+	                                        weight_in: $("#weight_in").val(),
+	                                        weight_out: $("#weight_out").val(),
+	                                        weight_loss: $("#weight_loss").val(),
 	                                        amount:$("#amount").val()
                                        
                                     	}
@@ -236,6 +245,9 @@
 	                                    $("#price_unit").val(""),
 	                                    $("#price_net").val(""),
 	                                    $("#amount").val("")
+	                                    $("#weight_in").val("")
+	                                    $("#weight_out").val("")
+	                                    $("#weight_loss").val("")
                                                                              
 									})	
 													
@@ -264,15 +276,15 @@
 				    'enablePagination' => true,
 				    'summaryText'=>'',//'Displaying {start}-{end} of {count} results.',
 					'columns'=>array(
-						    'No.'=>array(
-						        'header'=>'ลำดับ',
-						        'headerHtmlOptions' => array('style' => 'width:3%;text-align:center;background-color: #eeeeee'),  	            	  		
-								'htmlOptions'=>array(
-	  	            	  			'style'=>'text-align:center'
+						  //   'No.'=>array(
+						  //       'header'=>'ลำดับ',
+						  //       'headerHtmlOptions' => array('style' => 'width:3%;text-align:center;background-color: #eeeeee'),  	            	  		
+								// 'htmlOptions'=>array(
+	  	    //         	  			'style'=>'text-align:center'
 
-	  	        				),
-						        'value'=>'$this->grid->dataProvider->pagination->currentPage * $this->grid->dataProvider->pagination->pageSize + ($row)',
-						      ),
+	  	    //     				),
+						  //       'value'=>'$this->grid->dataProvider->pagination->currentPage * $this->grid->dataProvider->pagination->pageSize + ($row)',
+						  //     ),
 							'material_id'=>array(
 								'name' => 'material_id',
 								'value' => function($model){
@@ -280,7 +292,7 @@
 									return empty($m) ? "" : $m->name;
 								 },
 								'filter'=>false, 
-								'headerHtmlOptions' => array('style' => 'width:28%;text-align:center;background-color: #f5f5f5'),  	            	  	
+								'headerHtmlOptions' => array('style' => 'width:18%;text-align:center;background-color: #f5f5f5'),  	            	  	
 								'htmlOptions'=>array('style'=>'text-align:left')
 						  	),
 					  	    'price_unit'=>array(
@@ -305,11 +317,11 @@
 									
 								),
 								'filter'=> false,
-								'headerHtmlOptions' => array('style' => 'width:10%;text-align:center;background-color: #f5f5f5'),  	            	  	
+								'headerHtmlOptions' => array('style' => 'width:5%;text-align:center;background-color: #f5f5f5'),  	            	  	
 								'htmlOptions'=>array('style'=>'text-align:right')
 						  	),
-						  	'amount'=>array(
-								'name' => 'amount',
+						  	'weight_in'=>array(
+								'name' => 'weight_in',
 								'class' => 'editable.EditableColumn',
 								'editable' => array( //editable section
 								
@@ -330,13 +342,43 @@
 								'filter'=> false,
 								'value' => function($model){
 									
-									return number_format($model->amount,2);
+									return number_format($model->weight_in,2);
 								 },
-								'headerHtmlOptions' => array('style' => 'width:10%;text-align:center;background-color: #f5f5f5'),  	            	  	
+								'headerHtmlOptions' => array('style' => 'width:7%;text-align:center;background-color: #f5f5f5'),  	            	  	
 								'htmlOptions'=>array('style'=>'text-align:right')
 						  	),
-						  	'price_net'=>array(
-								'name' => 'price_net',
+						  	'weight_out'=>array(
+					  	    	
+								'name' => 'weight_out',
+								'class' => 'editable.EditableColumn',
+
+								'value' => function($model){
+									
+									return number_format($model->weight_out,2);
+								 },
+								'editable' => array( //editable section
+								
+									'title'=>'แก้ไข ',
+									'url' => $this->createUrl('BuyMaterialInput/updateDetail'),
+									'success' => 'js: function(response, newValue) {
+														if(!response.success) return response.msg;
+
+														$("#buy-item-grid").yiiGridView("update",{});
+													}',
+									'options' => array(
+										'ajaxOptions' => array('dataType' => 'json'),
+
+									), 
+									'placement' => 'right',
+					
+									
+								),
+								'filter'=> false,
+								'headerHtmlOptions' => array('style' => 'width:7%;text-align:center;background-color: #f5f5f5'),  	            	  	
+								'htmlOptions'=>array('style'=>'text-align:right')
+						  	),
+						  	'weight_loss'=>array(
+								'name' => 'weight_loss',
 								'class' => 'editable.EditableColumn',
 								'editable' => array( //editable section
 								
@@ -354,6 +396,60 @@
 									'placement' => 'right'
 									
 								),
+								'filter'=> false,
+								'value' => function($model){
+									
+									return number_format($model->weight_loss,2);
+								 },
+								'headerHtmlOptions' => array('style' => 'width:5%;text-align:center;background-color: #f5f5f5'),  	            	  	
+								'htmlOptions'=>array('style'=>'text-align:right')
+						  	),
+						  	'amount'=>array(
+								'name' => 'amount',
+								// 'class' => 'editable.EditableColumn',
+								// 'editable' => array( //editable section
+								
+								// 	'title'=>'แก้ไข ',
+								// 	'url' => $this->createUrl('BuyMaterialInput/updateDetailTemp'),
+								// 	'success' => 'js: function(response, newValue) {
+								// 						if(!response.success) return response.msg;
+
+								// 						$("#buy-item-grid").yiiGridView("update",{});
+								// 					}',
+								// 	'options' => array(
+								// 		'ajaxOptions' => array('dataType' => 'json'),
+
+								// 	), 
+								// 	'placement' => 'right'
+									
+								// ),
+								'filter'=> false,
+								'value' => function($model){
+									
+									return number_format($model->amount,2);
+								 },
+								'headerHtmlOptions' => array('style' => 'width:10%;text-align:center;background-color: #f5f5f5'),  	            	  	
+								'htmlOptions'=>array('style'=>'text-align:right')
+						  	),
+						  	'price_net'=>array(
+								'name' => 'price_net',
+								// 'class' => 'editable.EditableColumn',
+								// 'editable' => array( //editable section
+								
+								// 	'title'=>'แก้ไข ',
+								// 	'url' => $this->createUrl('BuyMaterialInput/updateDetailTemp'),
+								// 	'success' => 'js: function(response, newValue) {
+								// 						if(!response.success) return response.msg;
+
+								// 						$("#buy-item-grid").yiiGridView("update",{});
+								// 					}',
+								// 	'options' => array(
+								// 		'ajaxOptions' => array('dataType' => 'json'),
+
+								// 	), 
+								// 	'placement' => 'right'
+									
+								// ),
 								'filter'=> false,
 								'value' => function($model){
 									
@@ -367,7 +463,7 @@
 					  	   
 					  	    array(
 								'class'=>'bootstrap.widgets.TbButtonColumn',
-								'headerHtmlOptions' => array('style' => 'width:5%;text-align:center;background-color: #eeeeee'),
+								'headerHtmlOptions' => array('style' => 'width:2%;text-align:center;background-color: #eeeeee'),
 								'template' => '{delete}',
 								// 'deleteConfirmation'=>'js:bootbox.confirm("Are you sure to want to delete")',
 								'buttons'=>array(
@@ -413,7 +509,7 @@
 				   'type'=>'danger',
 				   'label'=>'ยกเลิก',
 	         		'htmlOptions'=>array('class'=>'pull-right'),               
-	          		'url'=>array('admin'), 
+	          		'url'=>array('index'), 
 			  	));
 
 			  	?>

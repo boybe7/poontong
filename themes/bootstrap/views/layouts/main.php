@@ -624,6 +624,7 @@ $class_profile = Yii::app()->user->id =="" ? "hidden" : "";
                      array('label'=>'ข้อมูลวัตถุดิบ', 'url'=>array('/material/index'),'visible'=>Yii::app()->user->isAccess('/material/index')),
                      array('label'=>'ข้อมูลลูกค้า', 'url'=>array('/customer/index'),'visible'=>Yii::app()->user->isAccess('/customer/index')),
                      array('label'=>'ผู้ใช้งาน', 'url'=>array('/user/index'),'visible'=>Yii::app()->user->isAccess('/user/index')),
+                     array('label'=>'ข้อมูลโรงงาน', 'url'=>array('/plantSite/index'),'visible'=>Yii::app()->user->isAccess('/plantSite/index')),
                      array('label'=>'กำหนดสิทธิผู้ใช้งาน', 'url'=>array('/authen/index'),'visible'=>Yii::app()->user->isAccess('/authen/index')),
                      
                     ),

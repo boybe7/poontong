@@ -87,7 +87,7 @@
 				   'type'=>'danger',
 				   'label'=>'ยกเลิก',
 	         		'htmlOptions'=>array('class'=>'pull-right'),               
-	          		'url'=>array("admin"), 
+	          		'url'=>array("index"), 
 			  	)); 
 	         
 	    ?>

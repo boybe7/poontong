@@ -6,7 +6,6 @@
  * The followings are the available columns in table 'buy_material_detail_temp':
  * @property integer $id
  * @property integer $material_id
- * @property integer $amount
  * @property string $price_unit
  * @property string $price_net
  * @property integer $buy_id
@@ -33,10 +32,10 @@ class BuyMaterialDetailTemp extends CActiveRecord
 			array('material_id, amount, price_unit, price_net, buy_id, user_id', 'required'),
 			array('material_id, buy_id, user_id', 'numerical', 'integerOnly'=>true),
 			array('price_unit', 'length', 'max'=>10),
-			array('price_net', 'length', 'max'=>15),
+			array('price_net,weight_in, weight_out, weight_loss', 'length', 'max'=>15),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, material_id, amount, price_unit, price_net, buy_id, user_id,flag', 'safe', 'on'=>'search'),
+			array('id, material_id, amount, price_unit, price_net, buy_id, user_id,flag,weight_in, weight_out, weight_loss', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -59,12 +58,15 @@ class BuyMaterialDetailTemp extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'material_id' => 'วัตถุดิบ',
-			'amount' => 'จำนวน',
+			'amount' => 'น้ำหนักสุทธิ',
 			'price_unit' => 'ราคาต่อหน่วย',
 			'price_net' => 'ราคารวม',
 			'buy_id' => 'Buy',
 			'user_id' => 'User',
 			'flag' => 'flag',
+			'weight_in' => 'น้ำหนักเข้า',
+			'weight_out' => 'น้ำหนักออก',
+			'weight_loss' => 'ของเสีย',
 		);
 	}
 
@@ -94,6 +96,10 @@ class BuyMaterialDetailTemp extends CActiveRecord
 		$criteria->compare('buy_id',$this->buy_id);
 		$criteria->compare('user_id',Yii::app()->user->ID);
 
+		$criteria->compare('weight_in',$this->weight_in,true);
+		$criteria->compare('weight_out',$this->weight_out,true);
+		$criteria->compare('weight_loss',$this->weight_loss,true);
+
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
@@ -115,7 +121,10 @@ class BuyMaterialDetailTemp extends CActiveRecord
         
 		$this->amount = str_replace(",", "", $this->amount); 
 		$this->price_unit = str_replace(",", "", $this->price_unit); 
-		$this->price_net = str_replace(",", "", $this->price_net); 
+		$this->price_net = str_replace(",", "", $this->price_net);
+		$this->weight_in = str_replace(",", "", $this->weight_in); 
+		$this->weight_out = str_replace(",", "", $this->weight_out);
+		$this->weight_loss = str_replace(",", "", $this->weight_loss);  
 		 
 		return parent::beforeSave();  
 	}

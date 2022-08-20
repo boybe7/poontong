@@ -76,12 +76,12 @@ $this->breadcrumbs=array(
 			'header' => '<a class="sort-link"></a>',
 			'class'=>'bootstrap.widgets.TbButtonColumn',
 			'headerHtmlOptions' => array('style' => 'width:10%;text-align:center;background-color: #f5f5f5'),
-			'template' => '{print} {delete} {update}',
+			'template' => '{print}  {update}  {delete}',
 			'buttons'=>array(
 				'print'=>array(
 								'click'=>'function(){
 										filename = "billno"+$.now()+".pdf";
-										console.log(filename)
+										
 										link = $(this).attr("href");
 									    $.ajax({
 									        url: link,

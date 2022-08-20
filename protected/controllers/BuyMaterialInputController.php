@@ -95,6 +95,9 @@ class BuyMaterialInputController extends Controller
         	$temp->price_unit = 0;
         	$temp->price_net = 0;
         	$temp->material_id = 0;
+        	$temp->weight_in = 0;
+        	$temp->weight_out = 0;
+        	$temp->weight_loss = 0;
         	$temp->save();
         }  
 
@@ -146,6 +149,9 @@ class BuyMaterialInputController extends Controller
 					$modelDetail->material_id = $value->material_id;
 					$modelDetail->price_unit = $value->price_unit;
 					$modelDetail->amount = $value->amount;
+					$modelDetail->weight_in = $value->weight_in;
+					$modelDetail->weight_out = $value->weight_out;
+					$modelDetail->weight_loss = $value->weight_loss;
 					$modelDetail->price_net = $value->price_net;
 					$modelDetail->buy_id = $model->id;
 					$modelDetail->save();
@@ -312,6 +318,10 @@ class BuyMaterialInputController extends Controller
 		$model->price_unit = $_POST['price_unit'];
 		$model->price_net = $_POST['price_net'];
 		$model->amount = $_POST['amount'];
+		$model->weight_in = $_POST['weight_in'];
+		$model->weight_out = $_POST['weight_out'];
+		$model->weight_loss = $_POST['weight_loss'];
+		
 		$model->buy_id = 0;
 		$model->user_id = Yii::app()->user->ID;
 
@@ -333,7 +343,30 @@ class BuyMaterialInputController extends Controller
     {
 	    $es = new EditableSaver('BuyMaterialDetailTemp');
 	    try {
+	    	
 	    	$es->update();
+
+	    	if($_POST['name']=='price_unit' || $_POST['name']=='amount')
+	    	{
+	    		$model = BuyMaterialDetailTemp::model()->findByPk($_POST['pk']);
+	    		$_POST['name']='price_net';	
+	    		$_POST['value'] = $model->price_unit*$model->amount;
+	    		$es->update();
+	    	}	
+
+	    	if($_POST['name']=='weight_in' || $_POST['name']=='weight_out' || $_POST['name']=='weight_loss')
+	    	{
+	    		$model = BuyMaterialDetailTemp::model()->findByPk($_POST['pk']);
+	    		$_POST['name']='amount';	
+	    		$amount = $model->weight_in - $model->weight_out - $model->weight_loss;
+	    		$_POST['value'] = $amount;
+	    		$es->update();
+
+	    		$_POST['name']='price_net';	
+	    		$_POST['value'] = $model->price_unit*$amount;
+	    		$es->update();
+	    	}	
+
 	    } catch(CException $e) {
 	    	echo CJSON::encode(array('success' => false, 'msg' => $e->getMessage()));
 	    	return;
@@ -349,6 +382,10 @@ class BuyMaterialInputController extends Controller
 		$model->price_unit = $_POST['price_unit'];
 		$model->price_net = $_POST['price_net'];
 		$model->amount = $_POST['amount'];
+
+		$model->weight_in = $_POST['weight_in'];
+		$model->weight_out = $_POST['weight_out'];
+		$model->weight_loss = $_POST['weight_loss'];
 		$model->buy_id = $id;
 
 		if($model->save())
@@ -370,6 +407,27 @@ class BuyMaterialInputController extends Controller
 	    $es = new EditableSaver('BuyMaterialDetail');
 	    try {
 	    	$es->update();
+
+	    	if($_POST['name']=='price_unit' || $_POST['name']=='amount')
+	    	{
+	    		$model = BuyMaterialDetail::model()->findByPk($_POST['pk']);
+	    		$_POST['name']='price_net';	
+	    		$_POST['value'] = $model->price_unit*$model->amount;
+	    		$es->update();
+	    	}	
+
+	    	if($_POST['name']=='weight_in' || $_POST['name']=='weight_out' || $_POST['name']=='weight_loss')
+	    	{
+	    		$model = BuyMaterialDetail::model()->findByPk($_POST['pk']);
+	    		$_POST['name']='amount';	
+	    		$amount = $model->weight_in - $model->weight_out - $model->weight_loss;
+	    		$_POST['value'] = $amount;
+	    		$es->update();
+
+	    		$_POST['name']='price_net';	
+	    		$_POST['value'] = $model->price_unit*$amount;
+	    		$es->update();
+	    	}	
 	    } catch(CException $e) {
 	    	echo CJSON::encode(array('success' => false, 'msg' => $e->getMessage()));
 	    	return;
