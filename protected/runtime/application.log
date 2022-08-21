@@ -1245,3 +1245,77 @@ Stack trace:
 REQUEST_URI=/poontong/buymaterialinput/admin
 HTTP_REFERER=http://localhost/poontong/buymaterialinput/update/10
 ---
+2022/08/21 01:41:29 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "report/buyraw".' in C:\xampp\htdocs\poontong\framework\web\CWebApplication.php:286
+Stack trace:
+#0 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(141): CWebApplication->runController('report/buyraw')
+#1 C:\xampp\htdocs\poontong\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#2 C:\xampp\htdocs\poontong\index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/poontong/report/buyraw
+HTTP_REFERER=http://localhost/poontong/buymaterialinput/index
+---
+2022/08/21 02:37:30 [error] [php] Undefined variable: model (C:\xampp\htdocs\poontong\protected\controllers\ReportController.php:34)
+Stack trace:
+#0 C:\xampp\htdocs\poontong\framework\web\CController.php(286): ReportController->runAction()
+#1 C:\xampp\htdocs\poontong\framework\web\CController.php(265): ReportController->runActionWithFilters()
+#2 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(282): ReportController->run()
+#3 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#4 C:\xampp\htdocs\poontong\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#5 C:\xampp\htdocs\poontong\index.php(13): CWebApplication->run()
+REQUEST_URI=/poontong/report/gentBuyRaw?month=1&year=2565&_=1661024246719
+in C:\xampp\htdocs\poontong\protected\controllers\ReportController.php (34)
+in C:\xampp\htdocs\poontong\index.php (13)
+2022/08/21 02:37:55 [error] [php] Undefined variable: model (C:\xampp\htdocs\poontong\protected\controllers\ReportController.php:34)
+Stack trace:
+#0 C:\xampp\htdocs\poontong\framework\web\CController.php(286): ReportController->runAction()
+#1 C:\xampp\htdocs\poontong\framework\web\CController.php(265): ReportController->runActionWithFilters()
+#2 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(282): ReportController->run()
+#3 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#4 C:\xampp\htdocs\poontong\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#5 C:\xampp\htdocs\poontong\index.php(13): CWebApplication->run()
+REQUEST_URI=/poontong/report/gentBuyRaw?month=1&year=2565&_=1661024246719
+in C:\xampp\htdocs\poontong\protected\controllers\ReportController.php (34)
+in C:\xampp\htdocs\poontong\index.php (13)
+2022/08/21 02:38:40 [error] [php] Undefined variable: model (C:\xampp\htdocs\poontong\protected\views\report\_formBuyraw.php:5)
+Stack trace:
+#0 C:\xampp\htdocs\poontong\framework\web\CController.php(869): ReportController->renderFile()
+#1 C:\xampp\htdocs\poontong\protected\controllers\ReportController.php(36): ReportController->renderPartial()
+#2 C:\xampp\htdocs\poontong\framework\web\actions\CInlineAction.php(49): ReportController->actionGentBuyraw()
+#3 C:\xampp\htdocs\poontong\framework\web\CController.php(308): CInlineAction->runWithParams()
+#4 C:\xampp\htdocs\poontong\framework\web\CController.php(286): ReportController->runAction()
+#5 C:\xampp\htdocs\poontong\framework\web\CController.php(265): ReportController->runActionWithFilters()
+#6 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(282): ReportController->run()
+#7 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#8 C:\xampp\htdocs\poontong\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#9 C:\xampp\htdocs\poontong\index.php(13): CWebApplication->run()
+REQUEST_URI=/poontong/report/gentBuyRaw?month=1&year=2565&_=1661024246719
+in C:\xampp\htdocs\poontong\protected\views\report\_formBuyraw.php (5)
+in C:\xampp\htdocs\poontong\protected\controllers\ReportController.php (36)
+in C:\xampp\htdocs\poontong\index.php (13)
+2022/08/21 02:38:57 [error] [php] Undefined variable: yearEnd (C:\xampp\htdocs\poontong\protected\views\report\_formBuyraw.php:14)
+Stack trace:
+#0 C:\xampp\htdocs\poontong\framework\web\CController.php(869): ReportController->renderFile()
+#1 C:\xampp\htdocs\poontong\protected\controllers\ReportController.php(36): ReportController->renderPartial()
+#2 C:\xampp\htdocs\poontong\framework\web\actions\CInlineAction.php(49): ReportController->actionGentBuyraw()
+#3 C:\xampp\htdocs\poontong\framework\web\CController.php(308): CInlineAction->runWithParams()
+#4 C:\xampp\htdocs\poontong\framework\web\CController.php(286): ReportController->runAction()
+#5 C:\xampp\htdocs\poontong\framework\web\CController.php(265): ReportController->runActionWithFilters()
+#6 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(282): ReportController->run()
+#7 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#8 C:\xampp\htdocs\poontong\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#9 C:\xampp\htdocs\poontong\index.php(13): CWebApplication->run()
+REQUEST_URI=/poontong/report/gentBuyRaw?month=1&year=2565&_=1661024246719
+in C:\xampp\htdocs\poontong\protected\views\report\_formBuyraw.php (14)
+in C:\xampp\htdocs\poontong\protected\controllers\ReportController.php (36)
+in C:\xampp\htdocs\poontong\index.php (13)
+2022/08/21 17:17:33 [error] [php] Undefined index: material_id (C:\xampp\htdocs\poontong\protected\controllers\ReportController.php:34)
+Stack trace:
+#0 C:\xampp\htdocs\poontong\framework\web\CController.php(286): ReportController->runAction()
+#1 C:\xampp\htdocs\poontong\framework\web\CController.php(265): ReportController->runActionWithFilters()
+#2 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(282): ReportController->run()
+#3 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#4 C:\xampp\htdocs\poontong\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#5 C:\xampp\htdocs\poontong\index.php(13): CWebApplication->run()
+REQUEST_URI=/poontong/report/gentBuyRaw?month=1&year=2565&_=1661075635295
+in C:\xampp\htdocs\poontong\protected\controllers\ReportController.php (34)
+in C:\xampp\htdocs\poontong\index.php (13)
