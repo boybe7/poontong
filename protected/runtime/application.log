@@ -1319,3 +1319,240 @@ Stack trace:
 REQUEST_URI=/poontong/report/gentBuyRaw?month=1&year=2565&_=1661075635295
 in C:\xampp\htdocs\poontong\protected\controllers\ReportController.php (34)
 in C:\xampp\htdocs\poontong\index.php (13)
+2022/08/22 21:27:18 [error] [php] Trying to get property of non-object (C:\xampp\htdocs\poontong\protected\views\report\_formBuyraw.php:33)
+Stack trace:
+#0 C:\xampp\htdocs\poontong\framework\web\CController.php(869): ReportController->renderFile()
+#1 C:\xampp\htdocs\poontong\protected\controllers\ReportController.php(36): ReportController->renderPartial()
+#2 C:\xampp\htdocs\poontong\framework\web\actions\CInlineAction.php(49): ReportController->actionGentBuyraw()
+#3 C:\xampp\htdocs\poontong\framework\web\CController.php(308): CInlineAction->runWithParams()
+#4 C:\xampp\htdocs\poontong\framework\web\CController.php(286): ReportController->runAction()
+#5 C:\xampp\htdocs\poontong\framework\web\CController.php(265): ReportController->runActionWithFilters()
+#6 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(282): ReportController->run()
+#7 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#8 C:\xampp\htdocs\poontong\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#9 C:\xampp\htdocs\poontong\index.php(13): CWebApplication->run()
+REQUEST_URI=/poontong/report/gentBuyRaw?month=1&year=2565&material_id=1&_=1661178406036
+in C:\xampp\htdocs\poontong\protected\views\report\_formBuyraw.php (33)
+in C:\xampp\htdocs\poontong\protected\controllers\ReportController.php (36)
+in C:\xampp\htdocs\poontong\index.php (13)
+2022/08/22 21:27:35 [error] [php] Trying to get property of non-object (C:\xampp\htdocs\poontong\protected\views\report\_formBuyraw.php:33)
+Stack trace:
+#0 C:\xampp\htdocs\poontong\framework\web\CController.php(869): ReportController->renderFile()
+#1 C:\xampp\htdocs\poontong\protected\controllers\ReportController.php(36): ReportController->renderPartial()
+#2 C:\xampp\htdocs\poontong\framework\web\actions\CInlineAction.php(49): ReportController->actionGentBuyraw()
+#3 C:\xampp\htdocs\poontong\framework\web\CController.php(308): CInlineAction->runWithParams()
+#4 C:\xampp\htdocs\poontong\framework\web\CController.php(286): ReportController->runAction()
+#5 C:\xampp\htdocs\poontong\framework\web\CController.php(265): ReportController->runActionWithFilters()
+#6 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(282): ReportController->run()
+#7 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#8 C:\xampp\htdocs\poontong\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#9 C:\xampp\htdocs\poontong\index.php(13): CWebApplication->run()
+REQUEST_URI=/poontong/report/gentBuyRaw?month=1&year=2565&material_id=1&_=1661178406036
+in C:\xampp\htdocs\poontong\protected\views\report\_formBuyraw.php (33)
+in C:\xampp\htdocs\poontong\protected\controllers\ReportController.php (36)
+in C:\xampp\htdocs\poontong\index.php (13)
+2022/08/22 21:28:34 [error] [php] Trying to get property of non-object (C:\xampp\htdocs\poontong\protected\views\report\_formBuyraw.php:35)
+Stack trace:
+#0 C:\xampp\htdocs\poontong\framework\web\CController.php(869): ReportController->renderFile()
+#1 C:\xampp\htdocs\poontong\protected\controllers\ReportController.php(36): ReportController->renderPartial()
+#2 C:\xampp\htdocs\poontong\framework\web\actions\CInlineAction.php(49): ReportController->actionGentBuyraw()
+#3 C:\xampp\htdocs\poontong\framework\web\CController.php(308): CInlineAction->runWithParams()
+#4 C:\xampp\htdocs\poontong\framework\web\CController.php(286): ReportController->runAction()
+#5 C:\xampp\htdocs\poontong\framework\web\CController.php(265): ReportController->runActionWithFilters()
+#6 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(282): ReportController->run()
+#7 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#8 C:\xampp\htdocs\poontong\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#9 C:\xampp\htdocs\poontong\index.php(13): CWebApplication->run()
+REQUEST_URI=/poontong/report/gentBuyRaw?month=1&year=2565&material_id=1&_=1661178406036
+in C:\xampp\htdocs\poontong\protected\views\report\_formBuyraw.php (35)
+in C:\xampp\htdocs\poontong\protected\controllers\ReportController.php (36)
+in C:\xampp\htdocs\poontong\index.php (13)
+2022/08/22 21:30:09 [error] [php] Trying to get property of non-object (C:\xampp\htdocs\poontong\protected\views\report\_formBuyraw.php:35)
+Stack trace:
+#0 C:\xampp\htdocs\poontong\framework\web\CController.php(869): ReportController->renderFile()
+#1 C:\xampp\htdocs\poontong\protected\controllers\ReportController.php(36): ReportController->renderPartial()
+#2 C:\xampp\htdocs\poontong\framework\web\actions\CInlineAction.php(49): ReportController->actionGentBuyraw()
+#3 C:\xampp\htdocs\poontong\framework\web\CController.php(308): CInlineAction->runWithParams()
+#4 C:\xampp\htdocs\poontong\framework\web\CController.php(286): ReportController->runAction()
+#5 C:\xampp\htdocs\poontong\framework\web\CController.php(265): ReportController->runActionWithFilters()
+#6 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(282): ReportController->run()
+#7 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#8 C:\xampp\htdocs\poontong\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#9 C:\xampp\htdocs\poontong\index.php(13): CWebApplication->run()
+REQUEST_URI=/poontong/report/gentBuyRaw?month=1&year=2565&material_id=1&_=1661178406036
+in C:\xampp\htdocs\poontong\protected\views\report\_formBuyraw.php (35)
+in C:\xampp\htdocs\poontong\protected\controllers\ReportController.php (36)
+in C:\xampp\htdocs\poontong\index.php (13)
+2022/08/22 22:52:10 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42S22]: Column not found: 1054 Unknown column 't.material_id' in 'where clause'. The SQL statement executed was: SELECT *
+FROM `buy_material_detail`
+JOIN `buy_material_input` `t` ON buy_id=t.id
+WHERE t.material_id='2' AND YEAR(buy_date)=2565 AND MONTH(buy_date)=1
+ORDER BY `buy_date` ASC.
+in C:\xampp\htdocs\poontong\protected\views\report\_formBuyraw.php (55)
+in C:\xampp\htdocs\poontong\protected\controllers\ReportController.php (36)
+in C:\xampp\htdocs\poontong\index.php (13)
+2022/08/22 22:52:10 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand ล้มเหลวในการดำเนินการเรียกลักษณะของ SQL: SQLSTATE[42S22]: Column not found: 1054 Unknown column 't.material_id' in 'where clause'. The SQL statement executed was: SELECT *
+FROM `buy_material_detail`
+JOIN `buy_material_input` `t` ON buy_id=t.id
+WHERE t.material_id='2' AND YEAR(buy_date)=2565 AND MONTH(buy_date)=1
+ORDER BY `buy_date` ASC' in C:\xampp\htdocs\poontong\framework\db\CDbCommand.php:543
+Stack trace:
+#0 C:\xampp\htdocs\poontong\framework\db\CDbCommand.php(396): CDbCommand->queryInternal('fetchAll', Array, Array)
+#1 C:\xampp\htdocs\poontong\protected\views\report\_formBuyraw.php(55): CDbCommand->queryAll()
+#2 C:\xampp\htdocs\poontong\framework\web\CBaseController.php(126): require('C:\\xampp\\htdocs...')
+#3 C:\xampp\htdocs\poontong\framework\web\CBaseController.php(95): CBaseController->renderInternal('C:\\xampp\\htdocs...', Array, true)
+#4 C:\xampp\htdocs\poontong\framework\web\CController.php(869): CBaseController->renderFile('C:\\xampp\\htdocs...', Array, true)
+#5 C:\xampp\htdocs\poontong\protected\controllers\ReportController.php(36): CController->renderPartial('_formBuyraw', Array, false, true)
+#6 C:\xampp\htdocs\poontong\framework\web\actions\CInlineAction.php(49): ReportController->actionGentBuyraw()
+#7 C:\xampp\htdocs\poontong\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#8 C:\xampp\htdocs\poontong\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#9 C:\xampp\htdocs\poontong\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#10 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(282): CController->run('gentBuyRaw')
+#11 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(141): CWebApplication->runController('report/gentBuyR...')
+#12 C:\xampp\htdocs\poontong\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#13 C:\xampp\htdocs\poontong\index.php(13): CApplication->run()
+#14 {main}
+REQUEST_URI=/poontong/report/gentBuyRaw?month=1&year=2565&material_id=2&_=1661180516975
+HTTP_REFERER=http://localhost/poontong/report/buyraw
+---
+2022/08/22 23:07:05 [error] [exception.CException] exception 'CException' with message 'ReportController ไม่สามารถค้นหา "2022-08-16" ตามคำสั่งได้' in C:\xampp\htdocs\poontong\framework\web\CController.php:878
+Stack trace:
+#0 C:\xampp\htdocs\poontong\framework\web\CController.php(782): CController->renderPartial('2022-08-16', NULL, true)
+#1 C:\xampp\htdocs\poontong\protected\views\report\_formBuyraw.php(60): CController->render('2022-08-16')
+#2 C:\xampp\htdocs\poontong\framework\web\CBaseController.php(126): require('C:\\xampp\\htdocs...')
+#3 C:\xampp\htdocs\poontong\framework\web\CBaseController.php(95): CBaseController->renderInternal('C:\\xampp\\htdocs...', Array, true)
+#4 C:\xampp\htdocs\poontong\framework\web\CController.php(869): CBaseController->renderFile('C:\\xampp\\htdocs...', Array, true)
+#5 C:\xampp\htdocs\poontong\protected\controllers\ReportController.php(64): CController->renderPartial('_formBuyraw', Array, false, true)
+#6 C:\xampp\htdocs\poontong\framework\web\actions\CInlineAction.php(49): ReportController->actionGentBuyraw()
+#7 C:\xampp\htdocs\poontong\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#8 C:\xampp\htdocs\poontong\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#9 C:\xampp\htdocs\poontong\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#10 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(282): CController->run('gentBuyRaw')
+#11 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(141): CWebApplication->runController('report/gentBuyR...')
+#12 C:\xampp\htdocs\poontong\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#13 C:\xampp\htdocs\poontong\index.php(13): CApplication->run()
+#14 {main}
+REQUEST_URI=/poontong/report/gentBuyRaw?month=8&year=2565&material_id=2&_=1661180516982
+HTTP_REFERER=http://localhost/poontong/report/buyraw
+---
+2022/08/22 23:08:20 [error] [exception.CException] exception 'CException' with message 'ReportController ไม่สามารถค้นหา "2022-08-16" ตามคำสั่งได้' in C:\xampp\htdocs\poontong\framework\web\CController.php:878
+Stack trace:
+#0 C:\xampp\htdocs\poontong\framework\web\CController.php(782): CController->renderPartial('2022-08-16', NULL, true)
+#1 C:\xampp\htdocs\poontong\protected\views\report\_formBuyraw.php(60): CController->render('2022-08-16')
+#2 C:\xampp\htdocs\poontong\framework\web\CBaseController.php(126): require('C:\\xampp\\htdocs...')
+#3 C:\xampp\htdocs\poontong\framework\web\CBaseController.php(95): CBaseController->renderInternal('C:\\xampp\\htdocs...', Array, true)
+#4 C:\xampp\htdocs\poontong\framework\web\CController.php(869): CBaseController->renderFile('C:\\xampp\\htdocs...', Array, true)
+#5 C:\xampp\htdocs\poontong\protected\controllers\ReportController.php(64): CController->renderPartial('_formBuyraw', Array, false, true)
+#6 C:\xampp\htdocs\poontong\framework\web\actions\CInlineAction.php(49): ReportController->actionGentBuyraw()
+#7 C:\xampp\htdocs\poontong\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#8 C:\xampp\htdocs\poontong\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#9 C:\xampp\htdocs\poontong\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#10 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(282): CController->run('gentBuyRaw')
+#11 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(141): CWebApplication->runController('report/gentBuyR...')
+#12 C:\xampp\htdocs\poontong\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#13 C:\xampp\htdocs\poontong\index.php(13): CApplication->run()
+#14 {main}
+REQUEST_URI=/poontong/report/gentBuyRaw?month=8&year=2565&material_id=2&_=1661180516983
+HTTP_REFERER=http://localhost/poontong/report/buyraw
+---
+2022/08/24 00:52:41 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'DAY' in 'where clause'. The SQL statement executed was: SELECT buy_date,SUM(amount) as sum_amount
+FROM `buy_material_detail`
+JOIN `buy_material_input` `t` ON buy_id=t.id
+WHERE material_id='1' AND DAY=1 AND YEAR(buy_date)=2022 AND MONTH(buy_date)=8
+GROUP BY `buy_date`.
+in C:\xampp\htdocs\poontong\protected\views\report\_formBuyrawSummary.php (58)
+in C:\xampp\htdocs\poontong\protected\controllers\ReportController.php (82)
+in C:\xampp\htdocs\poontong\index.php (13)
+2022/08/24 00:52:42 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand ล้มเหลวในการดำเนินการเรียกลักษณะของ SQL: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'DAY' in 'where clause'. The SQL statement executed was: SELECT buy_date,SUM(amount) as sum_amount
+FROM `buy_material_detail`
+JOIN `buy_material_input` `t` ON buy_id=t.id
+WHERE material_id='1' AND DAY=1 AND YEAR(buy_date)=2022 AND MONTH(buy_date)=8
+GROUP BY `buy_date`' in C:\xampp\htdocs\poontong\framework\db\CDbCommand.php:543
+Stack trace:
+#0 C:\xampp\htdocs\poontong\framework\db\CDbCommand.php(396): CDbCommand->queryInternal('fetchAll', Array, Array)
+#1 C:\xampp\htdocs\poontong\protected\views\report\_formBuyrawSummary.php(58): CDbCommand->queryAll()
+#2 C:\xampp\htdocs\poontong\framework\web\CBaseController.php(126): require('C:\\xampp\\htdocs...')
+#3 C:\xampp\htdocs\poontong\framework\web\CBaseController.php(95): CBaseController->renderInternal('C:\\xampp\\htdocs...', Array, true)
+#4 C:\xampp\htdocs\poontong\framework\web\CController.php(869): CBaseController->renderFile('C:\\xampp\\htdocs...', Array, true)
+#5 C:\xampp\htdocs\poontong\protected\controllers\ReportController.php(82): CController->renderPartial('_formBuyrawSumm...', Array, false, true)
+#6 C:\xampp\htdocs\poontong\framework\web\actions\CInlineAction.php(49): ReportController->actionGentBuyrawSummary()
+#7 C:\xampp\htdocs\poontong\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#8 C:\xampp\htdocs\poontong\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#9 C:\xampp\htdocs\poontong\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#10 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(282): CController->run('gentBuyRawSumma...')
+#11 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(141): CWebApplication->runController('report/gentBuyR...')
+#12 C:\xampp\htdocs\poontong\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#13 C:\xampp\htdocs\poontong\index.php(13): CApplication->run()
+#14 {main}
+REQUEST_URI=/poontong/report/gentBuyRawSummary?month=8&year=2565&_=1661274850232
+HTTP_REFERER=http://localhost/poontong/report/buyrawSummary
+---
+2022/08/24 00:53:25 [error] [exception.CException] exception 'CException' with message 'คุณสมบัติ "Material.sum_amount" ยังไม่ถูกกำหนด' in C:\xampp\htdocs\poontong\framework\base\CComponent.php:130
+Stack trace:
+#0 C:\xampp\htdocs\poontong\framework\db\ar\CActiveRecord.php(145): CComponent->__get('sum_amount')
+#1 C:\xampp\htdocs\poontong\framework\base\CModel.php(596): CActiveRecord->__get('sum_amount')
+#2 C:\xampp\htdocs\poontong\protected\views\report\_formBuyrawSummary.php(62): CModel->offsetGet('sum_amount')
+#3 C:\xampp\htdocs\poontong\framework\web\CBaseController.php(126): require('C:\\xampp\\htdocs...')
+#4 C:\xampp\htdocs\poontong\framework\web\CBaseController.php(95): CBaseController->renderInternal('C:\\xampp\\htdocs...', Array, true)
+#5 C:\xampp\htdocs\poontong\framework\web\CController.php(869): CBaseController->renderFile('C:\\xampp\\htdocs...', Array, true)
+#6 C:\xampp\htdocs\poontong\protected\controllers\ReportController.php(82): CController->renderPartial('_formBuyrawSumm...', Array, false, true)
+#7 C:\xampp\htdocs\poontong\framework\web\actions\CInlineAction.php(49): ReportController->actionGentBuyrawSummary()
+#8 C:\xampp\htdocs\poontong\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#9 C:\xampp\htdocs\poontong\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#10 C:\xampp\htdocs\poontong\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(282): CController->run('gentBuyRawSumma...')
+#12 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(141): CWebApplication->runController('report/gentBuyR...')
+#13 C:\xampp\htdocs\poontong\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#14 C:\xampp\htdocs\poontong\index.php(13): CApplication->run()
+#15 {main}
+REQUEST_URI=/poontong/report/gentBuyRawSummary?month=8&year=2565&_=1661274850233
+HTTP_REFERER=http://localhost/poontong/report/buyrawSummary
+---
+2022/08/24 00:54:27 [error] [php] Undefined index: sum_amount (C:\xampp\htdocs\poontong\protected\views\report\_formBuyrawSummary.php:62)
+Stack trace:
+#0 C:\xampp\htdocs\poontong\framework\web\CController.php(869): ReportController->renderFile()
+#1 C:\xampp\htdocs\poontong\protected\controllers\ReportController.php(82): ReportController->renderPartial()
+#2 C:\xampp\htdocs\poontong\framework\web\actions\CInlineAction.php(49): ReportController->actionGentBuyrawSummary()
+#3 C:\xampp\htdocs\poontong\framework\web\CController.php(308): CInlineAction->runWithParams()
+#4 C:\xampp\htdocs\poontong\framework\web\CController.php(286): ReportController->runAction()
+#5 C:\xampp\htdocs\poontong\framework\web\CController.php(265): ReportController->runActionWithFilters()
+#6 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(282): ReportController->run()
+#7 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#8 C:\xampp\htdocs\poontong\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#9 C:\xampp\htdocs\poontong\index.php(13): CWebApplication->run()
+REQUEST_URI=/poontong/report/gentBuyRawSummary?month=8&year=2565&_=1661274850234
+in C:\xampp\htdocs\poontong\protected\views\report\_formBuyrawSummary.php (62)
+in C:\xampp\htdocs\poontong\protected\controllers\ReportController.php (82)
+in C:\xampp\htdocs\poontong\index.php (13)
+2022/08/24 00:55:01 [error] [php] Undefined offset: 0 (C:\xampp\htdocs\poontong\protected\views\report\_formBuyrawSummary.php:62)
+Stack trace:
+#0 C:\xampp\htdocs\poontong\framework\web\CController.php(869): ReportController->renderFile()
+#1 C:\xampp\htdocs\poontong\protected\controllers\ReportController.php(82): ReportController->renderPartial()
+#2 C:\xampp\htdocs\poontong\framework\web\actions\CInlineAction.php(49): ReportController->actionGentBuyrawSummary()
+#3 C:\xampp\htdocs\poontong\framework\web\CController.php(308): CInlineAction->runWithParams()
+#4 C:\xampp\htdocs\poontong\framework\web\CController.php(286): ReportController->runAction()
+#5 C:\xampp\htdocs\poontong\framework\web\CController.php(265): ReportController->runActionWithFilters()
+#6 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(282): ReportController->run()
+#7 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#8 C:\xampp\htdocs\poontong\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#9 C:\xampp\htdocs\poontong\index.php(13): CWebApplication->run()
+REQUEST_URI=/poontong/report/gentBuyRawSummary?month=8&year=2565&_=1661274850235
+in C:\xampp\htdocs\poontong\protected\views\report\_formBuyrawSummary.php (62)
+in C:\xampp\htdocs\poontong\protected\controllers\ReportController.php (82)
+in C:\xampp\htdocs\poontong\index.php (13)
+2022/08/24 00:58:28 [error] [php] Undefined index: sum_amount (C:\xampp\htdocs\poontong\protected\views\report\_formBuyrawSummary.php:60)
+Stack trace:
+#0 C:\xampp\htdocs\poontong\framework\web\CController.php(869): ReportController->renderFile()
+#1 C:\xampp\htdocs\poontong\protected\controllers\ReportController.php(82): ReportController->renderPartial()
+#2 C:\xampp\htdocs\poontong\framework\web\actions\CInlineAction.php(49): ReportController->actionGentBuyrawSummary()
+#3 C:\xampp\htdocs\poontong\framework\web\CController.php(308): CInlineAction->runWithParams()
+#4 C:\xampp\htdocs\poontong\framework\web\CController.php(286): ReportController->runAction()
+#5 C:\xampp\htdocs\poontong\framework\web\CController.php(265): ReportController->runActionWithFilters()
+#6 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(282): ReportController->run()
+#7 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#8 C:\xampp\htdocs\poontong\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#9 C:\xampp\htdocs\poontong\index.php(13): CWebApplication->run()
+REQUEST_URI=/poontong/report/gentBuyRawSummary?month=8&year=2565&_=1661274850237
+in C:\xampp\htdocs\poontong\protected\views\report\_formBuyrawSummary.php (60)
+in C:\xampp\htdocs\poontong\protected\controllers\ReportController.php (82)
+in C:\xampp\htdocs\poontong\index.php (13)

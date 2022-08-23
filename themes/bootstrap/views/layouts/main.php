@@ -622,6 +622,7 @@ $class_profile = Yii::app()->user->id =="" ? "hidden" : "";
                 array('label'=>'ซื้อ ','icon'=>'', 'url'=>array('/buymaterialinput/index'),'visible'=>Yii::app()->user->isAccess('/buymaterialinput/index')),
                 array('label'=>'รายงาน ','icon'=>'', 'url'=>'#','visible'=>Yii::app()->user->isAccess('/report/index'),'items'=>array(
                      array('label'=>'ซื้อวัตถุดิบรายวัน', 'url'=>array('/report/buyraw'),'visible'=>Yii::app()->user->isAccess('/report/buyraw')),
+                     array('label'=>'ซื้อวัตถุดิบเข้า', 'url'=>array('/report/buyrawSummary'),'visible'=>Yii::app()->user->isAccess('/report/buyrawSummary')),
                      
                     ),
                 ),

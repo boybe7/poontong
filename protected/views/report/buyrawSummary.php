@@ -1,6 +1,6 @@
 <?php
 $this->breadcrumbs=array(
-	'รายงานซื้อวัตถุดิบรายวัน',
+	'รายงานซื้อวัตถุดิบรับเข้า',
 	
 );
 
@@ -84,7 +84,7 @@ $(document).ready(function(){
 </script>
 
 
-<h4>รายงานซื้อวัตถุดิบรายวัน</h4>
+<h4>รายงานซื้อวัตถุดิบรับเข้า</h4>
 
 <div class="well">
   <div class="row-fluid">
@@ -114,24 +114,7 @@ $(document).ready(function(){
               ?>
     </div>
 
-    <div class="span3">
-            <label for="material_id">วัตถุดิบ</label>
-            <?php 
-                        
-                    if(!Yii::app()->user->isAdmin())
-                    {
-                        $typelist = CHtml::listData(Material::model()->findAll('site_id=:id', array(':id' => Yii::app()->user->getSite())),'id','name');
-                        echo CHtml::dropDownList('material_id', "",$typelist,array('class'=>'span12')); 
-                    } 
-                    else
-                    {
-                        $typelist = CHtml::listData(Material::model()->findAll('site_id=:id', array(':id' => 1)),'id','name');
-                        echo CHtml::dropDownList('material_id', "",$typelist,array('class'=>'span12'));   
-                    }
-
-             ?>
-    </div>
-    
+   
   
 	<div class="span4">
       <?php
@@ -198,9 +181,9 @@ $("#gentReport").click(function(e){
 
        
         $.ajax({
-            url: "gentBuyRaw",
+            url: "gentBuyRawSummary",
             cache:false,
-            data: {month:$("#monthBegin").val(),year:$("#yearBegin").val(),material_id:$("#material_id").val()
+            data: {month:$("#monthBegin").val(),year:$("#yearBegin").val()
               },
             success:function(response){
                
