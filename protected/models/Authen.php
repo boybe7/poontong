@@ -1,22 +1,22 @@
 <?php
 
 /**
- * This is the model class for table "menu_tree".
+ * This is the model class for table "authen".
  *
- * The followings are the available columns in table 'menu_tree':
+ * The followings are the available columns in table 'authen':
  * @property integer $id
- * @property string $title
- * @property string $url
- * @property integer $parent_id
+ * @property integer $menu_id
+ * @property string $group_id
+ * @property integer $access
  */
-class MenuTree extends CActiveRecord
+class Authen extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'menu_tree';
+		return 'authen';
 	}
 
 	/**
@@ -27,13 +27,12 @@ class MenuTree extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('title, url, parent', 'required'),
-			array('parent', 'numerical', 'integerOnly'=>true),
-			array('title', 'length', 'max'=>300),
-			array('url', 'length', 'max'=>500),
+			array('menu_id, group_id, access', 'required'),
+			array('menu_id, access', 'numerical', 'integerOnly'=>true),
+			
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, title, url, parent_id', 'safe', 'on'=>'search'),
+			array('id, menu_id, group_id, access', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -55,9 +54,9 @@ class MenuTree extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'title' => 'Title',
-			'url' => 'Url',
-			'parent' => 'Parent',
+			'menu_id' => 'Menu',
+			'group_id' => 'Group Name',
+			'access' => '1 = read, 2 = edit',
 		);
 	}
 
@@ -80,9 +79,9 @@ class MenuTree extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('title',$this->title,true);
-		$criteria->compare('url',$this->url,true);
-		$criteria->compare('parent',$this->parent);
+		$criteria->compare('menu_id',$this->menu_id);
+		$criteria->compare('group_id',$this->group_id);
+		$criteria->compare('access',$this->access);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -93,7 +92,7 @@ class MenuTree extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return MenuTree the static model class
+	 * @return Authen the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

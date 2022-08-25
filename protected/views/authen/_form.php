@@ -95,7 +95,7 @@ $this->breadcrumbs=array(
        
             $menugroups = MenuGroup::model()->findAll();
             foreach ($menugroups as $key => $group) {
-                $menutrees = MenuTree::model()->findAll(array('order'=>'', 'condition'=>'parent_id=:gid', 'params'=>array(':gid'=>$group->id)));
+                $menutrees = MenuTree::model()->findAll(array('order'=>'', 'condition'=>'parent=:gid', 'params'=>array(':gid'=>$group->id)));
                 echo  '<div class="row-fluid"><div class="span12"><b>'.$group->title.'</b></div>';
                 
                 foreach ($menutrees as $key => $menu) {

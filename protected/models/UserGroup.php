@@ -51,7 +51,7 @@ class UserGroup extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'name' => 'Name',
+			'name' => 'กลุ่มผู้ใช้งาน',
 		);
 	}
 

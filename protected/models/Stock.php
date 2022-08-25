@@ -1,22 +1,25 @@
 <?php
 
 /**
- * This is the model class for table "menu_tree".
+ * This is the model class for table "stock".
  *
- * The followings are the available columns in table 'menu_tree':
+ * The followings are the available columns in table 'stock':
  * @property integer $id
- * @property string $title
- * @property string $url
- * @property integer $parent_id
+ * @property integer $amount
+ * @property integer $site_id
+ * @property integer $user_id
+ * @property string $last_update
+ * @property integer $material_id
+ * @property integer $type
  */
-class MenuTree extends CActiveRecord
+class Stock extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'menu_tree';
+		return 'stock';
 	}
 
 	/**
@@ -27,13 +30,11 @@ class MenuTree extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('title, url, parent', 'required'),
-			array('parent', 'numerical', 'integerOnly'=>true),
-			array('title', 'length', 'max'=>300),
-			array('url', 'length', 'max'=>500),
+			array('amount, site_id, user_id, last_update, material_id, type', 'required'),
+			array('site_id, user_id, material_id, type,sack,bigbag', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, title, url, parent_id', 'safe', 'on'=>'search'),
+			array('id, amount, site_id, user_id, last_update, material_id, type,sack,bigbag', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -55,9 +56,14 @@ class MenuTree extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'title' => 'Title',
-			'url' => 'Url',
-			'parent' => 'Parent',
+			'amount' => 'จำนวน กก.',
+			'sack' => 'จำนวน กระสอบ',
+			'bigbag' => 'จำนวน Bigbag',
+			'site_id' => 'Site',
+			'user_id' => 'User',
+			'last_update' => 'ล่าสุด',
+			'material_id' => 'วัตถุดิบ',
+			'type' => '0=material,1=chemical,2=blade',
 		);
 	}
 
@@ -80,9 +86,14 @@ class MenuTree extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('title',$this->title,true);
-		$criteria->compare('url',$this->url,true);
-		$criteria->compare('parent',$this->parent);
+		$criteria->compare('amount',$this->amount);
+		$criteria->compare('site_id',$this->site_id);
+		$criteria->compare('user_id',$this->user_id);
+		$criteria->compare('sack',$this->sack);
+		$criteria->compare('bigbag',$this->bigbag);
+		$criteria->compare('last_update',$this->last_update,true);
+		$criteria->compare('material_id',$this->material_id);
+		$criteria->compare('type',$this->type);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -93,10 +104,20 @@ class MenuTree extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return MenuTree the static model class
+	 * @return Stock the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
+	}
+
+
+	public function beforeSave()
+    {
+        
+		$this->amount = str_replace(",", "", $this->amount); 
+		
+		 
+		return parent::beforeSave();  
 	}
 }

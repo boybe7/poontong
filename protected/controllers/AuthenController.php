@@ -258,7 +258,7 @@ class AuthenController extends Controller
 	public function actionGetGroup(){
             $request=trim($_GET['term']);
                     
-            $models=UserGroup::model()->findAll(array("condition"=>"group_name like '%$request%'"));
+            $models=UserGroup::model()->findAll(array("condition"=>"name like '%$request%'"));
             $data=array();
             foreach($models as $model){
                 //$data[]["label"]=$get->v_name;
@@ -267,11 +267,11 @@ class AuthenController extends Controller
             	$rules = Yii::app()->db->createCommand()
                                                 ->select('menu_id,access')
                                                 ->from('authen')
-                                                ->where('group_id=:id', array(':id'=>$model['id']))
+                                                ->where('id=:id', array(':id'=>$model['id']))
                                                 ->queryAll();
                 $data[] = array(
                         'id'=>$model['id'],
-                        'label'=>$model['group_name'],
+                        'label'=>$model['name'],
                         'rules'=>$rules,
                       
                 );

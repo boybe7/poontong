@@ -30,7 +30,7 @@ $this->widget('bootstrap.widgets.TbGridView',array(
     'template'=>"{items}<div class='row-fluid'><div class='span6'>{pager}</div><div class='span6'>{summary}</div></div>",
 	
 	'columns'=>array(
-		'group_name',
+		'name',
 		array(
 			'class'=>'bootstrap.widgets.TbButtonColumn',
 			'headerHtmlOptions' => array('style' => 'width:5%;text-align:center;background-color: #f5f5f5'),

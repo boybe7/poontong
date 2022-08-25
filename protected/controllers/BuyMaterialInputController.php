@@ -84,7 +84,7 @@ class BuyMaterialInputController extends Controller
         $model->bill_no = $no_str; 
 
         //add first item for fix editable gridview
-        $temp = BuyMaterialDetailTemp::model()->findAll("flag=1");
+        $temp = BuyMaterialDetailTemp::model()->findAll("flag=1 AND user_id=".Yii::app()->user->ID);
         if(empty($temp))
         {
         	$temp = new BuyMaterialDetailTemp;
@@ -108,7 +108,7 @@ class BuyMaterialInputController extends Controller
 		if(isset($_POST['BuyMaterialInput']))
 		{
 
-			header('Content-type: text/plain'); 
+			//header('Content-type: text/plain');
 			$model->attributes=$_POST['BuyMaterialInput'];
 			$model->note = $_POST['BuyMaterialInput']['note'];
 			
@@ -154,14 +154,46 @@ class BuyMaterialInputController extends Controller
 					$modelDetail->weight_loss = $value->weight_loss;
 					$modelDetail->price_net = $value->price_net;
 					$modelDetail->buy_id = $model->id;
-					$modelDetail->save();
+					if($modelDetail->save())
+					{
+						//echo "Saved";
+						//add stock
+						$stock = Stock::model()->findAll("material_id=:material_id AND site_id=:site AND type=0",[":material_id"=>$modelDetail->material_id,':site'=>Yii::app()->user->getSite()]);
+						
+						$modelStock =  new Stock;
+						if(empty($stock))
+						{
+
+
+							$modelStock->material_id = $modelDetail->material_id;
+							$modelStock->site_id = Yii::app()->user->getSite();
+							$modelStock->type = 0;
+							$modelStock->amount = $modelDetail->amount;
+							$modelStock->user_id = Yii::app()->user->id;
+							$modelStock->last_update = date("Y-m-d H:i:s");
+							$modelStock->save();
+						} 
+						else
+						{
+							$modelStock =  $stock[0];
+
+							$modelStock->amount += $modelDetail->amount;
+							$modelStock->last_update = date("Y-m-d H:i:s");
+							$modelStock->save();
+						}
+
+						//print_r($modelStock);
+
+
+					}
 					//print_r($modelDetail);
+					
 				}
         	
 				$this->redirect(array('index'));
 			}
 
-			//print_r($model);
+			
 			//exit;
 		}
 		else if (!Yii::app()->request->isAjaxRequest)
@@ -388,8 +420,33 @@ class BuyMaterialInputController extends Controller
 		$model->weight_loss = $_POST['weight_loss'];
 		$model->buy_id = $id;
 
-		if($model->save())
+		if($model->save()){
 	        echo 'success';
+
+	        			$stock = Stock::model()->findAll("material_id=:material_id AND site_id=:site AND type=0",[":material_id"=>$model->material_id,':site'=>Yii::app()->user->getSite()]);
+						
+						$modelStock =  new Stock;
+						if(empty($stock))
+						{
+
+
+							$modelStock->material_id = $model->material_id;
+							$modelStock->site_id = Yii::app()->user->getSite();
+							$modelStock->type = 0;
+							$modelStock->amount = $model->amount;
+							$modelStock->user_id = Yii::app()->user->id;
+							$modelStock->last_update = date("Y-m-d H:i:s");
+							$modelStock->save();
+						} 
+						else
+						{
+							$modelStock =  $stock[0];
+
+							$modelStock->amount += $model->amount;
+							$modelStock->last_update = date("Y-m-d H:i:s");
+							$modelStock->save();
+						}
+		}
 	    else
 	    	echo 'fail';
 	}
@@ -406,6 +463,8 @@ class BuyMaterialInputController extends Controller
     {
 	    $es = new EditableSaver('BuyMaterialDetail');
 	    try {
+	    	$modelOld = BuyMaterialDetail::model()->findByPk($_POST['pk']);
+
 	    	$es->update();
 
 	    	if($_POST['name']=='price_unit' || $_POST['name']=='amount')
@@ -428,6 +487,17 @@ class BuyMaterialInputController extends Controller
 	    		$_POST['value'] = $model->price_unit*$amount;
 	    		$es->update();
 	    	}	
+	    	$modelNew = BuyMaterialDetail::model()->findByPk($_POST['pk']);
+
+
+	    	//update stock
+	    	$stock = Stock::model()->findAll("material_id=:material_id AND site_id=:site AND type=0",[":material_id"=>$modelOld->material_id,':site'=>Yii::app()->user->getSite()]);
+			$modelStock =  $stock[0];
+			$modelStock->amount -= $modelOld->amount;
+			$modelStock->amount += $modelNew->amount;
+			$modelStock->last_update = date("Y-m-d H:i:s");
+			$modelStock->save();
+						
 	    } catch(CException $e) {
 	    	echo CJSON::encode(array('success' => false, 'msg' => $e->getMessage()));
 	    	return;
