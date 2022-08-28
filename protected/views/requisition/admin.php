@@ -1,45 +1,25 @@
 <?php
 $this->breadcrumbs=array(
-	'Stocks'=>array('index/'.$type)
+	'Requisitions'=>array('index')
 );?>
 
 
 
-
+<h3>รายการเบิก</h3>
 <?php
-
- $typename= '';
- if($type==0)
- 	 $typename = 'วัตถุดิบ';
- if($type==1)
- 	 $typename = 'สารเคมี';
- if($type==2)
- 	 $typename = 'ใบมีด';
-
-
- 	echo '<h3>รายการ Stocks '.$typename.'</h3>';
-
-
-
-
  $this->widget('bootstrap.widgets.TbButton', array(
     'buttonType'=>'link',
     
     'type'=>'success',
-    'label'=>'เพิ่มข้อมูล'.$typename,
+    'label'=>'เพิ่มรายการเบิก',
     'icon'=>'plus-sign',
-    'url'=> Yii::app()->createUrl("Stock/create", array("id"=>$type)),//array('create'),
+    'url'=>array('create'),
     'htmlOptions'=>array('class'=>'pull-right','style'=>'margin:0px 10px 10px 10px;'),
-));
-
-
-
-?>
-
+));?>
 
 <?php $this->widget('bootstrap.widgets.TbGridView',array(
-	'id'=>'stock-grid',
-	'dataProvider'=>$model->searchByType($type),
+	'id'=>'requisition-grid',
+	'dataProvider'=>$model->search(),
 	'type'=>'bordered condensed',
 	'filter'=>$model,
 	'selectableRows' =>2,
@@ -56,8 +36,19 @@ $this->breadcrumbs=array(
 				return $data;
 			 },
 			'filter'=>CHtml::listData(Material::model()->findAll(), 'id', 'name'), 
-			'headerHtmlOptions' => array('style' => 'width:33%;text-align:center;background-color: #f5f5f5'),  	            	  	
+			'headerHtmlOptions' => array('style' => 'width:25%;text-align:center;background-color: #f5f5f5'),  	            	  	
 			'htmlOptions'=>array('style'=>'text-align:left')
+	  	),
+	  	'process'=>array(
+			'name' => 'process',
+			'value' => function($model){
+				$m = Process::model()->FindByPk($model->process);
+				$data = empty($m) ? "" : $m->name;
+				return $data;
+			 },
+			'filter'=>CHtml::listData(Process::model()->findAll(), 'id', 'name'), 
+			'headerHtmlOptions' => array('style' => 'width:15%;text-align:center;background-color: #f5f5f5'),  	            	  	
+			'htmlOptions'=>array('style'=>'text-align:center')
 	  	),
 		'amount'=>array(
 			'name' => 'amount',
@@ -68,11 +59,11 @@ $this->breadcrumbs=array(
 			'editable' => array( //editable section
 								
 									'title'=>'แก้ไข ',
-									'url' => $this->createUrl('Stock/update'),
+									'url' => $this->createUrl('Requisition/update2'),
 									'success' => 'js: function(response, newValue) {
 														if(!response.success) return response.msg;
 
-														$("#stock-grid").yiiGridView("update",{});
+														$("#requisition-grid").yiiGridView("update",{});
 													}',
 									'options' => array(
 										'ajaxOptions' => array('dataType' => 'json'),
@@ -82,7 +73,7 @@ $this->breadcrumbs=array(
 					
 									
 			),
-			'headerHtmlOptions' => array('style' => 'width:15%;text-align:center;background-color: #f5f5f5'),  	            	  	
+			'headerHtmlOptions' => array('style' => 'width:10%;text-align:center;background-color: #f5f5f5'),  	            	  	
 			'htmlOptions'=>array('style'=>'text-align:right')
 	  	),
 	  	'sack'=>array(
@@ -94,11 +85,11 @@ $this->breadcrumbs=array(
 			 'editable' => array( //editable section
 								
 									'title'=>'แก้ไข ',
-									'url' => $this->createUrl('Stock/update'),
+									'url' => $this->createUrl('Requisition/update2'),
 									'success' => 'js: function(response, newValue) {
 														if(!response.success) return response.msg;
 
-														$("#stock-grid").yiiGridView("update",{});
+														$("#requisition-grid").yiiGridView("update",{});
 													}',
 									'options' => array(
 										'ajaxOptions' => array('dataType' => 'json'),
@@ -108,7 +99,7 @@ $this->breadcrumbs=array(
 					
 									
 			),
-			'headerHtmlOptions' => array('style' => 'width:15%;text-align:center;background-color: #f5f5f5'),  	            	  	
+			'headerHtmlOptions' => array('style' => 'width:10%;text-align:center;background-color: #f5f5f5'),  	            	  	
 			'htmlOptions'=>array('style'=>'text-align:right')
 	  	),
 	  	'bigbag'=>array(
@@ -117,11 +108,11 @@ $this->breadcrumbs=array(
 			'editable' => array( //editable section
 								
 									'title'=>'แก้ไข ',
-									'url' => $this->createUrl('Stock/update'),
+									'url' => $this->createUrl('Requisition/update2'),
 									'success' => 'js: function(response, newValue) {
 														if(!response.success) return response.msg;
 
-														$("#stock-grid").yiiGridView("update",{});
+														$("#requisition-grid").yiiGridView("update",{});
 													}',
 									'options' => array(
 										'ajaxOptions' => array('dataType' => 'json'),
@@ -134,19 +125,45 @@ $this->breadcrumbs=array(
 			'value' => function($model){
 				return number_format($model->bigbag);
 			 },
-			'headerHtmlOptions' => array('style' => 'width:15%;text-align:center;background-color: #f5f5f5'),  	            	  	
+			'headerHtmlOptions' => array('style' => 'width:10%;text-align:center;background-color: #f5f5f5'),  	            	  	
 			'htmlOptions'=>array('style'=>'text-align:right')
 	  	),
-		'last_update'=>array(
-			'name' => 'last_update',
+	  	'create_date'=>array(
+			'name' => 'create_date',
+			'filter'=>false,
 			'headerHtmlOptions' => array('style' => 'width:15%;text-align:center;background-color: #f5f5f5'),  	            	  	
 			'htmlOptions'=>array('style'=>'text-align:center')
 	  	),
 		array(
 			'header' => '<a class="sort-link"></a>',
 			'class'=>'bootstrap.widgets.TbButtonColumn',
-			'headerHtmlOptions' => array('style' => 'width:10%;text-align:center;background-color: #f5f5f5'),
-			'template' => '{delete}'
+			'headerHtmlOptions' => array('style' => 'width:6%;text-align:center;background-color: #f5f5f5'),
+			'template' => '{print} {update} {delete}',
+			'buttons'=>array(
+				'print'=>array(
+								'click'=>'function(){
+										filename = "requisition_"+$.now()+".pdf";
+										
+										link = $(this).attr("href");
+									    $.ajax({
+									        url: link,
+									        data: {filename: filename},
+									        success:function(response){
+									             
+									             window.open("../report/temp/"+filename, "_blank", "fullscreen=yes", "clearcache=yes");              
+									            
+									        }
+
+									    });
+
+									   return false; 
+								}',
+								'url'=>'Yii::app()->createUrl("Requisition/print", array("id"=>$data->id))',
+								'options'=>array(),
+						      'icon' => 'icon-print',	
+
+							)
+			)
 		),
 	),
 )); ?>

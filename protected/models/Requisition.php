@@ -1,25 +1,26 @@
 <?php
 
 /**
- * This is the model class for table "stock".
+ * This is the model class for table "requisition".
  *
- * The followings are the available columns in table 'stock':
+ * The followings are the available columns in table 'requisition':
  * @property integer $id
- * @property integer $amount
- * @property integer $site_id
- * @property integer $user_id
- * @property string $last_update
  * @property integer $material_id
- * @property integer $type
+ * @property string $amount
+ * @property integer $sack
+ * @property integer $bigbag
+ * @property integer $process
+ * @property integer $user_id
+ * @property string $create_date
  */
-class Stock extends CActiveRecord
+class Requisition extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'stock';
+		return 'requisition';
 	}
 
 	/**
@@ -30,11 +31,12 @@ class Stock extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('amount, site_id, user_id, last_update, material_id, type', 'required'),
-			array('site_id, user_id, material_id, type,sack,bigbag', 'numerical', 'integerOnly'=>true),
+			array('material_id, amount, process, username, create_date', 'required'),
+			array('material_id, sack, bigbag, process', 'numerical', 'integerOnly'=>true),
+			array('amount', 'length', 'max'=>15),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, amount, site_id, user_id, last_update, material_id, type,sack,bigbag', 'safe', 'on'=>'search'),
+			array('id, material_id, amount, sack, bigbag, process, username, create_date', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -56,14 +58,13 @@ class Stock extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'amount' => 'จำนวน กก.',
-			'sack' => 'จำนวน กระสอบ',
-			'bigbag' => 'จำนวน Bigbag',
-			'site_id' => 'Site',
-			'user_id' => 'User',
-			'last_update' => 'ล่าสุด',
 			'material_id' => 'วัตถุดิบ',
-			'type' => '0=material,1=chemical,2=blade',
+			'amount' => 'จำนวน กก.',
+			'sack' => 'จำนวนกระสอบ',
+			'bigbag' => 'จำนวน bigbag',
+			'process' => 'ไลน์ผลิต',
+			'username' => 'ชื่อผู้เบิก',
+			'create_date' => 'วันที่เบิก',
 		);
 	}
 
@@ -86,35 +87,13 @@ class Stock extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('amount',$this->amount);
-		$criteria->compare('site_id',$this->site_id);
-		$criteria->compare('user_id',$this->user_id);
+		$criteria->compare('material_id',$this->material_id);
+		$criteria->compare('amount',$this->amount,true);
 		$criteria->compare('sack',$this->sack);
 		$criteria->compare('bigbag',$this->bigbag);
-		$criteria->compare('last_update',$this->last_update,true);
-		$criteria->compare('material_id',$this->material_id);
-		$criteria->compare('type',$this->type);
-
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-		));
-	}
-
-	public function searchByType($type)
-	{
-		// @todo Please modify the following code to remove attributes that should not be searched.
-
-		$criteria=new CDbCriteria;
-
-		$criteria->compare('id',$this->id);
-		$criteria->compare('amount',$this->amount);
-		$criteria->compare('site_id',$this->site_id);
-		$criteria->compare('user_id',$this->user_id);
-		$criteria->compare('sack',$this->sack);
-		$criteria->compare('bigbag',$this->bigbag);
-		$criteria->compare('last_update',$this->last_update,true);
-		$criteria->compare('material_id',$this->material_id);
-		$criteria->compare('type',$type);
+		$criteria->compare('process',$this->process);
+		$criteria->compare('username',$this->username);
+		$criteria->compare('create_date',$this->create_date,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -125,20 +104,43 @@ class Stock extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Stock the static model class
+	 * @return Requisition the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
 
-
 	public function beforeSave()
     {
+        $this->amount = str_replace(",", "", $this->amount); 
+
+        $str_date = explode("/", $this->create_date);
+        if(count($str_date)>1)
+        	$this->create_date= ($str_date[2]-543)."-".$str_date[1]."-".$str_date[0];
+
+     
         
-		$this->amount = str_replace(",", "", $this->amount); 
-		
-		 
-		return parent::beforeSave();  
-	}
+        return parent::beforeSave();
+   }
+     protected function afterSave(){
+            parent::afterSave();
+            $str_date = explode("-", $this->create_date);
+            if(count($str_date)>1)
+            	$this->create_date = $str_date[2]."/".$str_date[1]."/".($str_date[0]);
+
+         
+               
+    }
+    protected function afterFind(){
+            parent::afterFind();
+            $str_date = explode("-", $this->create_date);
+            if($this->create_date == "0000-00-00")
+                $this->create_date = '';
+            else if(count($str_date)>1)
+            	$this->create_date = $str_date[2]."/".$str_date[1]."/".($str_date[0]+543);
+
+
+                            
+    }
 }

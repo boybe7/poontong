@@ -108,13 +108,12 @@ $pdf->SetFont('thsarabun', '', 14, '', true);
 // Set some content to print
 $html = "";
 
-$html .= '<br><br><div style="font-weight:bold;font-size:28px;text-align:center"><u>ใบรับซื้อสินค้า</u></div>';
-$html .= '<table border=0><tr style="font-weight:bold;font-size:16px;"><td width="50%">เลขที่ : '.$model->bill_no.'</td>';
-$html .= '<td width="50%" style="text-align:right">วันที่ : '.$model->buy_date.'</td></tr>';
-$html .= '<tr style="font-weight:bold;font-size:16px;"><td colspan=2>ลูกค้า : '.Customer::model()->findByPk($model->customer_id)->name.'</td></tr></table>';
+$html .= '<br><br><div style="font-weight:bold;font-size:28px;text-align:center"><u>ใบเบิกวัตถุดิบ</u></div>';
+$html .= '<td width="50%" style="text-align:right">วันที่ : '.$model->create_date.'</td></tr>';
+$html .= '<tr style="font-weight:bold;font-size:16px;"><td colspan=2>ผู้เบิก : '.$model->username.'</td></tr></table>';
 
 $html .= '<br><br><table style=""><tr style="font-weight:bold;font-size:16px;">
-			<td width="45%" style="border-top:1px solid black;border-bottom:1px solid black;text-align:center;">รายการ</td><td width="15%" style="border-top:1px solid black;border-bottom:1px solid black;text-align:center;">จำนวน</td><td width="20%" style="border-top:1px solid black;border-bottom:1px solid black;text-align:right;">ราคาต่อหน่วย</td><td width="20%" style="border-top:1px solid black;border-bottom:1px solid black;text-align:right;">รวมเงิน</td></tr>';
+			<td width="45%" style="border-top:1px solid black;border-bottom:1px solid black;text-align:center;">รายการ</td><td width="15%" style="border-top:1px solid black;border-bottom:1px solid black;text-align:center;">จำนวน กก.</td><td width="20%" style="border-top:1px solid black;border-bottom:1px solid black;text-align:right;">จำนวน กระสอบ</td><td width="20%" style="border-top:1px solid black;border-bottom:1px solid black;text-align:right;">จำนวน bigbag</td></tr>';
 $details = BuyMaterialDetail::model()->findAll('buy_id='.$model->id);
 $total = 0;
 foreach ($details as $key => $value) {

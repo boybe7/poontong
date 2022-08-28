@@ -27,7 +27,7 @@ class StockController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
+				'actions'=>array('index','index2','view','getStock'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -129,7 +129,8 @@ class StockController extends Controller
 	/**
 	 * Lists all models.
 	 */
-	public function actionIndex()
+	
+	public function actionIndex($id)
 	{
 		$model=new Stock('search');
 		$model->unsetAttributes();  // clear any default values
@@ -137,7 +138,7 @@ class StockController extends Controller
 			$model->attributes=$_GET['Stock'];
 
 		$this->render('admin',array(
-			'model'=>$model,
+			'model'=>$model,'type'=>$id
 		));
 	}
 
@@ -180,5 +181,28 @@ class StockController extends Controller
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
+	}
+
+	public function actionGetStock()
+	{
+		$material_id = $_GET['material_id'];
+		$models= Stock::model()->findAll('material_id='.$material_id);
+		
+		$amount = empty($models) ? 0 : $models[0]->amount;
+		$sack = empty($models) ? 0 : $models[0]->sack;
+		$bigbag = empty($models) ? 0 : $models[0]->bigbag;			
+
+        $data = array(
+                       
+                        'amount'=>$amount,
+                        'sack'=>$sack,
+                        'bigbag'=>$bigbag,
+              
+                );
+
+
+            $this->layout='empty';
+            echo json_encode($data);
+        
 	}
 }

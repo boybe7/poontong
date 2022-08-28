@@ -596,6 +596,10 @@ legend.scheduler-border {
 input.number {
     text-align: right !important;
 }
+
+.input-append .add-on, .input-prepend .add-on {
+  height: 30px;
+  }
 </style>     
      
 <body class="body">
@@ -620,6 +624,10 @@ $class_profile = Yii::app()->user->id =="" ? "hidden" : "";
             'items'=>array(
               
                 array('label'=>'ซื้อ ','icon'=>'', 'url'=>array('/buymaterialinput/index'),'visible'=>Yii::app()->user->isAccess('/buymaterialinput/index')),
+                array('label'=>'stock ','icon'=>'', 'url'=>array('#'),'visible'=>Yii::app()->user->isAccess('/stock/index'),'items'=>array(
+                        array('label'=>'วัตถุดิบ', 'url'=>array('/stock/index/0'),'visible'=>Yii::app()->user->isAccess('/stock/index/0')),
+                      )),
+                array('label'=>'เบิก ','icon'=>'', 'url'=>array('/requisition/index'),'visible'=>Yii::app()->user->isAccess('/requisition/index')),
                 array('label'=>'รายงาน ','icon'=>'', 'url'=>'#','visible'=>Yii::app()->user->isAccess('/report/index'),'items'=>array(
                      array('label'=>'ซื้อวัตถุดิบรายวัน', 'url'=>array('/report/buyraw'),'visible'=>Yii::app()->user->isAccess('/report/buyraw')),
                      array('label'=>'ซื้อวัตถุดิบเข้า', 'url'=>array('/report/buyrawSummary'),'visible'=>Yii::app()->user->isAccess('/report/buyrawSummary')),
