@@ -9,4 +9,4 @@ $this->breadcrumbs=array(
 
 <h3>เพิ่มข้อมูลเบิกวัตถุดิบ</h3>
 
-<?php echo $this->renderPartial('_form', array('model'=>$model)); ?>
+<?php echo $this->renderPartial('_form', array('model'=>$model,'modelDetail'=>$modelDetail)); ?>

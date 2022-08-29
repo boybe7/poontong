@@ -1,12 +1,12 @@
 <script type="text/javascript">
 	$(function(){
-		$( "#RequisitionDetailTemp_amount,#RequisitionDetailTemp_sack,#RequisitionDetailTemp_bigbag" ).bind('keyup', function () {
-			if(parseFloat($("#RequisitionDetailTemp_amount").val())>$("#stock_amount").val())
-			{	alert("ไม่ควรกรอกเกิน stock");  $("#RequisitionDetailTemp_amount").val("")}
-			if($("#RequisitionDetailTemp_sack").val()>$("#stock_sack").val())
-			{	alert("ไม่ควรกรอกเกิน stock"); $("#RequisitionDetailTemp_sack").val("")}
-			if($("#RequisitionDetailTemp_bigbag").val()>$("#stock_bigbag").val())
-			{	alert("ไม่ควรกรอกเกิน stock"); $("#RequisitionDetailTemp_bigbag").val("")}
+		$( "#RequisitionDetail_amount,#RequisitionDetail_sack,#RequisitionDetail_bigbag" ).bind('keyup', function () {
+			if(parseFloat($("#RequisitionDetail_amount").val())>$("#stock_amount").val())
+			{	alert("ไม่ควรกรอกเกิน stock");  $("#RequisitionDetail_amount").val("")}
+			if(parseInt($("#RequisitionDetail_sack").val())>$("#stock_sack").val())
+			{	alert("ไม่ควรกรอกเกิน stock"); $("#RequisitionDetail_sack").val("")}
+			if(parseInt($("#RequisitionDetail_bigbag").val())>$("#stock_bigbag").val())
+			{	alert("ไม่ควรกรอกเกิน stock"); $("#RequisitionDetail_bigbag").val("")}
 
 			//console.log($("#stock_amount").val())
 		});
@@ -129,12 +129,12 @@
 						           
 								$.ajax({
 										type: "POST",
-										url: "' .CController::createUrl('Requisition/CreateItemDetailTemp'). '",										
+										url: "' .CController::createUrl('Requisition/CreateItemDetail/'.$model->id). '",										
 										data: {
-	                                        material_id: $("#RequisitionDetailTemp_material_id").val(),
-	                                        sack: $("#RequisitionDetailTemp_sack").val(),
-	                                        bigbag: $("#RequisitionDetailTemp_bigbag").val(),
-	                                        amount:$("#RequisitionDetailTemp_amount").val()
+	                                        material_id: $("#RequisitionDetail_material_id").val(),
+	                                        sack: $("#RequisitionDetail_sack").val(),
+	                                        bigbag: $("#RequisitionDetail_bigbag").val(),
+	                                        amount:$("#RequisitionDetail_amount").val()
                                        
                                     	}
 									})									
@@ -142,10 +142,10 @@
 													
 										$("#requisition-item-grid").yiiGridView("update",{});
 
-										$("#RequisitionDetailTemp_material_id").val(""),
-	                                    $("#RequisitionDetailTemp_sack").val(""),
-	                                    $("#RequisitionDetailTemp_bigbag").val(""),
-	                                    $("#RequisitionDetailTemp_amount").val("")
+										$("#RequisitionDetail_material_id").val(""),
+	                                    $("#RequisitionDetail_sack").val(""),
+	                                    $("#RequisitionDetail_bigbag").val(""),
+	                                    $("#RequisitionDetail_amount").val("")
                                                                              
 									})	
 													
@@ -166,11 +166,11 @@
 					'id'=>'requisition-item-grid',
 					
 				    'type'=>'bordered condensed',
-					'dataProvider'=>$modelDetail->search(),
+					'dataProvider'=>$modelDetail->searchByID($model->id),
 					//'filter'=>$model,
 					'selectableRows' => 2,
 					'enableSorting' => false,
-					'rowCssClassExpression'=>'($row == 0) ? "hidden_row" : "" ',
+					
 				    'htmlOptions'=>array('style'=>'padding-top:10px;'),
 				    'enablePagination' => true,
 				    'summaryText'=>'',//'Displaying {start}-{end} of {count} results.',
@@ -201,7 +201,7 @@
 								'editable' => array( //editable section
 								
 									'title'=>'แก้ไข ',
-									'url' => $this->createUrl('Requisition/updateDetailTemp'),
+									'url' => $this->createUrl('Requisition/updateDetail'),
 									'success' => 'js: function(response, newValue) {
 														if(!response.success) return response.msg;
 
@@ -225,7 +225,7 @@
 								'editable' => array( //editable section
 								
 									'title'=>'แก้ไข ',
-									'url' => $this->createUrl('Requisition/updateDetailTemp'),
+									'url' => $this->createUrl('Requisition/updateDetail'),
 									'success' => 'js: function(response, newValue) {
 														if(!response.success) return response.msg;
 
@@ -258,7 +258,7 @@
 								'editable' => array( //editable section
 								
 									'title'=>'แก้ไข ',
-									'url' => $this->createUrl('Requisition/updateDetailTemp'),
+									'url' => $this->createUrl('Requisition/updateDetail'),
 									'success' => 'js: function(response, newValue) {
 														if(!response.success) return response.msg;
 
@@ -285,7 +285,7 @@
 								// 'deleteConfirmation'=>'js:bootbox.confirm("Are you sure to want to delete")',
 								'buttons'=>array(
 										'delete'=>array(
-											'url'=>'Yii::app()->createUrl("BuyMaterialInput/deleteDetailTemp", array("id"=>$data->id))',	
+											'url'=>'Yii::app()->createUrl("BuyMaterialInput/deleteDetail", array("id"=>$data->id))',	
 
 										),
 										

@@ -31,12 +31,11 @@ class Requisition extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('material_id, amount, process, username, create_date', 'required'),
-			array('material_id, sack, bigbag, process', 'numerical', 'integerOnly'=>true),
-			array('amount', 'length', 'max'=>15),
+			array('process, username, create_date', 'required'),
+			array('process', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, material_id, amount, sack, bigbag, process, username, create_date', 'safe', 'on'=>'search'),
+			array('id, process, username, create_date', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -58,10 +57,7 @@ class Requisition extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'material_id' => 'วัตถุดิบ',
-			'amount' => 'จำนวน กก.',
-			'sack' => 'จำนวนกระสอบ',
-			'bigbag' => 'จำนวน bigbag',
+			
 			'process' => 'ไลน์ผลิต',
 			'username' => 'ชื่อผู้เบิก',
 			'create_date' => 'วันที่เบิก',
@@ -87,10 +83,7 @@ class Requisition extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('material_id',$this->material_id);
-		$criteria->compare('amount',$this->amount,true);
-		$criteria->compare('sack',$this->sack);
-		$criteria->compare('bigbag',$this->bigbag);
+		
 		$criteria->compare('process',$this->process);
 		$criteria->compare('username',$this->username);
 		$criteria->compare('create_date',$this->create_date,true);
@@ -113,8 +106,7 @@ class Requisition extends CActiveRecord
 
 	public function beforeSave()
     {
-        $this->amount = str_replace(",", "", $this->amount); 
-
+        
         $str_date = explode("/", $this->create_date);
         if(count($str_date)>1)
         	$this->create_date= ($str_date[2]-543)."-".$str_date[1]."-".$str_date[0];
@@ -142,5 +134,16 @@ class Requisition extends CActiveRecord
 
 
                             
+    }
+
+    public function getItem($id)
+    {
+    	$sql= 'SELECT * FROM requisition_detail LEFT JOIN material ON material_id=material.id WHERE requisition_id='.$id;
+    	$model = Yii::app()->db->createCommand($sql)->queryAll();
+    	$str = "";
+    	foreach ($model as $key => $value) {
+    		$str .= $value['name'].' จำนวน '.number_format($value['amount'],2).' กก. ( '.number_format($value['sack']).' กระสอบ / '.number_format($value['bigbag']).' bagbag )<br>'; 
+    	}
+    	return $str;
     }
 }

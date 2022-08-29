@@ -31,7 +31,7 @@ class RequisitionController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update','update2'),
+				'actions'=>array('create','update','update2','createItemDetailTemp','deleteDetailTemp','updateDetailTemp','createItemDetail','deleteDetail','updateDetail'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -62,6 +62,24 @@ class RequisitionController extends Controller
 	public function actionCreate()
 	{
 		$model=new Requisition;
+		$modelDetail = new RequisitionDetailTemp;
+
+		//add first item for fix editable gridview
+        $temp = RequisitionDetailTemp::model()->findAll("flag=1 AND user_id=".Yii::app()->user->ID);
+        if(empty($temp))
+        {
+        	$temp = new RequisitionDetailTemp;
+        	$temp->requisition_id = 0;
+        	$temp->user_id = Yii::app()->user->ID;
+        	$temp->flag = 1;
+        	$temp->amount = 0;
+        	$temp->sack = 0;
+        	$temp->bigbag = 0;
+        	$temp->material_id = 0;
+        	
+        	$temp->save();
+        }  
+
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -72,27 +90,45 @@ class RequisitionController extends Controller
 			
 			if($model->save()){
 
-				//update stock
-				$stock = Stock::model()->findAll("material_id=:material_id AND site_id=:site ",[":material_id"=>$model->material_id,':site'=>Yii::app()->user->getSite()]);
-				$modelStock =  $stock[0];
-				$modelStock->amount -= $model->amount;
-				$modelStock->sack -= $model->sack;
-				$modelStock->bigbag -= $model->bigbag;
-				$modelStock->last_update = date("Y-m-d H:i:s");
-				$modelStock->save();
+				$temp = RequisitionDetailTemp::model()->findAll("user_id=:user_id AND flag=0", [":user_id" =>Yii::app()->user->ID]);
+
+				foreach ($temp as $key => $value) {
+					$modelDetail = new RequisitionDetail;
+					$modelDetail->material_id = $value->material_id;
+					$modelDetail->amount = $value->amount;
+					$modelDetail->sack = $value->sack;
+					$modelDetail->bigbag = $value->bigbag;
+					$modelDetail->requisition_id = $model->id;
+					if($modelDetail->save())
+					{
+						//update stock
+						$stock = Stock::model()->findAll("material_id=:material_id AND site_id=:site ",[":material_id"=>$modelDetail->material_id,':site'=>Yii::app()->user->getSite()]);
+						$modelStock =  $stock[0];
+						$modelStock->amount -= $modelDetail->amount;
+						$modelStock->sack -= $modelDetail->sack;
+						$modelStock->bigbag -= $modelDetail->bigbag;
+						$modelStock->last_update = date("Y-m-d H:i:s");
+						$modelStock->save();
+
+
+					}
+				}
+
+				
 
 				$this->redirect(array('index'));
 			}
 		}
 
 		$this->render('create',array(
-			'model'=>$model,
+			'model'=>$model,'modelDetail'=>$modelDetail
 		));
 	}
 
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
+		$modelDetail = new RequisitionDetail;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -106,7 +142,7 @@ class RequisitionController extends Controller
 			{
 				//header('Content-type: text/plain');
 				//update stock
-		    	$stock = Stock::model()->findAll("material_id=:material_id AND site_id=:site ",[":material_id"=>$modelOld->material_id,':site'=>Yii::app()->user->getSite()]);
+		    	/*$stock = Stock::model()->findAll("material_id=:material_id AND site_id=:site ",[":material_id"=>$modelOld->material_id,':site'=>Yii::app()->user->getSite()]);
 				$modelStock =  $stock[0];
 				$modelStock->amount += $modelOld->amount;
 				$modelStock->sack += $modelOld->sack;
@@ -121,7 +157,7 @@ class RequisitionController extends Controller
 				$modelStock->sack -= $model->sack;
 				$modelStock->bigbag -= $model->bigbag;
 				$modelStock->last_update = date("Y-m-d H:i:s");
-				$modelStock->save();
+				$modelStock->save();*/
 				//print_r($modelStock);
 				//exit;
 
@@ -130,7 +166,7 @@ class RequisitionController extends Controller
 		}
 
 		$this->render('update',array(
-			'model'=>$model,
+			'model'=>$model,'modelDetail'=>$modelDetail
 		));
 	}
 
@@ -243,6 +279,136 @@ class RequisitionController extends Controller
 			Yii::app()->end();
 		}
 	}
+
+	public function actionCreateItemDetailTemp()
+	{
+
+		$model = new RequisitionDetailTemp;
+		$model->material_id = $_POST['material_id'];
+		$model->sack = $_POST['sack'];
+		$model->bigbag = $_POST['bigbag'];
+		$model->amount = $_POST['amount'];
+		$model->flag = 0;
+		$model->requisition_id = 0;
+		$model->user_id = Yii::app()->user->ID;
+
+		if($model->save())
+	        echo 'success';
+	    else
+	    	echo 'fail';
+	}
+
+	public function actionDeleteDetailTemp($id)
+	{
+		$model = RequisitionDetailTemp::model()->findByPk($id);
+		$model->delete();
+
+	}
+
+
+	public function actionUpdateDetailTemp()
+    {
+	    $es = new EditableSaver('RequisitionDetailTemp');
+	    try {
+	    	
+	    	$es->update();
+
+
+	    } catch(CException $e) {
+	    	echo CJSON::encode(array('success' => false, 'msg' => $e->getMessage()));
+	    	return;
+	    }
+	    echo CJSON::encode(array('success' => true));
+    }
+
+    public function actionCreateItemDetail($id)
+	{
+
+		$model = new RequisitionDetail;
+		$model->material_id = $_POST['material_id'];
+		$model->sack = $_POST['sack'];
+		$model->bigbag = $_POST['bigbag'];
+		$model->amount = $_POST['amount'];
+
+	
+		$model->requisition_id = $id;
+
+		if($model->save()){
+	        echo 'success';
+
+	        			//update stock
+						$stock = Stock::model()->findAll("material_id=:material_id AND site_id=:site ",[":material_id"=>$model->material_id,':site'=>Yii::app()->user->getSite()]);
+						$modelStock =  $stock[0];
+						$modelStock->amount -= $model->amount;
+						$modelStock->sack -= $model->sack;
+						$modelStock->bigbag -= $model->bigbag;
+						$modelStock->last_update = date("Y-m-d H:i:s");
+						$modelStock->save();
+
+
+		}
+	    else
+	    	echo 'fail';
+	}
+
+	public function actionDeleteDetail($id)
+	{
+		$model = RequisitionDetail::model()->findByPk($id);
+		$material_id = $model->material_id;
+		$old_amount = $model->amount;
+		$old_sack = $model->sack;
+		$old_bigbag = $model->bigbag;
+		$model->delete();
+
+		//update stock
+		$stock = Stock::model()->findAll("material_id=:material_id AND site_id=:site ",[":material_id"=>$material_id,':site'=>Yii::app()->user->getSite()]);
+
+		//echo "material_id=".$material_id." AND site_id=".Yii::app()->user->getSite()." AND type=0";
+
+		if(!empty($stock))
+		{
+			$modelStock =  $stock[0];
+			$modelStock->amount += $old_amount;
+			$modelStock->sack += $old_sack;
+			$modelStock->bigbag += $old_bigbag;
+			$modelStock->last_update = date("Y-m-d H:i:s");
+			$modelStock->save();
+		}
+
+	}
+
+
+	public function actionUpdateDetail()
+    {
+	    $es = new EditableSaver('RequisitionDetail');
+	    try {
+	    	$modelOld = RequisitionDetail::model()->findByPk($_POST['pk']);
+
+	    	$es->update();
+
+	    	$modelNew = RequisitionDetail::model()->findByPk($_POST['pk']);
+
+
+	    	//update stock
+	    	$stock = Stock::model()->findAll("material_id=:material_id AND site_id=:site ",[":material_id"=>$modelOld->material_id,':site'=>Yii::app()->user->getSite()]);
+			$modelStock =  $stock[0];
+			$modelStock->amount += $modelOld->amount;
+			$modelStock->amount -= $modelNew->amount;
+			$modelStock->sack += $modelOld->sack;
+			$modelStock->sack -= $modelNew->sack;
+			$modelStock->bigbag += $modelOld->bigbag;
+			$modelStock->bigbag -= $modelNew->bigbag;
+			$modelStock->last_update = date("Y-m-d H:i:s");
+			$modelStock->save();
+						
+	    } catch(CException $e) {
+	    	echo CJSON::encode(array('success' => false, 'msg' => $e->getMessage()));
+	    	return;
+	    }
+	    echo CJSON::encode(array('success' => true));
+    }
+
+
 
 	public function actionPrint($id){
 

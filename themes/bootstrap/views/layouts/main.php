@@ -600,6 +600,10 @@ input.number {
 .input-append .add-on, .input-prepend .add-on {
   height: 30px;
   }
+
+  .hidden_row{
+    display: none;
+  }
 </style>     
      
 <body class="body">
