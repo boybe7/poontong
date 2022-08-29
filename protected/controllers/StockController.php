@@ -27,7 +27,7 @@ class StockController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
+				'actions'=>array('index'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -129,7 +129,7 @@ class StockController extends Controller
 	/**
 	 * Lists all models.
 	 */
-	public function actionIndex()
+	public function actionIndex($id)
 	{
 		$model=new Stock('search');
 		$model->unsetAttributes();  // clear any default values
@@ -137,7 +137,19 @@ class StockController extends Controller
 			$model->attributes=$_GET['Stock'];
 
 		$this->render('admin',array(
-			'model'=>$model,
+			'model'=>$model,'type'=>$id
+		));
+	}
+
+	public function actionIndexRaw()
+	{
+		$model=new Stock('search');
+		$model->unsetAttributes();  // clear any default values
+		if(isset($_GET['Stock']))
+			$model->attributes=$_GET['Stock'];
+
+		$this->render('admin',array(
+			'model'=>$model,'type'=>0
 		));
 	}
 

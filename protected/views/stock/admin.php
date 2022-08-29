@@ -4,16 +4,23 @@ $this->breadcrumbs=array(
 );?>
 
 
-
-<h3>รายการ Stocks </h3>
 <?php
+
+
+if($type==0)
+	echo '<h3>รายการ Stock วัตถุดิบ</h3>';
+if($type==1)
+	echo '<h3>รายการ Stock สารเคมี</h3>';
+if($type==2)
+	echo '<h3>รายการ Stock ใบมีด</h3>';
+
  $this->widget('bootstrap.widgets.TbButton', array(
     'buttonType'=>'link',
     
     'type'=>'success',
     'label'=>'เพิ่มข้อมูลวัตถุดิบ',
     'icon'=>'plus-sign',
-    'url'=> Yii::app()->createUrl("Stock/create", array("id"=>0)),//array('create'),
+    'url'=> Yii::app()->createUrl("Stock/create", array("id"=>$type)),//array('create'),
     'htmlOptions'=>array('class'=>'pull-right','style'=>'margin:0px 10px 10px 10px;'),
 ));
 
