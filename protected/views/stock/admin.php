@@ -1,9 +1,10 @@
 <?php
 $this->breadcrumbs=array(
-	'Stocks'=>array('index')
+	'Stocks'=>array('index/'.$type)
 );?>
 
 
+<<<<<<< HEAD
 <?php
 
 
@@ -13,12 +14,31 @@ if($type==1)
 	echo '<h3>รายการ Stock สารเคมี</h3>';
 if($type==2)
 	echo '<h3>รายการ Stock ใบมีด</h3>';
+=======
+
+
+<?php
+
+ $typename= '';
+ if($type==0)
+ 	 $typename = 'วัตถุดิบ';
+ if($type==1)
+ 	 $typename = 'สารเคมี';
+ if($type==2)
+ 	 $typename = 'ใบมีด';
+
+
+ 	echo '<h3>รายการ Stocks '.$typename.'</h3>';
+
+
+
+>>>>>>> b6f24aa589319f9664660b8460d9a1185397a027
 
  $this->widget('bootstrap.widgets.TbButton', array(
     'buttonType'=>'link',
     
     'type'=>'success',
-    'label'=>'เพิ่มข้อมูลวัตถุดิบ',
+    'label'=>'เพิ่มข้อมูล'.$typename,
     'icon'=>'plus-sign',
     'url'=> Yii::app()->createUrl("Stock/create", array("id"=>$type)),//array('create'),
     'htmlOptions'=>array('class'=>'pull-right','style'=>'margin:0px 10px 10px 10px;'),
@@ -31,7 +51,7 @@ if($type==2)
 
 <?php $this->widget('bootstrap.widgets.TbGridView',array(
 	'id'=>'stock-grid',
-	'dataProvider'=>$model->search(),
+	'dataProvider'=>$model->searchByType($type),
 	'type'=>'bordered condensed',
 	'filter'=>$model,
 	'selectableRows' =>2,

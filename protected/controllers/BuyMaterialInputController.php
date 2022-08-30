@@ -276,7 +276,11 @@ class BuyMaterialInputController extends Controller
 			// we only allow deletion via POST request
 			$this->loadModel($id)->delete();
 
-			BuyMaterialDetail::model()->deleteAll("buy_id=:buy_id", [":buy_id" =>$id]);
+			//BuyMaterialDetail::model()->deleteAll("buy_id=:buy_id", [":buy_id" =>$id]);
+			$details = BuyMaterialDetail::model()->findAll("buy_id=:buy_id", [":buy_id" =>$id]);
+			foreach ($details as $key => $value) {
+				$this->actionDeleteDetail($value->id);
+			}
 
 			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 			if(!isset($_GET['ajax']))
@@ -454,7 +458,22 @@ class BuyMaterialInputController extends Controller
 	public function actionDeleteDetail($id)
 	{
 		$model = BuyMaterialDetail::model()->findByPk($id);
+		$material_id = $model->material_id;
+		$old_amount = $model->amount;
 		$model->delete();
+
+		//update stock
+		$stock = Stock::model()->findAll("material_id=:material_id AND site_id=:site AND type=0",[":material_id"=>$material_id,':site'=>Yii::app()->user->getSite()]);
+
+		//echo "material_id=".$material_id." AND site_id=".Yii::app()->user->getSite()." AND type=0";
+
+		if(!empty($stock))
+		{
+			$modelStock =  $stock[0];
+			$modelStock->amount -= $old_amount;
+			$modelStock->last_update = date("Y-m-d H:i:s");
+			$modelStock->save();
+		}
 
 	}
 

@@ -1,7 +1,5 @@
 <style type="text/css">
-	.hidden_row{
-		display: none;
-	}
+	
 </style>
 <script type="text/javascript">
   
