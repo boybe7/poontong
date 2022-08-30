@@ -4,17 +4,6 @@ $this->breadcrumbs=array(
 );?>
 
 
-<<<<<<< HEAD
-<?php
-
-
-if($type==0)
-	echo '<h3>รายการ Stock วัตถุดิบ</h3>';
-if($type==1)
-	echo '<h3>รายการ Stock สารเคมี</h3>';
-if($type==2)
-	echo '<h3>รายการ Stock ใบมีด</h3>';
-=======
 
 
 <?php
@@ -30,9 +19,6 @@ if($type==2)
 
  	echo '<h3>รายการ Stocks '.$typename.'</h3>';
 
-
-
->>>>>>> b6f24aa589319f9664660b8460d9a1185397a027
 
  $this->widget('bootstrap.widgets.TbButton', array(
     'buttonType'=>'link',

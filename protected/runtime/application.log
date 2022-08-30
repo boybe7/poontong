@@ -348,3 +348,20 @@ Stack trace:
 REQUEST_URI=/poontong/Requisition/updateDetailTemp
 in D:\xampp5\htdocs\poontong\protected\controllers\RequisitionController.php (315)
 in D:\xampp5\htdocs\poontong\index.php (13)
+2022/08/30 23:59:44 [error] [exception.CHttpException.403] exception 'CHttpException' with message 'คุณไม่ได้รับอนุญาตให้ดำเนินการดังกล่าว' in C:\xampp\htdocs\poontong\framework\web\auth\CAccessControlFilter.php:182
+Stack trace:
+#0 C:\xampp\htdocs\poontong\framework\web\auth\CAccessControlFilter.php(145): CAccessControlFilter->accessDenied(Object(WebUser), '\xE0\xB8\x84\xE0\xB8\xB8\xE0\xB8\x93\xE0\xB9\x84\xE0\xB8\xA1...')
+#1 C:\xampp\htdocs\poontong\framework\web\filters\CFilter.php(38): CAccessControlFilter->preFilter(Object(CFilterChain))
+#2 C:\xampp\htdocs\poontong\framework\web\CController.php(1145): CFilter->filter(Object(CFilterChain))
+#3 C:\xampp\htdocs\poontong\framework\web\filters\CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#4 C:\xampp\htdocs\poontong\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#5 C:\xampp\htdocs\poontong\framework\web\CController.php(291): CFilterChain->run()
+#6 C:\xampp\htdocs\poontong\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#7 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(282): CController->run('delete')
+#8 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(141): CWebApplication->runController('requisition/del...')
+#9 C:\xampp\htdocs\poontong\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#10 C:\xampp\htdocs\poontong\index.php(13): CApplication->run()
+#11 {main}
+REQUEST_URI=/poontong/requisition/delete/3?ajax=requisition-grid
+HTTP_REFERER=http://localhost/poontong/requisition/index
+---

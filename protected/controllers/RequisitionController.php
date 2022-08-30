@@ -31,11 +31,11 @@ class RequisitionController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update','update2','createItemDetailTemp','deleteDetailTemp','updateDetailTemp','createItemDetail','deleteDetail','updateDetail'),
+				'actions'=>array('create','update','update2','createItemDetailTemp','deleteDetailTemp','updateDetailTemp','createItemDetail','deleteDetail','updateDetail','delete'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
+				'actions'=>array('admin'),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -119,6 +119,12 @@ class RequisitionController extends Controller
 				$this->redirect(array('index'));
 			}
 		}
+		else if (!Yii::app()->request->isAjaxRequest)
+        {
+        	//header('Content-type: text/plain'); 
+        	RequisitionDetailTemp::model()->deleteAll("user_id=:user_id AND flag=0", [":user_id" =>Yii::app()->user->ID]);
+        	
+        }
 
 		$this->render('create',array(
 			'model'=>$model,'modelDetail'=>$modelDetail
@@ -215,6 +221,19 @@ class RequisitionController extends Controller
 		{
 			// we only allow deletion via POST request
 			$this->loadModel($id)->delete();
+
+			$details = RequisitionDetail::model()->findAll('requisition_id='.$id);
+			foreach ($details as $key => $value) {
+				$stock = Stock::model()->findAll("material_id=:material_id AND site_id=:site ",[":material_id"=>$value->material_id,':site'=>Yii::app()->user->getSite()]);
+				$modelStock =  $stock[0];
+				$modelStock->amount += $value->amount;
+				$modelStock->sack += $value->sack;
+				$modelStock->bigbag += $value->bigbag;
+				$modelStock->last_update = date("Y-m-d H:i:s");
+				$modelStock->save();
+
+				$value->delete();
+			}
 
 			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 			if(!isset($_GET['ajax']))
@@ -314,26 +333,53 @@ class RequisitionController extends Controller
 	    		$model = RequisitionDetailTemp::model()->findByPk($_POST['pk']);
 	    		$stock = Stock::model()->findAll('material_id='.$model->material_id);
 
-	    		/*if(($_POST['name']=='amount' && !empty($stock) && $_POST['value']<=$stock[0]->amount) ||
-	    			($_POST['name']=='sack' && !empty($stock) && $_POST['value']<=$stock[0]->sack) ||
-	    			($_POST['name']=='bigbag' && !empty($stock) && $_POST['value']<=$stock[0]->bigbag)
-	    		)
-	    		{	$es->update(); }
-	    		else
-	    			echo CJSON::encode(array('success' => false, 'msg' => 'ไม่กรอกเกิน stock'));*/
 
-	    		if($_POST['name']=='bigbag' && !empty($stock) && $_POST['value']<=$stock[0]->bigbag)
-	    		{	 
-	    			 echo CJSON::encode(array('success' => false, 'msg' =>'ไม่กรอกเกิน stock' ));
+	    		if($_POST['name']=='amount' )
+	    		{
+	    			if(!empty($stock) && ($_POST['value'])<=$stock[0]->amount)
+		    		{
+		    			$es->update();
+		    		}	
+		    		else
+		    		{	 
+	    			 echo CJSON::encode(array('success' => false, 'msg' =>'ไม่กรอกเกิน stock : '. $stock[0]->amount));
 	    			 return;
+	    			}
 	    		}
+
+	    		if($_POST['name']=='sack' )
+	    		{
+	    			if(!empty($stock) && ($_POST['value'])<=$stock[0]->sack)
+		    		{
+		    			$es->update();
+		    		}	
+		    		else
+		    		{	 
+	    			 echo CJSON::encode(array('success' => false, 'msg' =>'ไม่กรอกเกิน stock : '. $stock[0]->sack));
+	    			 return;
+	    			}
+	    		}
+
+	    		if($_POST['name']=='bigbag' )
+	    		{
+	    			if(!empty($stock) && ($_POST['value'])<=$stock[0]->bigbag)
+		    		{
+		    			$es->update();
+		    		}	
+		    		else
+		    		{	 
+	    			 echo CJSON::encode(array('success' => false, 'msg' =>'ไม่กรอกเกิน stock : '. $stock[0]->bigbag));
+	    			 return;
+	    			}
+	    		}
+
 
 
 	    } catch(CException $e) {
 	    	echo CJSON::encode(array('success' => false, 'msg' => $e->getMessage()));
 	    	return;
 	    }
-	   // echo CJSON::encode(array('success' => true));
+	    echo CJSON::encode(array('success' => true));
     }
 
     public function actionCreateItemDetail($id)
@@ -397,7 +443,7 @@ class RequisitionController extends Controller
     {
 	    $es = new EditableSaver('RequisitionDetail');
 	    try {
-	    	$modelOld = RequisitionDetail::model()->findByPk($_POST['pk']);
+	    	/*$modelOld = RequisitionDetail::model()->findByPk($_POST['pk']);
 
 	    	$es->update();
 
@@ -415,12 +461,76 @@ class RequisitionController extends Controller
 			$modelStock->bigbag -= $modelNew->bigbag;
 			$modelStock->last_update = date("Y-m-d H:i:s");
 			$modelStock->save();
+			*/
+
+				$modelOld = RequisitionDetail::model()->findByPk($_POST['pk']);
+	    		$stock = Stock::model()->findAll('material_id='.$modelOld->material_id);
+
+	    		$is_update = false;
+	    		if($_POST['name']=='amount' )
+	    		{
+	    			if(!empty($stock) && ($_POST['value'])<=$stock[0]->amount)
+		    		{
+		    			$es->update();
+		    			$is_update = true;
+		    		}	
+		    		else
+		    		{	 
+	    			 echo CJSON::encode(array('success' => false, 'msg' =>'ไม่กรอกเกิน stock : '. $stock[0]->amount));
+	    			 return;
+	    			}
+	    		}
+
+	    		if($_POST['name']=='sack' )
+	    		{
+	    			if(!empty($stock) && ($_POST['value'])<=$stock[0]->sack)
+		    		{
+		    			$es->update();
+		    			$is_update = true;
+		    		}	
+		    		else
+		    		{	 
+	    			 echo CJSON::encode(array('success' => false, 'msg' =>'ไม่กรอกเกิน stock : '. $stock[0]->sack));
+	    			 return;
+	    			}
+	    		}
+
+	    		if($_POST['name']=='bigbag' )
+	    		{
+	    			if(!empty($stock) && ($_POST['value'])<=$stock[0]->bigbag)
+		    		{
+		    			$es->update();
+		    			$is_update = true;
+		    		}	
+		    		else
+		    		{	 
+	    			 echo CJSON::encode(array('success' => false, 'msg' =>'ไม่กรอกเกิน stock : '. $stock[0]->bigbag));
+	    			 return;
+	    			}
+	    		}
+
+	    		if($is_update==true)
+	    		{
+	    			$modelNew = RequisitionDetail::model()->findByPk($_POST['pk']);
+	    			//update stock
+			    	$stock = Stock::model()->findAll("material_id=:material_id AND site_id=:site ",[":material_id"=>$modelOld->material_id,':site'=>Yii::app()->user->getSite()]);
+					$modelStock =  $stock[0];
+					$modelStock->amount += $modelOld->amount;
+					$modelStock->amount -= $modelNew->amount;
+					$modelStock->sack += $modelOld->sack;
+					$modelStock->sack -= $modelNew->sack;
+					$modelStock->bigbag += $modelOld->bigbag;
+					$modelStock->bigbag -= $modelNew->bigbag;
+					$modelStock->last_update = date("Y-m-d H:i:s");
+					$modelStock->save();
+	    		}
 						
 	    } catch(CException $e) {
 	    	echo CJSON::encode(array('success' => false, 'msg' => $e->getMessage()));
 	    	return;
 	    }
 	    echo CJSON::encode(array('success' => true));
+	    		
     }
 
 

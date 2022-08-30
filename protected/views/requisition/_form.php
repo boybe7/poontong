@@ -3,9 +3,9 @@
 		$( "#RequisitionDetailTemp_amount,#RequisitionDetailTemp_sack,#RequisitionDetailTemp_bigbag" ).bind('keyup', function () {
 			if(parseFloat($("#RequisitionDetailTemp_amount").val())>$("#stock_amount").val())
 			{	alert("ไม่ควรกรอกเกิน stock");  $("#RequisitionDetailTemp_amount").val("")}
-			if($("#RequisitionDetailTemp_sack").val()>$("#stock_sack").val())
+			if(parseInt($("#RequisitionDetailTemp_sack").val())>$("#stock_sack").val())
 			{	alert("ไม่ควรกรอกเกิน stock"); $("#RequisitionDetailTemp_sack").val("")}
-			if($("#RequisitionDetailTemp_bigbag").val()>$("#stock_bigbag").val())
+			if(parseInt($("#RequisitionDetailTemp_bigbag").val())>$("#stock_bigbag").val())
 			{	alert("ไม่ควรกรอกเกิน stock"); $("#RequisitionDetailTemp_bigbag").val("")}
 
 			//console.log($("#stock_amount").val())
@@ -206,7 +206,7 @@
 														if(!response.success) return response.msg;
 
 														$("#requisition-item-grid").yiiGridView("update",{});
-													}',
+													}',			
 									'options' => array(
 										'ajaxOptions' => array('dataType' => 'json'),
 
