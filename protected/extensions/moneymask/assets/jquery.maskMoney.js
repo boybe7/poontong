@@ -142,9 +142,9 @@
 			}
 
 			function blurEvent(e) {
-				if ($.browser.msie) {
-					keypressEvent(e);
-				}
+				//if ($.browser.msie) {
+				//	keypressEvent(e);
+				//}
 
 				if (input.val()==''||input.val()==setSymbol(getDefaultMask())||input.val()==settings.symbol) {
 					if(!settings.allowZero) input.val('');

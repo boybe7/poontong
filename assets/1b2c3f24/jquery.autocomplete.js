@@ -738,18 +738,18 @@ $.Autocompleter.Select = function (options, input, select, config) {
 					overflow: 'auto'
 				});
 				
-                if($.browser.msie && typeof document.body.style.maxHeight === "undefined") {
-					var listHeight = 0;
-					listItems.each(function() {
-						listHeight += this.offsetHeight;
-					});
-					var scrollbarsVisible = listHeight > options.scrollHeight;
-                    list.css('height', scrollbarsVisible ? options.scrollHeight : listHeight );
-					if (!scrollbarsVisible) {
-						// IE doesn't recalculate width when scrollbar disappears
-						listItems.width( list.width() - parseInt(listItems.css("padding-left")) - parseInt(listItems.css("padding-right")) );
-					}
-                }
+     //            if($.browser.msie && typeof document.body.style.maxHeight === "undefined") {
+					// var listHeight = 0;
+					// listItems.each(function() {
+					// 	listHeight += this.offsetHeight;
+					// });
+					// var scrollbarsVisible = listHeight > options.scrollHeight;
+     //                list.css('height', scrollbarsVisible ? options.scrollHeight : listHeight );
+					// if (!scrollbarsVisible) {
+					// 	// IE doesn't recalculate width when scrollbar disappears
+					// 	listItems.width( list.width() - parseInt(listItems.css("padding-left")) - parseInt(listItems.css("padding-right")) );
+					// }
+     //            }
                 
             }
 		},

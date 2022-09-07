@@ -19,7 +19,7 @@
         echo '<script type="text/javascript" src="'.Yii::app()->theme->getBaseUrl().'/js/jquery.yiigridview.js"></script>';
         Yii::app()->bootstrap->init();
         $cs = Yii::app()->clientScript;
-        $cs->registerScriptFile(Yii::app()->baseUrl.'/dist/js/jquery.maskMoney.js');
+        $cs->registerScriptFile(Yii::app()->baseUrl.'/dist/js/jquery.maskMoney.min.js');
   ?>
 </head>
 
@@ -639,7 +639,9 @@ $class_profile = Yii::app()->user->id =="" ? "hidden" : "";
                     ),
                 ),
                 array('label'=>'ผู้ดูแลระบบ ','icon'=>'', 'url'=>'#','visible'=>Yii::app()->user->isAccess('/user/index'),'items'=>array(
+                    array('label'=>'ประเภทวัตถุดิบ', 'url'=>array('/materialGroup/index'),'visible'=>Yii::app()->user->isAccess('/materialGroup/index')),
                      array('label'=>'ข้อมูลวัตถุดิบ', 'url'=>array('/material/index'),'visible'=>Yii::app()->user->isAccess('/material/index')),
+                     array('label'=>'ประเภทลูกค้า', 'url'=>array('/customerGroup/index'),'visible'=>Yii::app()->user->isAccess('/customerGroup/index')),
                      array('label'=>'ข้อมูลลูกค้า', 'url'=>array('/customer/index'),'visible'=>Yii::app()->user->isAccess('/customer/index')),
                      array('label'=>'ผู้ใช้งาน', 'url'=>array('/user/index'),'visible'=>Yii::app()->user->isAccess('/user/index')),
                      array('label'=>'ข้อมูลโรงงาน', 'url'=>array('/plantSite/index'),'visible'=>Yii::app()->user->isAccess('/plantSite/index')),

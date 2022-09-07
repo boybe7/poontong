@@ -34,7 +34,8 @@
 		<div class="span4">
 			<?php 
 
-		 	 $typelist = array("1" => "ลูกค้ารายใหญ่", "2" => "ลูกค้ารายย่อย", "3" => "ลูกค้าประจำ");
+		 	 //$typelist = array("1" => "ลูกค้ารายใหญ่", "2" => "ลูกค้ารายย่อย", "3" => "ลูกค้าประจำ");
+			$typelist = CHtml::listData(CustomerGroup::model()->findAll('site_id='.Yii::app()->user->getSite()),'id','name');
              echo $form->dropDownListRow($model, 'group_id', $typelist, array('class'=>'span12'), array('options' => array('type'=>array('selected'=>true)))); 
 
 			?>

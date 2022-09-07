@@ -1,20 +1,21 @@
 <?php
 
 /**
- * This is the model class for table "material_group".
+ * This is the model class for table "customer_group".
  *
- * The followings are the available columns in table 'material_group':
+ * The followings are the available columns in table 'customer_group':
  * @property integer $id
- * @property string $name
+ * @property integer $name
+ * @property integer $site_id
  */
-class MaterialGroup extends CActiveRecord
+class CustomerGroup extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'material_group';
+		return 'customer_group';
 	}
 
 	/**
@@ -25,11 +26,12 @@ class MaterialGroup extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name,site_id', 'required'),
+			array('name, site_id', 'required'),
 			array('name', 'length', 'max'=>255),
+			array('site_id', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name,site_id,flag_delete', 'safe', 'on'=>'search'),
+			array('id, name, site_id,flag_delete', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -51,7 +53,8 @@ class MaterialGroup extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'name' => 'ประเภทวัตถุดิบ',
+			'name' => 'ประเภท',
+			'site_id' => 'Site',
 		);
 	}
 
@@ -74,7 +77,7 @@ class MaterialGroup extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('name',$this->name,true);
+		$criteria->compare('name',$this->name);
 		$criteria->compare('site_id',Yii::app()->user->getSite());
 		$criteria->compare('flag_delete',0);
 		return new CActiveDataProvider($this, array(
@@ -86,7 +89,7 @@ class MaterialGroup extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return MaterialGroup the static model class
+	 * @return CustomerGroup the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

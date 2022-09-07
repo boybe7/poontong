@@ -28,13 +28,12 @@ class Material extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, unit', 'required'),
+			array('name', 'required'),
 			array('is_compressed, have_label,material_group_id,site_id', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>255),
-			array('unit', 'length', 'max'=>45),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, unit, is_compressed, have_label, material_group_id,price1,price2,price3,sell,site_id', 'safe', 'on'=>'search'),
+			array('id, name, is_compressed, have_label, material_group_id,price1,price2,price3,price4,price5,price6,site_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -54,17 +53,28 @@ class Material extends CActiveRecord
 	 */
 	public function attributeLabels()
 	{
+
+		$groups = CustomerGroup::model()->findAll("site_id=".Yii::app()->user->getSite());
+		$price1 = !empty($groups[0]) ? 'ราคา '.$groups[0]->name : 'ราคา 1';
+		$price2 = !empty($groups[1]) ? 'ราคา '.$groups[1]->name : 'ราคา 2';
+		$price3 = !empty($groups[2]) ? 'ราคา '.$groups[2]->name : 'ราคา 3';
+		$price4 = !empty($groups[3]) ? 'ราคา '.$groups[3]->name : 'ราคา 4';
+		$price5 = !empty($groups[4]) ? 'ราคา '.$groups[4]->name : 'ราคา 5';
+		$price6 = !empty($groups[5]) ? 'ราคา '.$groups[5]->name : 'ราคา 6';
+		
+
 		return array(
 			'id' => 'ID',
 			'name' => 'วัตถุดิบ',
-			'unit' => 'หน่วย',
 			'is_compressed' => 'Is Compressed',
 			'have_label' => 'Have Label',
 			'material_group_id' => 'ประเภท',
-			'price1' => 'ราคารับซื้อรายใหญ่',
-			'price2' => 'ราคารับซื้อรายย่อย',
-			'price3' => 'ราคารับซื้อลูกค้าประจำ',
-			'sell' => 'ราคาขาย',
+			'price1' => $price1,
+			'price2' => $price2,
+			'price3' => $price3,
+			'price4' => $price4,
+			'price5' => $price5,
+			'price6' => $price6,
 			'site_id' => 'โรงงาน',
 		);
 	}
@@ -92,14 +102,12 @@ class Material extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('name',$this->name,true);
-		$criteria->compare('unit',$this->unit,true);
 		$criteria->compare('is_compressed',$this->is_compressed);
 		$criteria->compare('have_label',$this->have_label);
 		$criteria->compare('material_group_id',$this->material_group_id);
 		$criteria->compare('price1',$this->price1);
 		$criteria->compare('price2',$this->price2);
 		$criteria->compare('price3',$this->price3);
-		$criteria->compare('sell',$this->sell);
 		$criteria->compare('site_id',$this->site_id);
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -138,12 +146,31 @@ class Material extends CActiveRecord
     	$str = "";
     	if(!empty($model))
     	{
-			if($type==1)
-				$str = number_format($model[0]->price1,2);
-			elseif	($type==2)
-				$str = number_format($model[0]->price2,2);
-			else 
-				$str = number_format($model[0]->price3,2);
+    		switch ($type) {
+    			case 1:
+    				$str = number_format($model[0]->price1,2);
+    				break;
+    			case 2:
+    				$str = number_format($model[0]->price2,2);
+    				break;
+    			case 3:
+    				$str = number_format($model[0]->price3,2);
+    				break;		
+    			case 4:
+    				$str = number_format($model[0]->price4,2);
+    				break;
+    			case 5:
+    				$str = number_format($model[0]->price5,2);
+    				break;
+    			case 6:
+    				$str = number_format($model[0]->price6,2);
+    				break;		
+    			default:
+    				$str = 0;
+    				break;
+    		}
+
+			
 
 		}	
     	return $str;

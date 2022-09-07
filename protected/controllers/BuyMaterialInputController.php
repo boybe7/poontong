@@ -153,6 +153,7 @@ class BuyMaterialInputController extends Controller
 					$modelDetail->weight_out = $value->weight_out;
 					$modelDetail->weight_loss = $value->weight_loss;
 					$modelDetail->price_net = $value->price_net;
+					$modelDetail->percent_moisture = $value->percent_moisture;
 					$modelDetail->buy_id = $model->id;
 					if($modelDetail->save())
 					{
@@ -357,6 +358,7 @@ class BuyMaterialInputController extends Controller
 		$model->weight_in = $_POST['weight_in'];
 		$model->weight_out = $_POST['weight_out'];
 		$model->weight_loss = $_POST['weight_loss'];
+		$model->percent_moisture = $_POST['percent_moisture'];
 		
 		$model->buy_id = 0;
 		$model->user_id = Yii::app()->user->ID;
@@ -390,11 +392,14 @@ class BuyMaterialInputController extends Controller
 	    		$es->update();
 	    	}	
 
-	    	if($_POST['name']=='weight_in' || $_POST['name']=='weight_out' || $_POST['name']=='weight_loss')
+	    	if($_POST['name']=='weight_in' || $_POST['name']=='weight_out' || $_POST['name']=='weight_loss' || $_POST['name']=='percent_moisture')
 	    	{
 	    		$model = BuyMaterialDetailTemp::model()->findByPk($_POST['pk']);
-	    		$_POST['name']='amount';	
-	    		$amount = $model->weight_in - $model->weight_out - $model->weight_loss;
+	    		$_POST['name']='amount';
+	    		$moisture = 0;
+	    		if(!empty($model->percent_moisture))
+	    		$moisture = ($model->weight_in - $model->weight_out)*($model->percent_moisture/100);	
+	    		$amount = $model->weight_in - $model->weight_out - $model->weight_loss - $moisture;
 	    		$_POST['value'] = $amount;
 	    		$es->update();
 
@@ -422,6 +427,7 @@ class BuyMaterialInputController extends Controller
 		$model->weight_in = $_POST['weight_in'];
 		$model->weight_out = $_POST['weight_out'];
 		$model->weight_loss = $_POST['weight_loss'];
+		$model->percent_moisture = $_POST['percent_moisture'];
 		$model->buy_id = $id;
 
 		if($model->save()){
@@ -494,11 +500,15 @@ class BuyMaterialInputController extends Controller
 	    		$es->update();
 	    	}	
 
-	    	if($_POST['name']=='weight_in' || $_POST['name']=='weight_out' || $_POST['name']=='weight_loss')
+	    	if($_POST['name']=='weight_in' || $_POST['name']=='weight_out' || $_POST['name']=='weight_loss' || $_POST['name']=='percent_moisture')
 	    	{
 	    		$model = BuyMaterialDetail::model()->findByPk($_POST['pk']);
-	    		$_POST['name']='amount';	
-	    		$amount = $model->weight_in - $model->weight_out - $model->weight_loss;
+	    		$_POST['name']='amount';
+	    		$moisture = 0;
+	    		if(!empty($model->percent_moisture))
+	    		$moisture = ($model->weight_in - $model->weight_out)*($model->percent_moisture/100);	
+	    		
+	    		$amount = $model->weight_in - $model->weight_out - $model->weight_loss - $moisture;
 	    		$_POST['value'] = $amount;
 	    		$es->update();
 

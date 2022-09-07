@@ -31,7 +31,7 @@ class RequisitionController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update','update2','createItemDetailTemp','deleteDetailTemp','updateDetailTemp','createItemDetail','deleteDetail','updateDetail','delete'),
+				'actions'=>array('create','update','update2','createItemDetailTemp','deleteDetailTemp','updateDetailTemp','createItemDetail','deleteDetail','updateDetail','delete','print'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -87,6 +87,7 @@ class RequisitionController extends Controller
 		if(isset($_POST['Requisition']))
 		{
 			$model->attributes=$_POST['Requisition'];
+			$model->site_id = Yii::app()->user->getSite();
 			
 			if($model->save()){
 

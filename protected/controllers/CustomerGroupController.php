@@ -1,6 +1,6 @@
 <?php
 
-class MaterialGroupController extends Controller
+class CustomerGroupController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -31,11 +31,11 @@ class MaterialGroupController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update','delete'),
+				'actions'=>array('create','update'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin'),
+				'actions'=>array('admin','delete'),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -61,7 +61,7 @@ class MaterialGroupController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new MaterialGroup;
+		$model=new CustomerGroup;
 
 
 		if(isset($_POST['name']))
@@ -72,22 +72,9 @@ class MaterialGroupController extends Controller
 			if($model->save())
 		        echo 'success';
 		    else
-		    	echo 'fail';
+		    	echo 'fail : '.print_r($model->getErrors()) ;
 			
 		}
-
-		// if(isset($_POST['MaterialGroup']))
-		// {
-		// 	$model->attributes=$_POST['MaterialGroup'];
-			
-		// 	if($model->save())
-		// 		$this->redirect(array('index'));
-		// }
-
-		// $this->render('create',array(
-		// 	'model'=>$model,
-		// ));
-
 	}
 
 	/**
@@ -97,19 +84,17 @@ class MaterialGroupController extends Controller
 	 */
 	public function actionUpdate()
 	{
-		$es = new EditableSaver('MaterialGroup');
+		$es = new EditableSaver('CustomerGroup');
 	    try {
 	    	
 	    	$es->update();
-
-	    	
 
 	    } catch(CException $e) {
 	    	echo CJSON::encode(array('success' => false, 'msg' => $e->getMessage()));
 	    	return;
 	    }
 	    echo CJSON::encode(array('success' => true));
-    }
+	}
 
 	/**
 	 * Deletes a particular model.
@@ -139,12 +124,12 @@ class MaterialGroupController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$model=new MaterialGroup('search');
+		$model=new CustomerGroup('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['MaterialGroup']))
-			$model->attributes=$_GET['MaterialGroup'];
+		if(isset($_GET['CustomerGroup']))
+			$model->attributes=$_GET['CustomerGroup'];
 
-		$this->render('admin',array(
+		$this->render('index',array(
 			'model'=>$model,
 		));
 	}
@@ -154,10 +139,10 @@ class MaterialGroupController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$model=new MaterialGroup('search');
+		$model=new CustomerGroup('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['MaterialGroup']))
-			$model->attributes=$_GET['MaterialGroup'];
+		if(isset($_GET['CustomerGroup']))
+			$model->attributes=$_GET['CustomerGroup'];
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -171,7 +156,7 @@ class MaterialGroupController extends Controller
 	 */
 	public function loadModel($id)
 	{
-		$model=MaterialGroup::model()->findByPk($id);
+		$model=CustomerGroup::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -183,7 +168,7 @@ class MaterialGroupController extends Controller
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='material-group-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='customer-group-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();

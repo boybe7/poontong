@@ -109,31 +109,34 @@ $pdf->SetFont('thsarabun', '', 14, '', true);
 $html = "";
 
 $html .= '<br><br><div style="font-weight:bold;font-size:28px;text-align:center"><u>ใบเบิกวัตถุดิบ</u></div>';
-$html .= '<td width="50%" style="text-align:right">วันที่ : '.$model->create_date.'</td></tr>';
-$html .= '<tr style="font-weight:bold;font-size:16px;"><td colspan=2>ผู้เบิก : '.$model->username.'</td></tr></table>';
+$html .= '<table><tr><td width="50%" style="text-align:left">ผู้เบิก : '.$model->username.'</td><td width="50%" style="text-align:right">วันที่ : '.$model->create_date.'</td></tr>';
+$html .= '</table>';
+$html .= 'ไลน์ผลิต : '.Process::model()->FindByPk($model->process)->name;
 
-$html .= '<br><br><table style=""><tr style="font-weight:bold;font-size:16px;">
-			<td width="45%" style="border-top:1px solid black;border-bottom:1px solid black;text-align:center;">รายการ</td><td width="15%" style="border-top:1px solid black;border-bottom:1px solid black;text-align:center;">จำนวน กก.</td><td width="20%" style="border-top:1px solid black;border-bottom:1px solid black;text-align:right;">จำนวน กระสอบ</td><td width="20%" style="border-top:1px solid black;border-bottom:1px solid black;text-align:right;">จำนวน bigbag</td></tr>';
-$details = BuyMaterialDetail::model()->findAll('buy_id='.$model->id);
+$html .= '<br><br><table >
+			<tr style="font-weight:bold;font-size:16px;">
+				<td width="45%" style="border-top:1px solid black;border-bottom:1px solid black;text-align:center;">รายการ</td>
+				<td width="15%" style="border-top:1px solid black;border-bottom:1px solid black;text-align:center;">จำนวน กก.</td>
+				<td width="20%" style="border-top:1px solid black;border-bottom:1px solid black;text-align:right;">จำนวน กระสอบ</td>
+				<td width="20%" style="border-top:1px solid black;border-bottom:1px solid black;text-align:right;">จำนวน bigbag</td>
+				</tr>';
+$details = RequisitionDetail::model()->findAll('requisition_id='.$model->id);
 $total = 0;
 foreach ($details as $key => $value) {
 	$html .=  '<tr>';
 		$html .=  '<td style="">'.Material::model()->findByPk($value->material_id)->name.'</td>';
-		$html .=  '<td style="text-align:center;">'.$value->amount.'</td>';
-		$html .=  '<td style="text-align:right;">'.number_format($value->price_unit,2).'</td>';
-		$html .=  '<td style="text-align:right;">'.number_format($value->price_net,2).'</td>';
+		$html .=  '<td style="text-align:right;">'.number_format($value->amount,2).'</td>';
+		$html .=  '<td style="text-align:right;">'.number_format($value->sack).'</td>';
+		$html .=  '<td style="text-align:right;">'.number_format($value->bigbag).'</td>';
 	$html .=  '</tr>';	
 
-	$total += $value->price_net;
+	
 }
-$html .=  '<tr style="font-weight:bold;font-size:16px;">';
-		$html .=  '<td colspan=3 width="80%" style="border-top:1px solid black;border-bottom:1px solid black;text-align:center;">รวมเป็นเงินทั้งหมด</td>';
-		$html .=  '<td width="20%" style="border-top:1px solid black;border-bottom:1px solid black;text-align:right;">'.number_format($total,2).'</td>';
-$html .=  '</tr>';
+$html .=  '<tr><td width="100%" colspan=4 style="border-top:1px solid black;"></td></tr>';	
 $html .= '</table>';
     
 $html .= '<br><br><br><br><table border=0><tr style="font-size:16px;"><td width="50%"></td>';
-$html .= '<td width="50%" style="text-align:right">ผู้รับของ _____________________</td></tr></table>';  
+$html .= '<td width="50%" style="text-align:right">ผู้อนุมัติ _____________________</td></tr></table>'; 
   
 $pdf->AddPage('P','A5');
 $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);

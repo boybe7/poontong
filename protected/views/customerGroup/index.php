@@ -1,12 +1,12 @@
 <?php
 $this->breadcrumbs=array(
-	'ประเภทวัตถุดิบ'=>array('index'),
+	'ประเภทลูกค้า'=>array('index'),
 	'Manage',
 );
 
 ?>
 
-<h3>ประเภทวัตถุดิบ</h3>
+<h3>ประเภทลูกค้า</h3>
 <center>
 <div class="row-fluid">	
 		<div class='offset3 span4'><label for="name"></label>
@@ -33,13 +33,13 @@ $this->breadcrumbs=array(
 						           
 								$.ajax({
 										type: "POST",
-										url: "' .CController::createUrl('MaterialGroup/create'). '",										
+										url: "' .CController::createUrl('CustomerGroup/create'). '",										
 										data: {
 	                                        name: $("#name").val()                                                                             
                                     	}
 									})									
 									.done(function( msg ) {
-										$("#material-group-grid").yiiGridView("update",{});
+										$("#customer-group-grid").yiiGridView("update",{});
 									});									
 								
 													
@@ -57,7 +57,7 @@ $this->breadcrumbs=array(
 
 
     $this->widget('bootstrap.widgets.TbGridView',array(
-	'id'=>'material-group-grid',
+	'id'=>'customer-group-grid',
 	'dataProvider'=>$model->search(),
 	'type'=>'bordered condensed',
 	'filter'=>$model,
@@ -65,7 +65,7 @@ $this->breadcrumbs=array(
 	'htmlOptions'=>array('style'=>'padding-top:10px;width:100%'),
     'enablePagination' => true,
     'summaryText'=>'แสดงผล {start} ถึง {end} จากทั้งหมด {count} ข้อมูล',
-    'template'=>'{items}<div class=\"row-fluid\"><div class=\"span6\">{pager}</div><div class=\"span6\">{summary}</div></div>',
+    'template'=>'{items}<div class=\"row-fluid\"><div class=\"span6\">{summary}</div></div>',
 	'columns'=>array(
 	
 		'name'=>array(
@@ -74,11 +74,11 @@ $this->breadcrumbs=array(
 			'editable' => array( //editable section
 								
 									'title'=>'แก้ไข ',
-									'url' => $this->createUrl('MaterialGroup/update'),
+									'url' => $this->createUrl('CustomerGroup/update'),
 									'success' => 'js: function(response, newValue) {
 														if(!response.success) return response.msg;
 
-														$("#material-group-grid").yiiGridView("update",{});
+														$("#customer-group-grid").yiiGridView("update",{});
 													}',
 									'options' => array(
 										'ajaxOptions' => array('dataType' => 'json'),

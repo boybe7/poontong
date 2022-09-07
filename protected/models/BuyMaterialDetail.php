@@ -30,12 +30,12 @@ class BuyMaterialDetail extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('material_id, amount, price_unit, price_net, buy_id', 'required'),
-			array('material_id,  buy_id', 'numerical', 'integerOnly'=>true),
+			array('material_id,  buy_id, percent_moisture', 'numerical', 'integerOnly'=>true),
 			array('price_unit', 'length', 'max'=>10),
 			array('price_net,weight_in, weight_out, weight_loss', 'length', 'max'=>15),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, material_id, amount, price_unit, price_net, buy_id,weight_in, weight_out, weight_loss', 'safe', 'on'=>'search'),
+			array('id, material_id, amount, price_unit, price_net, buy_id,weight_in, weight_out, weight_loss, percent_moisture', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -58,13 +58,14 @@ class BuyMaterialDetail extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'material_id' => 'วัตถุดิบ',
-			'amount' => 'น้ำหนักสุทธิ',
-			'price_unit' => 'ราคาต่อหน่วย',
+			'amount' => 'นน. สุทธิ',
+			'price_unit' => 'ราคา/หน่วย',
 			'price_net' => 'ราคารวม',
 			'buy_id' => 'Buy',
-			'weight_in' => 'น้ำหนักเข้า',
-			'weight_out' => 'น้ำหนักออก',
-			'weight_loss' => 'ของเสีย',
+			'weight_in' => 'นน. เข้า',
+			'weight_out' => 'นน. ออก',
+			'weight_loss' => 'สิ่งเจือปน',
+			'percent_moisture'=>'% ความชื้น',
 		);
 	}
 

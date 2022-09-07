@@ -3,7 +3,7 @@
   $(function(){
       
       
-       $("#Material_price1,#Material_price2,#Material_price3,#Material_sell").maskMoney({"symbolStay":true,"thousands":",","decimal":".","precision":2,"symbol":null})  
+       //$("#Material_price1,#Material_price2,#Material_price3,#Material_sell").maskMoney({"symbolStay":true,"thousands":",","decimal":".","precision":2,"symbol":null})  
    
   });
 
@@ -28,9 +28,7 @@
 		   		 	echo $form->dropDownListRow($model, 'material_group_id', $typelist,array('class'=>'span12'), array('options' => array('material_group_id'=>array('selected'=>true))));   
 		    ?>
 		</div>	
-		<div class="span2">
-			<?php echo $form->textFieldRow($model,'unit',array('class'=>'span12','maxlength'=>45)); ?>
-		</div>
+
 	</div>
 	<div class="row-fluid">
 		<div class="span2">
@@ -44,19 +42,56 @@
 	</div>
 	<div class="row-fluid">
 		<div class="span3">
-			<?php echo $form->textFieldRow($model,'price1',array('class'=>'span12','maxlength'=>45,'style'=>'text-align:right')); ?>
+			<?php 
+			$groups = CustomerGroup::model()->findAll("site_id=".Yii::app()->user->getSite());
+			$num_group = count($groups);
+
+			if($num_group>=1)
+			echo $form->textFieldRow($model,'price1',array('class'=>'span12','maxlength'=>45,'style'=>'text-align:right')); ?>
 		</div>
 		<div class="span3">
-			<?php echo $form->textFieldRow($model,'price2',array('class'=>'span12','maxlength'=>45,'style'=>'text-align:right')); ?>
+			<?php
+			if($num_group>=2)
+			 echo $form->textFieldRow($model,'price2',array('class'=>'span12','maxlength'=>45,'style'=>'text-align:right')); ?>
 		</div>
 		<div class="span3">
-			<?php echo $form->textFieldRow($model,'price3',array('class'=>'span12','maxlength'=>45,'style'=>'text-align:right')); ?>
+			<?php 
+			if($num_group>=3)
+			echo $form->textFieldRow($model,'price3',array('class'=>'span12','maxlength'=>45,'style'=>'text-align:right')); ?>
 		</div>
 	</div>
+
 	<div class="row-fluid">
 		<div class="span3">
-		<?php echo $form->textFieldRow($model,'sell',array('class'=>'span12','style'=>'text-align:right')); ?>
+			<?php 
+			$groups = CustomerGroup::model()->findAll("site_id=".Yii::app()->user->getSite());
+			$num_group = count($groups);
+			if($num_group>=4)
+			echo $form->textFieldRow($model,'price4',array('class'=>'span12','maxlength'=>45,'style'=>'text-align:right')); ?>
 		</div>
+		<div class="span3">
+			<?php
+			if($num_group>=5)
+			 echo $form->textFieldRow($model,'price5',array('class'=>'span12','maxlength'=>45,'style'=>'text-align:right')); ?>
+		</div>
+		<div class="span3">
+			<?php 
+			if($num_group>=6)
+			echo $form->textFieldRow($model,'price6',array('class'=>'span12','maxlength'=>45,'style'=>'text-align:right')); ?>
+		</div>
+	</div>
+
+	<?php
+ 
+   $groups = CustomerGroup::model()->findAll("site_id=".Yii::app()->user->getSite());
+   foreach ($groups as $key => $value) {
+   	
+   }
+
+
+	?>
+	<div class="row-fluid">
+		
 		<div class="span2">
 			<?php  	
 				if(Yii::app()->user->isAdmin())

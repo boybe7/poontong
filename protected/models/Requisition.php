@@ -32,10 +32,10 @@ class Requisition extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('process, username, create_date', 'required'),
-			array('process', 'numerical', 'integerOnly'=>true),
+			array('process,site_id', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, process, username, create_date', 'safe', 'on'=>'search'),
+			array('id, process, username, create_date,site_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -57,7 +57,7 @@ class Requisition extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			
+			'site_id' => 'site',
 			'process' => 'ไลน์ผลิต',
 			'username' => 'ชื่อผู้เบิก',
 			'create_date' => 'วันที่เบิก',
@@ -83,7 +83,7 @@ class Requisition extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		
+		$criteria->compare('site_id',$this->site_id);
 		$criteria->compare('process',$this->process);
 		$criteria->compare('username',$this->username);
 		$criteria->compare('create_date',$this->create_date,true);
@@ -142,7 +142,7 @@ class Requisition extends CActiveRecord
     	$model = Yii::app()->db->createCommand($sql)->queryAll();
     	$str = "";
     	foreach ($model as $key => $value) {
-    		$str .= $value['name'].' จำนวน '.number_format($value['amount'],2).' กก. ( '.number_format($value['sack']).' กระสอบ / '.number_format($value['bigbag']).' bagbag )<br>'; 
+    		$str .= $value['name'].' จำนวน '.number_format($value['amount'],2).' กก. ( '.number_format($value['sack']).' กระสอบ / '.number_format($value['bigbag']).' bigbag )<br>'; 
     	}
     	return $str;
     }

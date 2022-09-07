@@ -142,9 +142,7 @@
 			}
 
 			function blurEvent(e) {
-				if ($.browser.msie) {
-					keypressEvent(e);
-				}
+				
 
 				if (input.val()==''||input.val()==setSymbol(getDefaultMask())||input.val()==settings.symbol) {
 					if(!settings.allowZero) input.val('');
@@ -253,9 +251,7 @@
 			input.one('unmaskMoney',function() {
 				input.unbind('.maskMoney');
 
-				if ($.browser.msie) {
-					this.onpaste= null;
-				} else if ($.browser.mozilla) {
+				 if ($.browser.mozilla) {
 					this.removeEventListener('input',blurEvent,false);
 				}
 			});

@@ -16,10 +16,16 @@
                 $(this).autocomplete("search");
       });
 
-      $( "#weight_in,#weight_out,#weight_loss" ).bind('keyup', function () {
+       $( "#weight_in,#weight_out,#weight_loss,#percent_moisture" ).bind('keyup', function () {
             
-            var weight = $("#weight_in").val() - $("#weight_out").val()- $("#weight_loss").val();
-            
+            var weight = $("#weight_in").val() - $("#weight_out").val();
+
+            var moisture = 0;
+            if($("#percent_moisture").val()!="" && $("#percent_moisture").val()!=0)
+            	moisture = $("#percent_moisture").val()/100.00;
+
+            weight = weight - (weight*moisture) - $("#weight_loss").val();
+
             $("#amount").val(weight)
 
             var price = $("#price_unit").val();
@@ -135,7 +141,7 @@
 			<label for='group_id'>ประเภท</label>
 			<?php 
 
-		 	 $typelist = array("1" => "ลูกค้ารายใหญ่", "2" => "ลูกค้ารายย่อย", "3" => "ลูกค้าประจำ");
+		 	 $typelist = CHtml::listData(CustomerGroup::model()->findAll('site_id='.Yii::app()->user->getSite()),'id','name');
 		 	 echo CHtml::dropDownList('group_id', $customer_group,$typelist,array('class'=>'span12','empty' => '----เลือก----'));
          
 			?>
@@ -180,6 +186,9 @@
 			   echo CHtml::textField('price_unit','',array('class'=>'span12 number','maxlength'=>10)); 
 			?>
 		</div>
+		<div class='span2'><label for="price_net">ราคารวม</label>
+			<?php echo CHtml::textField('price_net',"",array('class'=>'span12 number','maxlength'=>10,'disabled'=>true)); ?>
+		</div>
 	</div>
 	<div class="row-fluid">	
 		<div class='span2'><label for="weight_in">นน.เข้า</label>
@@ -192,18 +201,20 @@
 			   echo CHtml::textField('weight_out','',array('class'=>'span12 number','maxlength'=>10)); 
 			?>
 		</div>
-		<div class='span2'><label for="weight_loss">ของเสีย</label>
+		<div class='span2'><label for="weight_loss">สิ่งเจือปน</label>
 			<?php 
 			   echo CHtml::textField('weight_loss','',array('class'=>'span12 number','maxlength'=>10)); 
+			?>
+		</div>
+		<div class='span2'><label for="percent_moisture">% ความชื้น</label>
+			<?php 
+			   echo CHtml::textField('percent_moisture','',array('class'=>'span12 number','maxlength'=>3)); 
 			?>
 		</div>
 		<div class='span2'><label for="amount">นน.สุทธิ</label>
 			<?php 
 			   echo CHtml::textField('amount','',array('class'=>'span12 number','maxlength'=>10,'disabled'=>true)); 
 			?>
-		</div>
-		<div class='span2'><label for="price_net">ราคารวม</label>
-			<?php echo CHtml::textField('price_net',"",array('class'=>'span12 number','maxlength'=>10,'disabled'=>true)); ?>
 		</div>
 		<div class='span2'>
 			<?php
@@ -232,6 +243,7 @@
 	                                        weight_in: $("#weight_in").val(),
 	                                        weight_out: $("#weight_out").val(),
 	                                        weight_loss: $("#weight_loss").val(),
+	                                        percent_moisture: $("#percent_moisture").val(),
 	                                        amount:$("#amount").val()
                                        
                                     	}
@@ -267,11 +279,11 @@
 					'id'=>'buy-item-grid',
 					
 				    'type'=>'bordered condensed',
-					'dataProvider'=>$modelTemp->search(),
+					'dataProvider'=>$modelTemp->searchByBuy($model->id),
 					//'filter'=>$model,
 					'selectableRows' => 2,
 					'enableSorting' => false,
-					'rowCssClassExpression'=>'($row == 0) ? "hidden_row" : "" ',
+					//'rowCssClassExpression'=>'($row == 0) ? "hidden_row" : "" ',
 				    'htmlOptions'=>array('style'=>'padding-top:10px;'),
 				    'enablePagination' => true,
 				    'summaryText'=>'',//'Displaying {start}-{end} of {count} results.',
@@ -400,6 +412,33 @@
 								'value' => function($model){
 									
 									return number_format($model->weight_loss,2);
+								 },
+								'headerHtmlOptions' => array('style' => 'width:5%;text-align:center;background-color: #f5f5f5'),  	            	  	
+								'htmlOptions'=>array('style'=>'text-align:right')
+						  	),
+						  	'percent_moisture'=>array(
+								'name' => 'percent_moisture',
+								'class' => 'editable.EditableColumn',
+								'editable' => array( //editable section
+								
+									'title'=>'แก้ไข ',
+									'url' => $this->createUrl('BuyMaterialInput/updateDetail'),
+									'success' => 'js: function(response, newValue) {
+														if(!response.success) return response.msg;
+
+														$("#buy-item-grid").yiiGridView("update",{});
+													}',
+									'options' => array(
+										'ajaxOptions' => array('dataType' => 'json'),
+
+									), 
+									'placement' => 'right'
+									
+								),
+								'filter'=> false,
+								'value' => function($model){
+									
+									return number_format($model->percent_moisture,0);
 								 },
 								'headerHtmlOptions' => array('style' => 'width:5%;text-align:center;background-color: #f5f5f5'),  	            	  	
 								'htmlOptions'=>array('style'=>'text-align:right')

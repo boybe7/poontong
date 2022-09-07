@@ -69,10 +69,19 @@ class MaterialController extends Controller
 		if(isset($_POST['Material']))
 		{
 			$model->attributes=$_POST['Material'];
-			$model->price1 = str_replace(",","",$_POST['Material']['price1']);
-			$model->price2 = str_replace(",","",$_POST['Material']['price2']);
-			$model->price3 = str_replace(",","",$_POST['Material']['price3']);
-			$model->sell = str_replace(",","",$_POST['Material']['sell']);
+			if(isset($_POST['Material']['price1']))
+				$model->price1 = str_replace(",","",$_POST['Material']['price1']);
+			if(isset($_POST['Material']['price2']))
+				$model->price2 = str_replace(",","",$_POST['Material']['price2']);
+			if(isset($_POST['Material']['price3']))
+				$model->price3 = str_replace(",","",$_POST['Material']['price3']);
+			if(isset($_POST['Material']['price4']))
+				$model->price4 = str_replace(",","",$_POST['Material']['price4']);
+			if(isset($_POST['Material']['price5']))
+				$model->price5 = str_replace(",","",$_POST['Material']['price5']);
+			if(isset($_POST['Material']['price6']))
+				$model->price6 = str_replace(",","",$_POST['Material']['price6']);
+			
 			$model->site_id = empty($model->site_id) || $model->site_id=='' ? Yii::app()->user->getSite() : $model->site_id; 
 			if($model->save())
 				$this->redirect(array('index'));
@@ -98,10 +107,18 @@ class MaterialController extends Controller
 		if(isset($_POST['Material']))
 		{
 			$model->attributes=$_POST['Material'];
-			$model->price1 = str_replace(",","",$_POST['Material']['price1']);
-			$model->price2 = str_replace(",","",$_POST['Material']['price2']);
-			$model->price3 = str_replace(",","",$_POST['Material']['price3']);
-			$model->sell = str_replace(",","",$_POST['Material']['sell']);
+			if(isset($_POST['Material']['price1']))
+				$model->price1 = str_replace(",","",$_POST['Material']['price1']);
+			if(isset($_POST['Material']['price2']))
+				$model->price2 = str_replace(",","",$_POST['Material']['price2']);
+			if(isset($_POST['Material']['price3']))
+				$model->price3 = str_replace(",","",$_POST['Material']['price3']);
+			if(isset($_POST['Material']['price4']))
+				$model->price4 = str_replace(",","",$_POST['Material']['price4']);
+			if(isset($_POST['Material']['price5']))
+				$model->price5 = str_replace(",","",$_POST['Material']['price5']);
+			if(isset($_POST['Material']['price6']))
+				$model->price6 = str_replace(",","",$_POST['Material']['price6']);
 			$model->site_id = empty($model->site_id) || $model->site_id=='' ? Yii::app()->user->getSite() : $model->site_id; 
 			//$model->save();
 			if($model->save())
