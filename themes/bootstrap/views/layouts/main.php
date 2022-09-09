@@ -627,7 +627,7 @@ $class_profile = Yii::app()->user->id =="" ? "hidden" : "";
             'encodeLabel'=>false,
             'items'=>array(
               
-                array('label'=>'ซื้อ ','icon'=>'', 'url'=>array('/buymaterialinput/index'),'visible'=>Yii::app()->user->isAccess('/buymaterialinput/index')),
+                array('label'=>'ซื้อ ','icon'=>'', 'url'=>array('/buyMaterialInput/index'),'visible'=>Yii::app()->user->isAccess('/buyMaterialInput/index')),
                 array('label'=>'stock ','icon'=>'', 'url'=>array('#'),'visible'=>Yii::app()->user->isAccess('/stock/index'),'items'=>array(
                         array('label'=>'วัตถุดิบ', 'url'=>array('/stock/index/0'),'visible'=>Yii::app()->user->isAccess('/stock/index/0')),
                       )),

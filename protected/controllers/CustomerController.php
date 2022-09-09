@@ -186,7 +186,7 @@ class CustomerController extends Controller
             $request=trim($_GET['term']);
             $type = $_GET['type'];
                     
-            $models=Customer::model()->findAll(array("condition"=>"name like '%$request%' AND type='$type' "));
+            $models=Customer::model()->findAll(array("condition"=>"name like '%$request%' AND type='$type' AND site_id=".Yii::app()->user->getSite()));
             $data=array();
             foreach($models as $model){
                
