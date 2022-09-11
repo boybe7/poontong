@@ -547,13 +547,13 @@ class RequisitionController extends Controller
 		        //24 hours in a day * 3600 seconds per hour
 		        if((time() - $filelastmodified) > 12*3600)
 		        {
-		           if(chmod($path, 0777)){
+		           //if(chmod($path, 0777)){
 						echo "chmod ok";
 						if(unlink($file))
 							echo $file;
-				    }else{
-				        echo "chmod is fail";
-				    }	
+				    //}else{
+				    //    echo "chmod is fail";
+				    //}	
 		           
 		        }
 

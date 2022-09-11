@@ -2,7 +2,7 @@
 
 
 // Include the main TCPDF library (search for installation path).
-require_once($_SERVER['DOCUMENT_ROOT'].'/poontong/protected/tcpdf/tcpdf.php');
+require_once($_SERVER['DOCUMENT_ROOT'].'poontong/tcpdf/tcpdf.php');
 
 class MYPDF extends TCPDF {
 

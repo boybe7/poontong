@@ -69,15 +69,15 @@ $this->pageTitle=Yii::app()->name . ' - Login';
 
 
         <?php /** @var BootActiveForm $form */
-                    echo  CHtml::link(CHtml::image(Yii::app()->getBaseUrl() . '../images/user-manual.png', 'Logo', array('width' => '40', 'height' => '40','border-radius'=> '100%')),'../user_manual.pdf',array('title' => 'คู่มือการใช้งาน','target'=>'_blank') );
+                    // echo  CHtml::link(CHtml::image(Yii::app()->getBaseUrl() . '/images/user-manual.png', 'Logo', array('width' => '40', 'height' => '40','border-radius'=> '100%')),'../user_manual.pdf',array('title' => 'คู่มือการใช้งาน','target'=>'_blank') );
 
-                    echo "&nbsp;&nbsp;&nbsp;";
+                    // echo "&nbsp;&nbsp;&nbsp;";
 
-                      echo  CHtml::link(CHtml::image(Yii::app()->getBaseUrl() . '../images/template.png', 'Logo', array('width' => '40', 'height' => '40','border-radius'=> '100%')),'../template_boq_form1.xls',array('title' => 'ตัวอย่างแบบฟอร์ม boq (ค่าอุปกรณ์ ค่าขนส่ง และค่าติดตั้ง)','target'=>'_blank') );
+                    //   echo  CHtml::link(CHtml::image(Yii::app()->getBaseUrl() . '/images/template.png', 'Logo', array('width' => '40', 'height' => '40','border-radius'=> '100%')),'../template_boq_form1.xls',array('title' => 'ตัวอย่างแบบฟอร์ม boq (ค่าอุปกรณ์ ค่าขนส่ง และค่าติดตั้ง)','target'=>'_blank') );
 
-                      echo "&nbsp;&nbsp;&nbsp;";
+                    //   echo "&nbsp;&nbsp;&nbsp;";
 
-                      echo  CHtml::link(CHtml::image(Yii::app()->getBaseUrl() . '../images/template2.png', 'Logo', array('width' => '40', 'height' => '40','border-radius'=> '100%')),'../template_boq_form2.xls',array('title' => 'ตัวอย่างแบบฟอร์ม boq (ค่าของ และค่าแรง)','target'=>'_blank') );
+                    //   echo  CHtml::link(CHtml::image(Yii::app()->getBaseUrl() . '/images/template2.png', 'Logo', array('width' => '40', 'height' => '40','border-radius'=> '100%')),'../template_boq_form2.xls',array('title' => 'ตัวอย่างแบบฟอร์ม boq (ค่าของ และค่าแรง)','target'=>'_blank') );
 
         ?>
 </center>
