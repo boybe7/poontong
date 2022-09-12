@@ -82,11 +82,16 @@ class Requisition extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
+		$date_search = $this->create_date;
+		$str_date = explode("/", $this->create_date);
+        if(count($str_date)>1)
+        	$date_search= ($str_date[2]-543)."-".$str_date[1]."-".$str_date[0];
+
 		$criteria->compare('id',$this->id);
 		$criteria->compare('site_id',$this->site_id);
 		$criteria->compare('process',$this->process);
 		$criteria->compare('username',$this->username);
-		$criteria->compare('create_date',$this->create_date,true);
+		$criteria->compare('create_date',$date_search,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

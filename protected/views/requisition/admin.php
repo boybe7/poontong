@@ -21,6 +21,7 @@ $this->breadcrumbs=array(
 	'id'=>'requisition-grid',
 	'dataProvider'=>$model->search(),
 	'type'=>'bordered condensed',
+	'afterAjaxUpdate' => 'reinstallDatePicker',
 	'filter'=>$model,
 	'selectableRows' =>2,
 	'htmlOptions'=>array('style'=>'padding-top:10px;width:100%'),
@@ -41,7 +42,26 @@ $this->breadcrumbs=array(
 	 //  	),
 		'create_date'=>array(
 			'name' => 'create_date',
-			'filter'=>false,
+			'filter'=>$this->widget('zii.widgets.jui.CJuiDatePicker', array(
+				'model'=>$model, 
+				'attribute'=>'create_date', 
+				'language' => 'ja',
+				// 'i18nScriptFile' => 'jquery.ui.datepicker-ja.js', (#2)
+				'htmlOptions' => array(
+					'id' => 'datepicker_for_due_date',
+					'size' => '10',
+				),
+				'defaultOptions' => array(  // (#3)
+					'showOn' => 'focus', 
+					'dateFormat' => 'yy/mm/dd',
+					'showOtherMonths' => true,
+					'selectOtherMonths' => true,
+					'changeMonth' => true,
+					'changeYear' => true,
+					'showButtonPanel' => true,
+				)
+			), 
+			true),
 			'headerHtmlOptions' => array('style' => 'width:10%;text-align:center;background-color: #f5f5f5'),  	            	  	
 			'htmlOptions'=>array('style'=>'text-align:center')
 	  	),
@@ -183,4 +203,12 @@ $this->breadcrumbs=array(
 			)
 		),
 	),
-)); ?>
+));
+
+Yii::app()->clientScript->registerScript('re-install-date-picker', "
+function reinstallDatePicker(id, data) {
+        //use the same parameters that you had set in your widget else the datepicker will be refreshed by default
+	$('#datepicker_for_due_date').datepicker(jQuery.extend({showMonthAfterYear:false},jQuery.datepicker.regional['th'],{'dateFormat':'yy/mm/dd'}));
+}
+");
+ ?>
