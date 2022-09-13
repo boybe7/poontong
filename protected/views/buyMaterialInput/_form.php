@@ -105,14 +105,15 @@
                                     },
                                     success: function (data) {
                                             response(data);
-
+                                           
                                     }
                                 })
                              }',
+
                             // additional javascript options for the autocomplete plugin
                             'options'=>array(
                                      'showAnim'=>'fold',
-                                     'minLength'=>0,
+                                     'minLength'=>0,                           
                                      'select'=>'js: function(event, ui) {
                                         
                                            $("#BuyMaterialInput_customer_id").val(ui.item.id)
@@ -122,7 +123,16 @@
                                          
                                           
                                      }',
-                                     //'close'=>'js:function(){$(this).val("");}',
+                                     'change'=> 'js:function (event, ui) {
+                                     	 
+							              if (!ui.item) {
+							                  $(this).val("");
+							                  $("#empty-message").show();
+							              } else {
+							                 $("#empty-message").hide();
+							              }
+							          }'
+                                     //'close'=>'js:function(){    $(this).val("");}',
                                      
                             ),
                            'htmlOptions'=>array(
@@ -132,7 +142,7 @@
                         ));
             
 
-		 ?>
+		 ?><div id="empty-message" style="display:none; color: red">กรุณาเลือกลูกค้า</div>
 	</div>
 	<div class="span2">
 			<label for='group_id'>ประเภท</label>
