@@ -1252,3 +1252,19 @@ Stack trace:
 REQUEST_URI=/poontong/Production/create
 in C:\xampp\htdocs\poontong\protected\controllers\ProductionController.php (73)
 in C:\xampp\htdocs\poontong\index.php (13)
+2022/09/13 23:13:01 [error] [php] Creating default object from empty value (C:\xampp\htdocs\poontong\protected\controllers\ProductionController.php:71)
+Stack trace:
+#0 C:\xampp\htdocs\poontong\framework\web\filters\CFilterChain.php(133): ProductionController->runAction()
+#1 C:\xampp\htdocs\poontong\framework\web\filters\CFilter.php(40): CFilterChain->run()
+#2 C:\xampp\htdocs\poontong\framework\web\CController.php(1145): CAccessControlFilter->filter()
+#3 C:\xampp\htdocs\poontong\framework\web\filters\CInlineFilter.php(58): ProductionController->filterAccessControl()
+#4 C:\xampp\htdocs\poontong\framework\web\filters\CFilterChain.php(130): CInlineFilter->filter()
+#5 C:\xampp\htdocs\poontong\framework\web\CController.php(291): CFilterChain->run()
+#6 C:\xampp\htdocs\poontong\framework\web\CController.php(265): ProductionController->runActionWithFilters()
+#7 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(282): ProductionController->run()
+#8 C:\xampp\htdocs\poontong\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#9 C:\xampp\htdocs\poontong\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#10 C:\xampp\htdocs\poontong\index.php(13): CWebApplication->run()
+REQUEST_URI=/poontong/Production/create
+in C:\xampp\htdocs\poontong\protected\controllers\ProductionController.php (71)
+in C:\xampp\htdocs\poontong\index.php (13)

@@ -101,7 +101,7 @@ class Production extends CActiveRecord
 		$criteria->compare('material_id',$this->material_id);
 		$criteria->compare('in_out',$this->in_out);
 		$criteria->compare('amount',$this->amount,true);
-		$criteria->compare('site_id',$this->site_id);
+		$criteria->compare('site_id',Yii::app()->user->getSite());
 		$criteria->compare('production_date',$date_search,true);
 		$criteria->compare('user_id',$this->user_id);
 		$criteria->compare('last_update',$this->last_update,true);

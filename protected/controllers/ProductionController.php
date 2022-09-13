@@ -31,7 +31,7 @@ class ProductionController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
+				'actions'=>array('create','update','updateAjax'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -75,12 +75,35 @@ class ProductionController extends Controller
 			$model->site_id = Yii::app()->user->getSite();
 
 			if($model->save())
+			{
+						//update stock
+						$stock = Stock::model()->findAll("material_id=:material_id AND site_id=:site ",[":material_id"=>$model->material_id,':site'=>Yii::app()->user->getSite()]);
+						$modelStock = !empty($stock) ? $stock[0] : new Stock;
+
+						if(empty($stock))
+						{
+							$modelStock->material_id = $model->material_id;
+							$modelStock->site_id =Yii::app()->user->getSite();
+							$modelStock->type = 0;
+							$modelStock->user_id = Yii::app()->user->ID;
+							$modelStock->amount = 0;
+						}	
+
+						if($model->in_out==0)
+						   $modelStock->amount -= $model->amount;
+						else if($model->in_out==1)
+						   $modelStock->amount += $model->amount;
+						$modelStock->last_update = date("Y-m-d H:i:s");
+						$modelStock->save();
+
+
 				$this->redirect(array('index'));
+			}
 		}
 
-		$this->render('create',array(
-			'model'=>$model,
-		));
+		//$this->render('create',array(
+		//	'model'=>$model,
+		//));
 	}
 
 	/**
@@ -107,6 +130,58 @@ class ProductionController extends Controller
 		));
 	}
 
+	public function actionUpdateAjax()
+	{
+		$es = new EditableSaver('Production');
+	    try {
+	    
+	    		$model = Production::model()->findByPk($_POST['pk']);
+	    		$stock = Stock::model()->findAll('material_id='.$model->material_id);
+
+
+	    		if($_POST['name']=='amount' )
+	    		{
+	    			if(!empty($stock))
+		    		{
+		    			$old_amount = $model->amount;
+		    			$es->update();
+
+		    			//update stock
+						$stock = Stock::model()->findAll("material_id=:material_id AND site_id=:site ",[":material_id"=>$model->material_id,':site'=>Yii::app()->user->getSite()]);
+						$modelStock = !empty($stock) ? $stock[0] : new Stock;
+
+						if(empty($stock))
+						{
+							$modelStock->material_id = $model->material_id;
+							$modelStock->site_id =Yii::app()->user->getSite();
+							$modelStock->type = 0;
+							$modelStock->user_id = Yii::app()->user->ID;
+							$modelStock->amount = 0;
+						}	
+
+						if($model->in_out==0)
+						   $modelStock->amount = $modelStock->amount + $old_amount - $_POST['value'] ;
+						else if($model->in_out==1)
+						   $modelStock->amount = $modelStock->amount - $old_amount + $_POST['value']  ;
+						$modelStock->last_update = date("Y-m-d H:i:s");
+						$modelStock->save();
+
+						//echo $modelStock->amount;
+		    		}	
+		    		
+	    		}
+
+	    		
+
+
+
+	    } catch(CException $e) {
+	    	echo CJSON::encode(array('success' => false, 'msg' => $e->getMessage()));
+	    	return;
+	    }
+	    echo CJSON::encode(array('success' => true));
+	}
+
 	/**
 	 * Deletes a particular model.
 	 * If deletion is successful, the browser will be redirected to the 'admin' page.
@@ -118,6 +193,25 @@ class ProductionController extends Controller
 		{
 			// we only allow deletion via POST request
 			$this->loadModel($id)->delete();
+
+			$stock = Stock::model()->findAll("material_id=:material_id AND site_id=:site ",[":material_id"=>$model->material_id,':site'=>Yii::app()->user->getSite()]);
+						$modelStock = !empty($stock) ? $stock[0] : new Stock;
+
+						if(empty($stock))
+						{
+							$modelStock->material_id = $model->material_id;
+							$modelStock->site_id =Yii::app()->user->getSite();
+							$modelStock->type = 0;
+							$modelStock->user_id = Yii::app()->user->ID;
+							$modelStock->amount = 0;
+						}	
+
+						if($model->in_out==0)
+						   $modelStock->amount += $model->amount;
+						else if($model->in_out==1)
+						   $modelStock->amount -= $model->amount;
+						$modelStock->last_update = date("Y-m-d H:i:s");
+						$modelStock->save();
 
 			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 			if(!isset($_GET['ajax']))

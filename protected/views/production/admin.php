@@ -184,7 +184,7 @@ $this->widget('bootstrap.widgets.TbGridView',array(
 			 },
 			'filter'=>false, 
 			'headerHtmlOptions' => array('style' => 'width:30%;text-align:center;background-color: #f5f5f5'),  	            	  	
-			'htmlOptions'=>array('style'=>'text-align:center')
+			'htmlOptions'=>array('style'=>'text-align:left')
 	  	),
 	  	'amount'=>array(
 			'name' => 'amount',
@@ -192,6 +192,23 @@ $this->widget('bootstrap.widgets.TbGridView',array(
 				
 				return number_format($model->amount,2);
 			 },
+			 'class' => 'editable.EditableColumn',
+								'editable' => array( //editable section
+								
+									'title'=>'แก้ไข ',
+									'url' => $this->createUrl('Production/updateAjax'),
+									'success' => 'js: function(response, newValue) {
+														if(!response.success) return response.msg;
+
+														$("#production-grid").yiiGridView("update",{});
+													}',
+									'options' => array(
+										'ajaxOptions' => array('dataType' => 'json'),
+
+									), 
+									'placement' => 'right'
+									
+								),
 			'filter'=>false, 
 			'headerHtmlOptions' => array('style' => 'width:15%;text-align:center;background-color: #f5f5f5'),  	            	  	
 			'htmlOptions'=>array('style'=>'text-align:right')

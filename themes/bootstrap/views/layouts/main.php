@@ -632,11 +632,12 @@ $class_profile = Yii::app()->user->id =="" ? "hidden" : "";
             'encodeLabel'=>false,
             'items'=>array(
               
-                array('label'=>'ซื้อ ','icon'=>'', 'url'=>array('/buyMaterialInput/index'),'visible'=>Yii::app()->user->isAccess('/buyMaterialInput/index')),
+                array('label'=>'ซื้อวัตถุดิบ ','icon'=>'', 'url'=>array('/buyMaterialInput/index'),'visible'=>Yii::app()->user->isAccess('/buyMaterialInput/index')),
+                array('label'=>'การผลิต ','icon'=>'', 'url'=>array('/production/index'),'visible'=>Yii::app()->user->isAccess('/production/index')),
                 array('label'=>'stock ','icon'=>'', 'url'=>array('#'),'visible'=>Yii::app()->user->isAccess('/stock/index'),'items'=>array(
                         array('label'=>'วัตถุดิบ', 'url'=>array('/stock/index/0'),'visible'=>Yii::app()->user->isAccess('/stock/index/0')),
                       )),
-                array('label'=>'เบิก ','icon'=>'', 'url'=>array('/requisition/index'),'visible'=>Yii::app()->user->isAccess('/requisition/index')),
+                
                 array('label'=>'รายงาน ','icon'=>'', 'url'=>'#','visible'=>Yii::app()->user->isAccess('/report/index'),'items'=>array(
                      array('label'=>'ซื้อวัตถุดิบรายวัน', 'url'=>array('/report/buyraw'),'visible'=>Yii::app()->user->isAccess('/report/buyraw')),
                      array('label'=>'ซื้อวัตถุดิบเข้า', 'url'=>array('/report/buyrawSummary'),'visible'=>Yii::app()->user->isAccess('/report/buyrawSummary')),
