@@ -36,7 +36,7 @@ class ProductionController extends Controller
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
 				'actions'=>array('admin','delete'),
-				'users'=>array('admin'),
+				'users'=>array('@'),
 			),
 			array('deny',  // deny all users
 				'users'=>array('*'),
@@ -89,6 +89,29 @@ class ProductionController extends Controller
 							$modelStock->amount = 0;
 						}	
 
+						if($model->in_out==0)
+						   $modelStock->amount -= $model->amount;
+						else if($model->in_out==1)
+						   $modelStock->amount += $model->amount;
+						$modelStock->last_update = date("Y-m-d H:i:s");
+						$modelStock->save();
+
+						//update stock daily
+						$str_date = explode("/", $model->production_date);
+        				if(count($str_date)>1)
+        					$model->production_date= ($str_date[2])."-".$str_date[1]."-".$str_date[0];
+						$stock = StockDaily::model()->findAll("material_id=:material_id AND site_id=:site AND stock_date=:date",[":material_id"=>$model->material_id,':site'=>Yii::app()->user->getSite(),':date'=>$model->production_date]);
+						$modelStock = !empty($stock) ? $stock[0] : new StockDaily;
+
+						if(empty($stock))
+						{
+							$modelStock->material_id = $model->material_id;
+							$modelStock->site_id =Yii::app()->user->getSite();
+							$modelStock->type = 0;
+							$modelStock->user_id = Yii::app()->user->ID;
+							$modelStock->amount = 0;
+							$modelStock->stock_date = $model->production_date;
+						}													
 						if($model->in_out==0)
 						   $modelStock->amount -= $model->amount;
 						else if($model->in_out==1)
@@ -166,7 +189,28 @@ class ProductionController extends Controller
 						$modelStock->last_update = date("Y-m-d H:i:s");
 						$modelStock->save();
 
-						//echo $modelStock->amount;
+						//update stock daily
+						$str_date = explode("/", $model->production_date);
+        				if(count($str_date)>1)
+        					$model->production_date= ($str_date[2]-543)."-".$str_date[1]."-".$str_date[0];
+						$stock = StockDaily::model()->findAll("material_id=:material_id AND site_id=:site AND stock_date=:date",[":material_id"=>$model->material_id,':site'=>Yii::app()->user->getSite(),':date'=>$model->production_date]);
+						$modelStock = !empty($stock) ? $stock[0] : new StockDaily;
+
+						if(empty($stock))
+						{
+							$modelStock->material_id = $model->material_id;
+							$modelStock->site_id =Yii::app()->user->getSite();
+							$modelStock->type = 0;
+							$modelStock->user_id = Yii::app()->user->ID;
+							$modelStock->amount = 0;
+							$modelStock->stock_date = $model->production_date;
+						}													
+						if($model->in_out==0)
+						   $modelStock->amount = $modelStock->amount + $old_amount - $_POST['value'] ;
+						else if($model->in_out==1)
+						   $modelStock->amount = $modelStock->amount - $old_amount + $_POST['value']  ;
+						$modelStock->last_update = date("Y-m-d H:i:s");
+						$modelStock->save();
 		    		}	
 		    		
 	    		}
@@ -192,7 +236,8 @@ class ProductionController extends Controller
 		if(Yii::app()->request->isPostRequest)
 		{
 			// we only allow deletion via POST request
-			$this->loadModel($id)->delete();
+			$model = $this->loadModel($id);
+			
 
 			$stock = Stock::model()->findAll("material_id=:material_id AND site_id=:site ",[":material_id"=>$model->material_id,':site'=>Yii::app()->user->getSite()]);
 						$modelStock = !empty($stock) ? $stock[0] : new Stock;
@@ -213,6 +258,30 @@ class ProductionController extends Controller
 						$modelStock->last_update = date("Y-m-d H:i:s");
 						$modelStock->save();
 
+						//update stock daily
+						$str_date = explode("/", $model->production_date);
+        				if(count($str_date)>1)
+        					$model->production_date= ($str_date[2]-543)."-".$str_date[1]."-".$str_date[0];
+						$stock = StockDaily::model()->findAll("material_id=:material_id AND site_id=:site AND stock_date=:date",[":material_id"=>$model->material_id,':site'=>Yii::app()->user->getSite(),':date'=>$model->production_date]);
+						$modelStock = !empty($stock) ? $stock[0] : new StockDaily;
+
+						if(empty($stock))
+						{
+							$modelStock->material_id = $model->material_id;
+							$modelStock->site_id =Yii::app()->user->getSite();
+							$modelStock->type = 0;
+							$modelStock->user_id = Yii::app()->user->ID;
+							$modelStock->amount = 0;
+							$modelStock->stock_date = $model->$production_date;
+						}													
+						if($model->in_out==0)
+						   $modelStock->amount += $model->amount;
+						else if($model->in_out==1)
+						   $modelStock->amount -= $model->amount;
+						$modelStock->last_update = date("Y-m-d H:i:s");
+						$modelStock->save();
+
+			$this->loadModel($id)->delete();			
 			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 			if(!isset($_GET['ajax']))
 				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
