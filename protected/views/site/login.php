@@ -58,7 +58,7 @@ $this->pageTitle=Yii::app()->name . ' - Login';
                     echo "<span style='display: block;margin-bottom: 5px;text-align:left'><i class='icon-lock'></i>  รหัสผ่าน</span>";
                     echo $form->passwordFieldRow($model, 'password', array('class'=>'span12','labelOptions' => array('label' => false))); ?>
 
-                    <?php $this->widget('bootstrap.widgets.TbButton', array('htmlOptions'=>array('class'=>'pull-right'),'buttonType'=>'submit','type'=>'primary', 'label'=>'Login')); ?>
+                    <?php $this->widget('bootstrap.widgets.TbButton', array('htmlOptions'=>array('class'=>'pull-right'),'buttonType'=>'submit','type'=>'primary', 'label'=>'เข้าสู่ระบบ')); ?>
 
                     <?php $this->endWidget(); ?>
               </div>    
