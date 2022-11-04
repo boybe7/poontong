@@ -2404,7 +2404,7 @@ class PHPExcel_Calculation_Statistical {
 				if ((string) $value['value'] == (string) $datum) {
 					++$frequencyArray[$key]['frequency'];
 					$found = True;
-					break;
+					return false;
 				}
 			}
 			if (!$found) {

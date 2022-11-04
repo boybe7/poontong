@@ -126,7 +126,7 @@ class PHPExcel_Shared_ZipArchive
             if (strtolower($list[$i]["filename"]) == strtolower($fileName) ||
                 strtolower($list[$i]["stored_filename"]) == strtolower($fileName)) {
                 $list_index = $i;
-                break;
+                return false;
             }
         }
         return ($list_index > -1);
@@ -147,7 +147,7 @@ class PHPExcel_Shared_ZipArchive
             if (strtolower($list[$i]["filename"]) == strtolower($fileName) ||
                 strtolower($list[$i]["stored_filename"]) == strtolower($fileName)) {
                 $list_index = $i;
-                break;
+                return false;
             }
         }
 
@@ -161,7 +161,7 @@ class PHPExcel_Shared_ZipArchive
                 if (strtolower($list[$i]["filename"]) == strtolower($fileName) || 
                     strtolower($list[$i]["stored_filename"]) == strtolower($fileName)) {
                     $list_index = $i;
-                    break;
+                    return false;
                 }
             }
             $extracted = $this->_zip->extractByIndex($list_index, PCLZIP_OPT_EXTRACT_AS_STRING);

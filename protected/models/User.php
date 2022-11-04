@@ -8,7 +8,7 @@
  * @property string $username
  * @property string $password
  * @property string $name
- * @property string $position
+ * @property string $telephone
  * @property integer $status
  * @property integer $site_id
  * @property integer $user_group_id
@@ -34,10 +34,10 @@ class User extends CActiveRecord
 			array('username, password, name, status, site_id, user_group_id', 'required'),
 			array('status, site_id, user_group_id', 'numerical', 'integerOnly'=>true),
 			array('username, password, name', 'length', 'max'=>255),
-			array('position', 'length', 'max'=>45),
+			array('telephone', 'length', 'max'=>45),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, username, password, name, position, status, site_id, user_group_id', 'safe', 'on'=>'search'),
+			array('id, username, password, name, telephone, status, site_id, user_group_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -62,9 +62,9 @@ class User extends CActiveRecord
 			'username' => 'Username',
 			'password' => 'Password',
 			'name' => 'Name',
-			'position' => 'Position',
+			'telephone' => 'Telephone',
 			'status' => '0=inactive, 1=active',
-			'site_id' => '99 = all',
+			'site_id' => 'Site',
 			'user_group_id' => 'User Group',
 		);
 	}
@@ -88,12 +88,21 @@ class User extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('username',$this->username,true);
+		if(!Yii::app()->user->isAdmin() )
+		{
+			//$criteria->compare('username',$this->username,true);
+			$criteria->addNotInCondition('username', array('admin'));
+		}	
+		else
+			$criteria->compare('username',$this->username,true);
 		$criteria->compare('password',$this->password,true);
 		$criteria->compare('name',$this->name,true);
-		$criteria->compare('position',$this->position,true);
+		$criteria->compare('telephone',$this->telephone,true);
 		$criteria->compare('status',$this->status);
-		$criteria->compare('site_id',$this->site_id);
+		//if(Yii::app()->user->isAdmin())
+		//  $criteria->compare('site_id',$this->site_id);
+		//else
+		  $criteria->compare('site_id',Yii::app()->user->getSite());	
 		$criteria->compare('user_group_id',$this->user_group_id);
 
 		return new CActiveDataProvider($this, array(

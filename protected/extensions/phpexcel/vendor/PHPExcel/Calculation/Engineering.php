@@ -2240,7 +2240,7 @@ class PHPExcel_Calculation_Engineering {
 			$sum += $term / (2 * $j + 1);
 			++$j;
 			if ($sum == 0.0) {
-				break;
+				return false;
 			}
 		} while (abs($term / $sum) > PRECISION);
 		return self::$_two_sqrtpi * $sum;

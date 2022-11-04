@@ -253,11 +253,11 @@ class SingularValueDecomposition  {
 			// kase = 4  if e(p-1) is negligible (convergence).
 			for ($k = $p - 2; $k >= -1; --$k) {
 				if ($k == -1) {
-					break;
+					return false;
 				}
 				if (abs($e[$k]) <= $eps * (abs($this->s[$k]) + abs($this->s[$k+1]))) {
 					$e[$k] = 0.0;
-					break;
+					return false;
 				}
 			}
 			if ($k == $p - 2) {
@@ -265,12 +265,12 @@ class SingularValueDecomposition  {
 			} else {
 				for ($ks = $p - 1; $ks >= $k; --$ks) {
 					if ($ks == $k) {
-						break;
+						return false;
 					}
 					$t = ($ks != $p ? abs($e[$ks]) : 0.) + ($ks != $k + 1 ? abs($e[$ks-1]) : 0.);
 					if (abs($this->s[$ks]) <= $eps * $t)  {
 						$this->s[$ks] = 0.0;
-						break;
+						return false;
 					}
 				}
 				if ($ks == $k) {
@@ -403,7 +403,7 @@ class SingularValueDecomposition  {
 						// Order the singular values.
 						while ($k < $pp) {
 							if ($this->s[$k] >= $this->s[$k+1]) {
-								break;
+								return false;
 							}
 							$t = $this->s[$k];
 							$this->s[$k] = $this->s[$k+1];

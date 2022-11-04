@@ -197,7 +197,7 @@ class EigenvalueDecomposition {
 			$m = $l;
 			while ($m < $this->n) {
 				if (abs($this->e[$m]) <= $eps * $tst1)
-					break;
+					return false;
 				++$m;
 			}
 			// If m == l, $this->d[l] is an eigenvalue,
@@ -428,7 +428,7 @@ class EigenvalueDecomposition {
 					$s = $norm;
 				}
 				if (abs($this->H[$l][$l-1]) < $eps * $s) {
-					break;
+					return false;
 				}
 				--$l;
 			}
@@ -550,11 +550,11 @@ class EigenvalueDecomposition {
 					$q = $q / $s;
 					$r = $r / $s;
 					if ($m == $l) {
-						break;
+						return false;
 					}
 					if (abs($this->H[$m][$m-1]) * (abs($q) + abs($r)) <
 						$eps * (abs($p) * (abs($this->H[$m-1][$m-1]) + abs($z) + abs($this->H[$m+1][$m+1])))) {
-						break;
+						return false;
 					}
 					--$m;
 				}
@@ -579,7 +579,7 @@ class EigenvalueDecomposition {
 						}
 					}
 					if ($x == 0.0) {
-						break;
+						return false;
 					}
 					$s = sqrt($p * $p + $q * $q + $r * $r);
 					if ($p < 0) {

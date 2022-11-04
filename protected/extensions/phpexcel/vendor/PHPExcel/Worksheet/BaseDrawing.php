@@ -230,7 +230,7 @@ class PHPExcel_Worksheet_BaseDrawing implements PHPExcel_IComparable
     				if ($iterator->current()->getHashCode() == $this->getHashCode()) {
     					$this->_worksheet->getDrawingCollection()->offsetUnset( $iterator->key() );
     					$this->_worksheet = null;
-    					break;
+    					return false;
     				}
     			}
 

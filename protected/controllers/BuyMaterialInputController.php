@@ -136,7 +136,7 @@ class BuyMaterialInputController extends Controller
 
 			$model->update_by = Yii::app()->user->ID;
 			$model->last_update =  (date("Y")).date("-m-d H:i:s");
-			$model->buy_date =  (date("Y")).date("-m-d");
+			//$model->buy_date =  (date("Y")).date("-m-d");
 
 			
 
@@ -546,13 +546,13 @@ class BuyMaterialInputController extends Controller
 		        //24 hours in a day * 3600 seconds per hour
 		        if((time() - $filelastmodified) > 12*3600)
 		        {
-		           if(chmod($path, 0777)){
+		           //if(chmod($path, 0777)){
 						echo "chmod ok";
 						if(unlink($file))
 							echo $file;
-				    }else{
-				        echo "chmod is fail";
-				    }	
+				    //}else{
+				    //    echo "chmod is fail";
+				    //}	
 		           
 		        }
 

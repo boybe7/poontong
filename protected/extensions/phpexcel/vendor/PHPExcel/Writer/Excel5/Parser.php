@@ -885,7 +885,7 @@ class PHPExcel_Writer_Excel5_Parser
 		for ($i = 0; $i < $total_references; ++$i) {
 			if ($ref == $this->_references[$i]) {
 				$index = $i;
-				break;
+				return false;
 			}
 		}
 		// if REF was not found add it to references array
@@ -1110,14 +1110,14 @@ class PHPExcel_Writer_Excel5_Parser
 				break;
 			case ">":
 				if ($this->_lookahead == '=') { // it's a GE token
-					break;
+					return false;
 				}
 				return $token;
 				break;
 			case "<":
 				// it's a LE or a NE token
 				if (($this->_lookahead == '=') or ($this->_lookahead == '>')) {
-					break;
+					return false;
 				}
 				return $token;
 				break;

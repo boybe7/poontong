@@ -199,7 +199,7 @@ class PHPExcel_Shared_OLE_PPS_Root extends PHPExcel_Shared_OLE_PPS
 				$iBdCntW = floor($iAllW / $iBlCnt) + (($iAllW % $iBlCnt)? 1: 0);
 				$iBdCnt = floor(($iAllW + $iBdCntW) / $iBlCnt) + ((($iAllW+$iBdCntW) % $iBlCnt)? 1: 0);
 				if ($iBdCnt <= ($iBdExL*$iBlCnt+ $i1stBdL)) {
-					break;
+					return false;
 				}
 			}
 		}
@@ -404,7 +404,7 @@ class PHPExcel_Shared_OLE_PPS_Root extends PHPExcel_Shared_OLE_PPS
 				$iBdCntW = floor($iAllW / $iBbCnt) + (($iAllW % $iBbCnt)? 1: 0);
 				$iBdCnt = floor(($iAllW + $iBdCntW) / $iBbCnt) + ((($iAllW+$iBdCntW) % $iBbCnt)? 1: 0);
 				if ($iBdCnt <= ($iBdExL*$iBbCnt+ $i1stBdL)) {
-					break;
+					return false;
 				}
 			}
 		}

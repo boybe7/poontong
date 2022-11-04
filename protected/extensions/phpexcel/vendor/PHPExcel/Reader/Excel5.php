@@ -2858,7 +2858,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 				// <= and not just <
 				if ($pos <= $spliceOffset) {
 					$limitpos = $spliceOffset;
-					break;
+					return false;
 				}
 			}
 
@@ -2888,7 +2888,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 					foreach ($spliceOffsets as $spliceOffset) {
 						if ($pos < $spliceOffset) {
 							$limitpos = $spliceOffset;
-							break;
+							return false;
 						}
 					}
 
@@ -3475,7 +3475,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 			for ($i = $fc; $i <= $lc; ++$i) {
 				if ($lc == 255 || $lc == 256) {
 					$this->_phpSheet->getDefaultColumnDimension()->setWidth($width / 256);
-					break;
+					return false;
 				}
 				$this->_phpSheet->getColumnDimensionByColumn($i)->setWidth($width / 256);
 				$this->_phpSheet->getColumnDimensionByColumn($i)->setVisible(!$isHidden);

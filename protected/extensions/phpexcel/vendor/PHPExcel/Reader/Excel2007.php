@@ -102,7 +102,7 @@ class PHPExcel_Reader_Excel2007 extends PHPExcel_Reader_Abstract implements PHPE
 							if (basename($rel["Target"]) == 'workbook.xml') {
 								$xl = true;
 							}
-							break;
+							return false;
 
 					}
 				}
@@ -782,7 +782,7 @@ class PHPExcel_Reader_Excel2007 extends PHPExcel_Reader_Abstract implements PHPE
 										$docSheet->getColumnDimension(PHPExcel_Cell::stringFromColumnIndex($i))->setWidth(floatval($col["width"]));
 
 										if (intval($col["max"]) == 16384) {
-											break;
+											return false;
 										}
 									}
 								}

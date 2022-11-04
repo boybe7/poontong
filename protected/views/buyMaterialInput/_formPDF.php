@@ -2,7 +2,7 @@
 
 
 // Include the main TCPDF library (search for installation path).
-require_once($_SERVER['DOCUMENT_ROOT'].'poontong/tcpdf/tcpdf.php');
+require_once($_SERVER['DOCUMENT_ROOT'].'/poontong/tcpdf/tcpdf.php');
 
 class MYPDF extends TCPDF {
 
@@ -22,9 +22,9 @@ class MYPDF extends TCPDF {
         
         // Set font
         $this->SetFont('thsarabun', '', 18);
-        $this->writeHTMLCell(145, 20, 0, 2, '<p style="font-weight:bold;">'.$this->site_name.'</p>', 0, 1, false, true, 'C', false);
-        $this->writeHTMLCell(145, 20, 2, 10, '<span style="text-align:center;font-size:14px;font-weight:bold;">ที่อยู่ '.$this->site_address.'</span>', 0, 1, false, true, 'C', false);
-        $this->writeHTMLCell(145, 20, 2, 14, '<span style="text-align:center;font-size:14px;font-weight:bold;">เบอร์โทร '.$this->site_phone.'</span>', 0, 1, false, true, 'C', false);
+        $this->writeHTMLCell(229, 20, 0, 2, '<center><p style="font-weight:bold;">'.$this->site_name.'</p></center>', 0, 1, false, true, 'C', false);
+        $this->writeHTMLCell(229, 20, 2, 10, '<span style="text-align:center;font-size:14px;font-weight:bold;">ที่อยู่ '.$this->site_address.'</span>', 0, 1, false, true, 'C', false);
+        $this->writeHTMLCell(229, 20, 2, 14, '<span style="text-align:center;font-size:14px;font-weight:bold;">เบอร์โทร '.$this->site_phone.'</span>', 0, 1, false, true, 'C', false);
     }
 
     // Page footer
@@ -48,6 +48,7 @@ class MYPDF extends TCPDF {
 // create new PDF document
 //$pdf = new TCPDF('L', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 $pdf = new MYPDF('P', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+$pdf = new MYPDF('P', 'mm', array(228.6, 139.7), true, 'UTF-8', false);
 
 // set document information
 $pdf->SetCreator(PDF_CREATOR);
@@ -136,7 +137,32 @@ $html .= '</table>';
 $html .= '<br><br><br><br><table border=0><tr style="font-size:16px;"><td width="50%"></td>';
 $html .= '<td width="50%" style="text-align:right">ผู้รับของ _____________________</td></tr></table>';  
   
-$pdf->AddPage('P','A5');
+//$pdf->AddPage('P','A5');
+
+
+$page_format = array(
+    'MediaBox' => array ('llx' => 0, 'lly' => 0, 'urx' => 228, 'ury' => 139),
+    //'CropBox' => array ('llx' => 0, 'lly' => 0, 'urx' => 210, 'ury' => 297),
+    //'BleedBox' => array ('llx' => 5, 'lly' => 5, 'urx' => 205, 'ury' => 292),
+    //'TrimBox' => array ('llx' => 10, 'lly' => 10, 'urx' => 200, 'ury' => 287),
+    //'ArtBox' => array ('llx' => 15, 'lly' => 15, 'urx' => 195, 'ury' => 282),
+    'Dur' => 3,
+    'trans' => array(
+        'D' => 1.5,
+        'S' => 'Split',
+        'Dm' => 'V',
+        'M' => 'O'
+    ),
+    'Rotate' => 0,
+    'PZ' => 1,
+);
+
+// Check the example n. 29 for viewer preferences
+
+// add first page ---
+$pdf->AddPage('L', $page_format, false, false);
+
+
 $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
 $pdf->Output($_SERVER['DOCUMENT_ROOT'].'/poontong/report/temp/'.$filename,'F');
 // Print text using writeHTMLCell()

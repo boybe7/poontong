@@ -93,7 +93,7 @@ class MaterialPrice extends CActiveRecord
 		$criteria->compare('date_start',$this->date_start,true);
 		$criteria->compare('date_end',$this->date_end,true);
 		$criteria->compare('material_id',$this->material_id);
-		$criteria->compare('site_id',$this->site_id);
+		$criteria->compare('site_id',Yii::app()->user->getSite());	
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

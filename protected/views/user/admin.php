@@ -211,45 +211,11 @@ $this->widget('bootstrap.widgets.TbGridView',array(
 					}'
 				)
 		),
-		'title'=>array(
-			    'header'=>'คำนำหน้า', 
-				'class' => 'editable.EditableColumn',
-				'name' => 'title',
-				'headerHtmlOptions' => array('style' => 'width:10%;text-align:center;background-color: #f5f5f5'),  	            	  		
-				//'headerHtmlOptions' => array('style' => 'width: 110px'),
-				'htmlOptions'=>array(
-	  	            	  			'style'=>'text-align:center'
-
-	  	        ),
-
-				'editable' => array( //editable section
-					//'apply' => '$data->user_status != 4', //can't edit deleted users
-					//'text'=>'Click',
-					//'tooltip'=>'Click',
-					'title'=>'แก้ไขคำนำหน้า',
-					'url' => $this->createUrl('user/updateUser'),
-					'success' => 'js: function(response, newValue) {
-										if(!response.success) return response.msg;
-
-										$("#user-grid").yiiGridView("update",{});
-									}',
-					'options' => array(
-						'ajaxOptions' => array('dataType' => 'json'),
-
-					), 
-					'placement' => 'right',
-					'display' => 'js: function() {
-					    
-					    //$(this).attr( "rel", "tooltip");
-					    //$(this).attr( "data-original-title", "คลิกเพื่อแก้ไข");
-					    
-					}'
-				)
-		),
+		
 		'firstname'=>array(
 			    'header'=>'ชื่อ', 
 				'class' => 'editable.EditableColumn',
-				'name' => 'firstname',
+				'name' => 'name',
 				'headerHtmlOptions' => array('style' => 'width:25%;text-align:center;background-color: #f5f5f5'),  	            	  		
 				//'headerHtmlOptions' => array('style' => 'width: 110px'),
 				'htmlOptions'=>array(
@@ -281,10 +247,11 @@ $this->widget('bootstrap.widgets.TbGridView',array(
 					}'
 				)
 		),
-		'lastname'=>array(
-			    'header'=>'นามสกุล', 
+
+		'telephone'=>array(
+			    'header'=>'เบอร์โทร', 
 				'class' => 'editable.EditableColumn',
-				'name' => 'lastname',
+				'name' => 'telephone',
 				'headerHtmlOptions' => array('style' => 'width:25%;text-align:center;background-color: #f5f5f5'),  	            	  		
 				//'headerHtmlOptions' => array('style' => 'width: 110px'),
 				'htmlOptions'=>array(
@@ -296,7 +263,7 @@ $this->widget('bootstrap.widgets.TbGridView',array(
 					//'apply' => '$data->user_status != 4', //can't edit deleted users
 					//'text'=>'Click',
 					//'tooltip'=>'Click',
-					'title'=>'แก้ไขนามสกุล',
+					'title'=>'แก้ไข',
 					'url' => $this->createUrl('user/updateUser'),
 					'success' => 'js: function(response, newValue) {
 										if(!response.success) return response.msg;
@@ -308,57 +275,29 @@ $this->widget('bootstrap.widgets.TbGridView',array(
 
 					), 
 					'placement' => 'right',
-					'display' => 'js: function(value, sourceData) {
-					    //console.log(sourceData);
+					'display' => 'js: function() {
+					    
 					    //$(this).attr( "rel", "tooltip");
-					    //$(this).attr( "data-original-title", "แก้ไขนามสกุล");
+					    //$(this).attr( "data-original-title", "คลิกเพื่อแก้ไข");
 					    
 					}'
 				)
-		),		 
+		),
 		'u_group'=>array(
 	  	            	  		'header'=>'ประเภท',
-	  	            	  		'class' => 'editable.EditableColumn',
+	  	            	  		//'class' => 'editable.EditableColumn',
                                 'headerHtmlOptions' => array('style' => 'width:10%;text-align:center;background-color: #f5f5f5'),
-	  	            	  		'name'=> 'u_group',
-	  	            	  		//'value'=>'$data->getGroupName($data->u_group)',
+	  	            	  		'name'=> 'user_group_id',
+	  	            	  		'value' => function($model){
+									$groups = UserGroup::model()->findByPk($model->user_group_id);
+									$groups_name = empty($groups) ? "" : $groups->name;
+									return $groups_name;
+								 },
 	  	            	  		'htmlOptions'=>array(
 	  	            	  			'style'=>'text-align:center'
 
 	  	            	  		),
-	  	            	  		 'editable' => array(
-										'type' => 'select',
-										'title'=>'Edit user group',
-										'url' => $this->createUrl('user/updateUser'),
-										'source' => $this->createUrl('user/getUserGroup'),
-										'options' => array( //custom display
-											'display' => 'js: function(value, sourceData) {
-												var selected = $.grep(sourceData, function(o){ return value == o.value; }),
-												colors = {1: "green", 2: "blue", 3: "purple", 4: "gray"};
-												//console.log(selected[0])
-												if(selected[0]!== undefined)
-												  $(this).text(selected[0].text).css("color", colors[value]);
-												//$(this).attr( "title", "คลิกเพื่อแก้ไข");
-												$(this).attr( "rel", "tooltip");
-					    						$(this).attr( "data-original-title", "คลิกเพื่อแก้ไข");
-											}'
-										),
-										//onsave event handler
-										'onSave' => 'js: function(e, params) {
-												console && console.log("saved value: "+params.newValue);
-											}',
-										//source url can depend on some parameters, then use js function:
-										/*
-										'source' => 'js: function() {
-										var dob = $(this).closest("td").next().find(".editable").text();
-										var username = $(this).data("username");
-										return "?r=site/getStatuses&user="+username+"&dob="+dob;
-										}',
-										'htmlOptions' => array(
-										'data-username' => '$data->user_name'
-										)
-										*/
-								)
+	  	            	  		
 	  	            	  	),
 		
 		// array(

@@ -36,7 +36,7 @@ class MaterialController extends Controller
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
 				'actions'=>array('admin','delete'),
-				'users'=>array('admin'),
+				'users'=>array('@'),
 			),
 			array('deny',  // deny all users
 				'users'=>array('*'),
@@ -69,22 +69,53 @@ class MaterialController extends Controller
 		if(isset($_POST['Material']))
 		{
 			$model->attributes=$_POST['Material'];
-			if(isset($_POST['Material']['price1']))
+		
+			
+			if(isset($_POST['Material']['price1']) && !empty($_POST['Material']['price1']))
 				$model->price1 = str_replace(",","",$_POST['Material']['price1']);
-			if(isset($_POST['Material']['price2']))
+			else
+				$model->price1 =0;
+					
+			if(isset($_POST['Material']['price2']) && !empty($_POST['Material']['price2']))
 				$model->price2 = str_replace(",","",$_POST['Material']['price2']);
-			if(isset($_POST['Material']['price3']))
+			else
+				$model->price2 = 0;
+
+			if(isset($_POST['Material']['price3']) && !empty($_POST['Material']['price3']))
 				$model->price3 = str_replace(",","",$_POST['Material']['price3']);
-			if(isset($_POST['Material']['price4']))
+			else
+				$model->price3 = 0;
+			if(isset($_POST['Material']['price4']) && !empty($_POST['Material']['price4']))
 				$model->price4 = str_replace(",","",$_POST['Material']['price4']);
-			if(isset($_POST['Material']['price5']))
+			else
+				$model->price4 = 0;
+			if(isset($_POST['Material']['price5']) && !empty($_POST['Material']['price5']))
 				$model->price5 = str_replace(",","",$_POST['Material']['price5']);
-			if(isset($_POST['Material']['price6']))
+			else
+				$model->price5 = 0;
+			if(isset($_POST['Material']['price6']) && !empty($_POST['Material']['price6']))
 				$model->price6 = str_replace(",","",$_POST['Material']['price6']);
+			else
+				$model->price6 = 0;
 			
 			$model->site_id = empty($model->site_id) || $model->site_id=='' ? Yii::app()->user->getSite() : $model->site_id; 
 			if($model->save())
+			{
+				//create stock
+				$modelStock = new Stock;
+				$modelStock->material_id = $model->id;
+				$modelStock->site_id =Yii::app()->user->getSite();
+				$modelStock->type = 0;
+				$modelStock->user_id = Yii::app()->user->ID;
+				$modelStock->amount = 0;
+				$modelStock->last_update = date("Y-m-d H:i:s");
+				$modelStock->save();
+
+				//header('Content-type: text/plain');
+				//print_r($modelStock);
+				//exit;
 				$this->redirect(array('index'));
+			}
 		}
 
 		$this->render('create',array(

@@ -60,7 +60,7 @@ class Stock extends CActiveRecord
 			'sack' => 'จำนวน กระสอบ',
 			'bigbag' => 'จำนวน Bigbag',
 			'site_id' => 'Site',
-			'user_id' => 'User',
+			'user_id' => 'ผู้บันทึก',
 			'last_update' => 'ล่าสุด',
 			'material_id' => 'วัตถุดิบ',
 			'type' => '0=material,1=chemical,2=blade',
@@ -108,7 +108,7 @@ class Stock extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('amount',$this->amount);
-		$criteria->compare('site_id',$this->site_id);
+		$criteria->compare('site_id',Yii::app()->user->getSite());
 		$criteria->compare('user_id',$this->user_id);
 		$criteria->compare('sack',$this->sack);
 		$criteria->compare('bigbag',$this->bigbag);

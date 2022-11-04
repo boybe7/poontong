@@ -92,7 +92,7 @@ class StockDaily extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('amount',$this->amount,true);
-		$criteria->compare('site_id',$this->site_id);
+		$criteria->compare('site_id',Yii::app()->user->getSite());	
 		$criteria->compare('user_id',$this->user_id);
 		$criteria->compare('last_update',$this->last_update,true);
 		$criteria->compare('material_id',$this->material_id);

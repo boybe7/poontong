@@ -49,25 +49,16 @@ $this->breadcrumbs=array(
 	<div class='span2'>
 		<?php 
 
-		$typelist = array("0" => "input", "1" => "output");
-		echo $form->dropDownListRow($modelCreate, 'in_out', $typelist,array('class'=>'span12'), array('options' => array('in_out'=>array('selected'=>true))));
+		$typelist = CHtml::listData(Material::model()->findAll('site_id=:id', array(':id' => Yii::app()->user->getSite())),'id','name');
+		echo $form->dropDownListRow($modelCreate, 'material_input', $typelist,array('class'=>'span12','empty' => '----เลือก----'), array('options' => array('material_input'=>array('selected'=>true))));
+
 		?>
 	</div>
-	<div class='span3'>
+	<div class='span2'>
 		<?php 
 
 		$typelist = CHtml::listData(Material::model()->findAll('site_id=:id', array(':id' => Yii::app()->user->getSite())),'id','name');
-		echo $form->dropDownListRow($modelCreate, 'material_id', $typelist,array('class'=>'span12','empty' => '----เลือก----','ajax' => array(
-                                'type'=>'GET', 
-                                'url'=>CController::createUrl('Stock/GetStock'),
-                                'data'=>array('material_id' => 'js:this.value'),
-                                'success'=>'function(data){
-                                		response = JSON.parse(data);
-                                		//$("#stock_amount").val(response.amount)
-                                		//$("#stock_sack").val(response.sack)
-                                		//$("#stock_bigbag").val(response.bigbag)
-                                }', 
-                            )), array('options' => array('material_id'=>array('selected'=>true))));
+		echo $form->dropDownListRow($modelCreate, 'material_output', $typelist,array('class'=>'span12','empty' => '----เลือก----'), array('options' => array('material_output'=>array('selected'=>true))));
 
 		?>
 	</div>
@@ -77,13 +68,13 @@ $this->breadcrumbs=array(
 		<?php echo $form->textFieldRow($modelCreate,'amount',array('class'=>'span12 number','maxlength'=>15)); ?>
 	</div>
 
-   <div class='span1'>
+   <div class='span2'>
 		<?php
 			$this->widget('bootstrap.widgets.TbButton', array(
 			              'buttonType'=>'link',
 			              
 			              'type'=>'success',
-			              'label'=>'เพิ่ม',
+			              'label'=>'เพิ่มรายการ',
 			              'icon'=>'plus-sign',
 			              
 			              'htmlOptions'=>array(
@@ -162,28 +153,29 @@ $this->widget('bootstrap.widgets.TbGridView',array(
 				return $data;
 			 },
 			'filter'=>CHtml::listData(Process::model()->findAll(), 'id', 'name'), 
-			'headerHtmlOptions' => array('style' => 'width:20%;text-align:center;background-color: #f5f5f5'),  	            	  	
+			'headerHtmlOptions' => array('style' => 'width:15%;text-align:center;background-color: #f5f5f5'),  	            	  	
 			'htmlOptions'=>array('style'=>'text-align:left')
 	  	),
-	  	'in_out'=>array(
-			'name' => 'in_out',
+	  	'material_input'=>array(
+			'name' => 'material_input',
 			'value' => function($model){
-				$data = $model->in_out==1 ? "output": "input";
-				return $data;
-			 },
-			'filter'=>false, 
-			'headerHtmlOptions' => array('style' => 'width:15%;text-align:center;background-color: #f5f5f5'),  	            	  	
-			'htmlOptions'=>array('style'=>'text-align:center')
-	  	),
-		'material_id'=>array(
-			'name' => 'material_id',
-			'value' => function($model){
-				$m = Material::model()->FindByPk($model->material_id);
+				$m = Material::model()->FindByPk($model->material_input);
 				$data = empty($m) ? "" : $m->name;
 				return $data;
 			 },
 			'filter'=>false, 
-			'headerHtmlOptions' => array('style' => 'width:30%;text-align:center;background-color: #f5f5f5'),  	            	  	
+			'headerHtmlOptions' => array('style' => 'width:25%;text-align:center;background-color: #f5f5f5'),  	            	  	
+			'htmlOptions'=>array('style'=>'text-align:center')
+	  	),
+		'material_output'=>array(
+			'name' => 'material_output',
+			'value' => function($model){
+				$m = Material::model()->FindByPk($model->material_output);
+				$data = empty($m) ? "" : $m->name;
+				return $data;
+			 },
+			'filter'=>false, 
+			'headerHtmlOptions' => array('style' => 'width:25%;text-align:center;background-color: #f5f5f5'),  	            	  	
 			'htmlOptions'=>array('style'=>'text-align:left')
 	  	),
 	  	'amount'=>array(

@@ -4804,7 +4804,7 @@
               }
 
               if ($p_options[PCLZIP_OPT_BY_INDEX][$j]['start']>$i) {
-                  break;
+                  return false;
               }
           }
       }

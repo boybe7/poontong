@@ -59,6 +59,7 @@ $this->breadcrumbs=array(
 	  	),
 		'amount'=>array(
 			'name' => 'amount',
+			'filter'=>false,
 			'value' => function($model){
 				return number_format($model->amount,2);
 			 },
@@ -83,60 +84,70 @@ $this->breadcrumbs=array(
 			'headerHtmlOptions' => array('style' => 'width:15%;text-align:center;background-color: #f5f5f5'),  	            	  	
 			'htmlOptions'=>array('style'=>'text-align:right')
 	  	),
-	  	'sack'=>array(
-			'name' => 'sack',
-			'value' => function($model){
-				return number_format($model->sack);
-			 },
-			 'class' => 'editable.EditableColumn',
-			 'editable' => array( //editable section
+	  // 	'sack'=>array(
+			// 'name' => 'sack',
+			// 'value' => function($model){
+			// 	return number_format($model->sack);
+			//  },
+			//  'class' => 'editable.EditableColumn',
+			//  'editable' => array( //editable section
 								
-									'title'=>'แก้ไข ',
-									'url' => $this->createUrl('Stock/update'),
-									'success' => 'js: function(response, newValue) {
-														if(!response.success) return response.msg;
+			// 						'title'=>'แก้ไข ',
+			// 						'url' => $this->createUrl('Stock/update'),
+			// 						'success' => 'js: function(response, newValue) {
+			// 											if(!response.success) return response.msg;
 
-														$("#stock-grid").yiiGridView("update",{});
-													}',
-									'options' => array(
-										'ajaxOptions' => array('dataType' => 'json'),
+			// 											$("#stock-grid").yiiGridView("update",{});
+			// 										}',
+			// 						'options' => array(
+			// 							'ajaxOptions' => array('dataType' => 'json'),
 
-									), 
-									'placement' => 'right',
+			// 						), 
+			// 						'placement' => 'right',
 					
 									
-			),
-			'headerHtmlOptions' => array('style' => 'width:15%;text-align:center;background-color: #f5f5f5'),  	            	  	
-			'htmlOptions'=>array('style'=>'text-align:right')
-	  	),
-	  	'bigbag'=>array(
-			'name' => 'bigbag',
-			'class' => 'editable.EditableColumn',
-			'editable' => array( //editable section
+			// ),
+			// 'headerHtmlOptions' => array('style' => 'width:15%;text-align:center;background-color: #f5f5f5'),  	            	  	
+			// 'htmlOptions'=>array('style'=>'text-align:right')
+	  // 	),
+	  // 	'bigbag'=>array(
+			// 'name' => 'bigbag',
+			// 'class' => 'editable.EditableColumn',
+			// 'editable' => array( //editable section
 								
-									'title'=>'แก้ไข ',
-									'url' => $this->createUrl('Stock/update'),
-									'success' => 'js: function(response, newValue) {
-														if(!response.success) return response.msg;
+			// 						'title'=>'แก้ไข ',
+			// 						'url' => $this->createUrl('Stock/update'),
+			// 						'success' => 'js: function(response, newValue) {
+			// 											if(!response.success) return response.msg;
 
-														$("#stock-grid").yiiGridView("update",{});
-													}',
-									'options' => array(
-										'ajaxOptions' => array('dataType' => 'json'),
+			// 											$("#stock-grid").yiiGridView("update",{});
+			// 										}',
+			// 						'options' => array(
+			// 							'ajaxOptions' => array('dataType' => 'json'),
 
-									), 
-									'placement' => 'right',
+			// 						), 
+			// 						'placement' => 'right',
 					
 									
-			),
-			'value' => function($model){
-				return number_format($model->bigbag);
-			 },
-			'headerHtmlOptions' => array('style' => 'width:15%;text-align:center;background-color: #f5f5f5'),  	            	  	
-			'htmlOptions'=>array('style'=>'text-align:right')
-	  	),
+			// ),
+			// 'value' => function($model){
+			// 	return number_format($model->bigbag);
+			//  },
+			// 'headerHtmlOptions' => array('style' => 'width:15%;text-align:center;background-color: #f5f5f5'),  	            	  	
+			// 'htmlOptions'=>array('style'=>'text-align:right')
+	  // 	),
 		'last_update'=>array(
 			'name' => 'last_update',
+			'filter'=>false,
+			'headerHtmlOptions' => array('style' => 'width:15%;text-align:center;background-color: #f5f5f5'),  	            	  	
+			'htmlOptions'=>array('style'=>'text-align:center')
+	  	),
+	  	'user_id'=>array(
+			'name' => 'user_id',
+			'filter'=>false,
+			'value' => function($model){
+				return User::model()->findByPk($model->user_id)->name;
+			 },
 			'headerHtmlOptions' => array('style' => 'width:15%;text-align:center;background-color: #f5f5f5'),  	            	  	
 			'htmlOptions'=>array('style'=>'text-align:center')
 	  	),

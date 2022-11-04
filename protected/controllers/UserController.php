@@ -35,9 +35,8 @@ class UserController extends Controller
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete','updateuser','deleteSelected','resetPassword'),
-				//'expression'=>'Yii::app()->user->isAdmin()',
-				'expression'=>'Yii::app()->user->isAdmin()',
+				'actions'=>array('admin','delete','updateuser','deleteSelected','resetPassword','updateSite'),
+				'users'=>array('@'),
 			),
 			array('deny',  // deny all users
 				'users'=>array('*'),
@@ -70,7 +69,10 @@ class UserController extends Controller
 		if(isset($_POST['User']))
 		{
 			$model->attributes=$_POST['User'];
-			$model->department_id = Yii::app()->user->userdept;
+			$model->status = 1;
+			if(!Yii::app()->user->isAdmin())
+			   $model->site_id = Yii::app()->user->getSite();
+
 			if($model->save())
                             $this->redirect(array('index'));
 				//$this->redirect(array('view','id'=>$model->staff_id));
@@ -97,7 +99,7 @@ class UserController extends Controller
 		if(isset($_POST['User']))
 		{
 			$model->attributes=$_POST['User'];
-			$model->department_id = Yii::app()->user->userdept;
+			$model->site_id = Yii::app()->user->getSite();
 
 			if($model->save())
 				$this->redirect(array('index'));
@@ -106,6 +108,13 @@ class UserController extends Controller
 		$this->render('update',array(
 			'model'=>$model,
 		));
+	}
+
+	public function actionUpdateSite()
+	{
+		$model=$this->loadModel(Yii::app()->user->ID);
+		$model->site_id = $_REQUEST['site'];
+		$model->save();
 	}
         
     public function actionPassword($id)

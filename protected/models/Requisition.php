@@ -88,7 +88,7 @@ class Requisition extends CActiveRecord
         	$date_search= ($str_date[2]-543)."-".$str_date[1]."-".$str_date[0];
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('site_id',$this->site_id);
+		$criteria->compare('site_id',Yii::app()->user->getSite());	
 		$criteria->compare('process',$this->process);
 		$criteria->compare('username',$this->username);
 		$criteria->compare('create_date',$date_search,true);

@@ -418,7 +418,7 @@ class PHPExcel_Writer_Excel5 extends PHPExcel_Writer_Abstract implements PHPExce
 		foreach ($this->_phpExcel->getAllSheets() as $sheet) {
 			if (count($sheet->getDrawingCollection()) > 0) {
 				$found = true;
-				break;
+				return false;
 			}
 		}
 

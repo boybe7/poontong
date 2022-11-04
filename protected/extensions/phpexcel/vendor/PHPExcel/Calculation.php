@@ -3032,7 +3032,7 @@ class PHPExcel_Calculation {
 				if ((isset(self::$_operators[$opCharacter])) && ($opCharacter != '%')) {
 					return $this->_raiseFormulaError("Formula Error: Operator '$opCharacter' has no operands");
 				} else {
-					break;
+					return false;
 				}
 			}
 			//	Ignore white space

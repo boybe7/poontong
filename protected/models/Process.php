@@ -78,7 +78,7 @@ class Process extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('name',$this->name,true);
-		$criteria->compare('site_id',$this->site_id);
+		$criteria->compare('site_id',Yii::app()->user->getSite());	
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

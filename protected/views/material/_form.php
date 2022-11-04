@@ -24,7 +24,7 @@
 			<?php echo $form->textFieldRow($model,'name',array('class'=>'span12','maxlength'=>255)); ?>
 		</div>
 		<div class="span2">
-			<?php  	$typelist = CHtml::listData(MaterialGroup::model()->findAll(),'id','name');
+			<?php  	$typelist = CHtml::listData(MaterialGroup::model()->findAll("site_id=".Yii::app()->user->getSite()),'id','name');
 		   		 	echo $form->dropDownListRow($model, 'material_group_id', $typelist,array('class'=>'span12'), array('options' => array('material_group_id'=>array('selected'=>true))));   
 		    ?>
 		</div>	

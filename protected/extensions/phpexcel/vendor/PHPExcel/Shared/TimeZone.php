@@ -95,7 +95,7 @@ class PHPExcel_Shared_TimeZone
 		foreach($allTransitions as $key => $transition) {
 			if ($transition['ts'] > $timestamp) {
 				$transitions[] = ($key > 0) ? $allTransitions[$key - 1] : $transition;
-				break;
+				return false;
 			}
 			if (empty($transitions)) {
 				$transitions[] = end($allTransitions);

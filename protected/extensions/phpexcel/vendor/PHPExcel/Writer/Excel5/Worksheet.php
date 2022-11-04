@@ -414,7 +414,7 @@ class PHPExcel_Writer_Excel5_Worksheet extends PHPExcel_Writer_Excel5_BIFFwriter
 			// Don't break Excel!
 //			if ($row + 1 > 65536 or $column + 1 > 256) {
 			if ($row > 65535 || $column > 255) {
-				break;
+				return false;
 			}
 
 			// Write cell value

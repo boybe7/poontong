@@ -5,9 +5,11 @@
  *
  * The followings are the available columns in table 'authen':
  * @property integer $id
+ * @property string $name
+ * @property integer $status
  * @property integer $menu_id
- * @property string $group_id
- * @property integer $access
+ * @property integer $user_group_id
+ * @property string $access
  */
 class Authen extends CActiveRecord
 {
@@ -27,12 +29,13 @@ class Authen extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('menu_id, group_id, access', 'required'),
-			array('menu_id, access', 'numerical', 'integerOnly'=>true),
-			
+			array('name, status, menu_id, user_group_id, access', 'required'),
+			array('status, menu_id, user_group_id', 'numerical', 'integerOnly'=>true),
+			array('name', 'length', 'max'=>255),
+			array('access', 'length', 'max'=>2),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, menu_id, group_id, access', 'safe', 'on'=>'search'),
+			array('id, name, status, menu_id, user_group_id, access', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -54,9 +57,11 @@ class Authen extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
+			'name' => 'Name',
+			'status' => '0 = inactive,1 = active',
 			'menu_id' => 'Menu',
-			'group_id' => 'Group Name',
-			'access' => '1 = read, 2 = edit',
+			'user_group_id' => 'User Group',
+			'access' => 'Read/Write',
 		);
 	}
 
@@ -79,9 +84,11 @@ class Authen extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
+		$criteria->compare('name',$this->name,true);
+		$criteria->compare('status',$this->status);
 		$criteria->compare('menu_id',$this->menu_id);
-		$criteria->compare('group_id',$this->group_id);
-		$criteria->compare('access',$this->access);
+		$criteria->compare('user_group_id',$this->user_group_id);
+		$criteria->compare('access',$this->access,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

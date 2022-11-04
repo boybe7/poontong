@@ -76,23 +76,66 @@ class ProductionController extends Controller
 
 			if($model->save())
 			{
-						//update stock
-						$stock = Stock::model()->findAll("material_id=:material_id AND site_id=:site ",[":material_id"=>$model->material_id,':site'=>Yii::app()->user->getSite()]);
+						//update stock input - decrease 
+						$stock = Stock::model()->findAll("material_id=:material_id AND site_id=:site ",[":material_id"=>$model->material_input,':site'=>Yii::app()->user->getSite()]);
+
 						$modelStock = !empty($stock) ? $stock[0] : new Stock;
 
 						if(empty($stock))
 						{
-							$modelStock->material_id = $model->material_id;
+							$modelStock->material_id = $model->material_input;
+							$modelStock->site_id =Yii::app()->user->getSite();
+							$modelStock->type = 0;
+							$modelStock->user_id = Yii::app()->user->ID;
+							$modelStock->amount = 0;
+						}
+
+						$amount_old = $modelStock->amount;
+						$modelStock->amount -= $model->amount;
+						$modelStock->last_update = date("Y-m-d H:i:s");
+						$modelStock->user_id = Yii::app()->user->ID;
+						$modelStock->save();
+
+						//update stock daily
+						$str_date = explode("/", $model->production_date);
+        				if(count($str_date)>1)
+        					$model->production_date= ($str_date[2])."-".$str_date[1]."-".$str_date[0];
+						$stock = StockDaily::model()->findAll("material_id=:material_id AND site_id=:site AND stock_date=:date",[":material_id"=>$model->material_input,':site'=>Yii::app()->user->getSite(),':date'=>$model->production_date]);
+						$modelStock = !empty($stock) ? $stock[0] : new StockDaily;
+
+						if(empty($stock))
+						{
+							$modelStock->material_id = $model->material_input;
+							$modelStock->site_id =Yii::app()->user->getSite();
+							$modelStock->type = 0;
+							$modelStock->user_id = Yii::app()->user->ID;
+							$modelStock->amount = $amount_old;
+							$modelStock->stock_date = $model->production_date;
+						}													
+						
+						$modelStock->amount -= $model->amount;
+						$modelStock->last_update = date("Y-m-d H:i:s");
+						$modelStock->process_id = $model->process_id;
+						$modelStock->user_id = Yii::app()->user->ID;
+						$modelStock->save();
+
+
+						//update stock output - increase 
+						$stock = Stock::model()->findAll("material_id=:material_id AND site_id=:site ",[":material_id"=>$model->material_output,':site'=>Yii::app()->user->getSite()]);
+						$modelStock = !empty($stock) ? $stock[0] : new Stock;
+
+						if(empty($stock))
+						{
+							$modelStock->material_id = $model->material_output;
 							$modelStock->site_id =Yii::app()->user->getSite();
 							$modelStock->type = 0;
 							$modelStock->user_id = Yii::app()->user->ID;
 							$modelStock->amount = 0;
 						}	
 
-						if($model->in_out==0)
-						   $modelStock->amount -= $model->amount;
-						else if($model->in_out==1)
-						   $modelStock->amount += $model->amount;
+						$amount_old = $modelStock->amount;
+						$modelStock->user_id = Yii::app()->user->ID;
+						$modelStock->amount += $model->amount;
 						$modelStock->last_update = date("Y-m-d H:i:s");
 						$modelStock->save();
 
@@ -100,24 +143,26 @@ class ProductionController extends Controller
 						$str_date = explode("/", $model->production_date);
         				if(count($str_date)>1)
         					$model->production_date= ($str_date[2])."-".$str_date[1]."-".$str_date[0];
-						$stock = StockDaily::model()->findAll("material_id=:material_id AND site_id=:site AND stock_date=:date",[":material_id"=>$model->material_id,':site'=>Yii::app()->user->getSite(),':date'=>$model->production_date]);
+						$stock = StockDaily::model()->findAll("material_id=:material_id AND site_id=:site AND stock_date=:date",[":material_id"=>$model->material_output,':site'=>Yii::app()->user->getSite(),':date'=>$model->production_date]);
 						$modelStock = !empty($stock) ? $stock[0] : new StockDaily;
 
 						if(empty($stock))
 						{
-							$modelStock->material_id = $model->material_id;
+							$modelStock->material_id = $model->material_output;
 							$modelStock->site_id =Yii::app()->user->getSite();
 							$modelStock->type = 0;
 							$modelStock->user_id = Yii::app()->user->ID;
-							$modelStock->amount = 0;
+							$modelStock->amount = $amount_old;
 							$modelStock->stock_date = $model->production_date;
 						}													
-						if($model->in_out==0)
-						   $modelStock->amount -= $model->amount;
-						else if($model->in_out==1)
-						   $modelStock->amount += $model->amount;
+						
+						$modelStock->amount += $model->amount;
+						$modelStock->user_id = Yii::app()->user->ID;
 						$modelStock->last_update = date("Y-m-d H:i:s");
+						$modelStock->process_id = $model->process_id;
 						$modelStock->save();
+	
+
 
 
 				$this->redirect(array('index'));

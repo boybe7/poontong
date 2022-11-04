@@ -93,7 +93,10 @@ class BuyMaterialInput extends CActiveRecord
 		$criteria->compare('bill_no',$this->bill_no,true);
 		$criteria->compare('last_update',$this->last_update,true);
 		$criteria->compare('update_by',$this->update_by);
-		$criteria->compare('site_id',$this->site_id);
+		// if(Yii::app()->user->isAdmin())
+		// 	$criteria->compare('site_id',$this->site_id);
+		// else
+			$criteria->compare('site_id',Yii::app()->user->getSite());
 		$criteria->compare('note',$this->note,true);
 
 		return new CActiveDataProvider($this, array(
@@ -130,4 +133,48 @@ class BuyMaterialInput extends CActiveRecord
     	
     	return $model[0]['total'];
     }
+
+    public function beforeSave()
+    {
+      
+
+        $str_date = explode("/", $this->buy_date);
+        if(count($str_date)>1)
+        	$this->buy_date= ($str_date[2]-543)."-".$str_date[1]."-".$str_date[0];     
+        
+        return parent::beforeSave();
+   }
+
+	protected function afterSave(){
+            parent::afterSave();
+            $str_date = explode("-", $this->buy_date);
+            if(count($str_date)>1)
+            	$this->buy_date = $str_date[2]."/".$str_date[1]."/".($str_date[0]+543);
+      
+    }
+
+	public function beforeFind()
+    {
+          
+
+        $str_date = explode("/", $this->buy_date);
+        if(count($str_date)>1)
+        	$this->buy_date= ($str_date[2]-543)."-".$str_date[1]."-".$str_date[0];
+       
+
+        return parent::beforeSave();
+   }
+
+	protected function afterFind(){
+            parent::afterFind();
+    
+
+            $str_date = explode("-", $this->buy_date);
+            if($this->buy_date=='0000-00-00')
+            	$this->buy_date = '';
+            else if(count($str_date)>1)
+            	$this->buy_date = $str_date[2]."/".$str_date[1]."/".($str_date[0]+543);
+          
+           
+     }
 }

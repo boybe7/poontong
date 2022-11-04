@@ -1344,7 +1344,7 @@ class PHPExcel_Calculation_Financial {
 		$f1 = self::NPV($x1, $values);
 		$f2 = self::NPV($x2, $values);
 		for ($i = 0; $i < FINANCIAL_MAX_ITERATIONS; ++$i) {
-			if (($f1 * $f2) < 0.0) break;
+			if (($f1 * $f2) < 0.0) return false;
 			if (abs($f1) < abs($f2)) {
 				$f1 = self::NPV($x1 += 1.6 * ($x1 - $x2), $values);
 			} else {
@@ -2116,7 +2116,7 @@ class PHPExcel_Calculation_Financial {
 		$f1 = self::XNPV($x1, $values, $dates);
 		$f2 = self::XNPV($x2, $values, $dates);
 		for ($i = 0; $i < FINANCIAL_MAX_ITERATIONS; ++$i) {
-			if (($f1 * $f2) < 0.0) break;
+			if (($f1 * $f2) < 0.0) return false;
 			if (abs($f1) < abs($f2)) {
 				$f1 = self::XNPV($x1 += 1.6 * ($x1 - $x2), $values, $dates);
 			} else {

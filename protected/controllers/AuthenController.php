@@ -95,28 +95,32 @@ class AuthenController extends Controller
 		  $transaction=Yii::app()->db->beginTransaction();
 		  try {	
 				//case 1 : check exist user_group
-				$model_group = UserGroup::model()->findAll('group_name=:group', array(':group' =>$_POST['user_group'] )); 
+				$model_group = UserGroup::model()->findAll('name=:group', array(':group' =>$_POST['user_group'] )); 
 				
 					if(!empty($model_group))
 					{
-							Yii::app()->db->createCommand('DELETE FROM authen WHERE group_id='.$model_group[0]->id)->execute();
+							Yii::app()->db->createCommand('DELETE FROM authen WHERE user_group_id='.$model_group[0]->id)->execute();
 							$group_id = $model_group[0]->id;
 
-                          $menus  = MenuTree::model()->findAll();
+                          $menus  = Menu::model()->findAll();
 							foreach ($menus as $key => $menu) {
 								$var = "authen_rule_".$menu->id;
 								if(isset($_POST[$var]))
 								{
-									// header('Content-type: text/plain');
-         //                   		    echo $var.":".$_POST[$var];                    
-         //                     	    exit;
+									//header('Content-type: text/plain');
+                           		    
 									$m_rule = new Authen("search");
-									$m_rule->group_id = $group_id;
+									$m_rule->name = $menu->title;
+									$m_rule->status = 1;
+									$m_rule->user_group_id = $group_id;
 									$m_rule->menu_id = $menu->id;
 									$m_rule->access = $_POST[$var];
 								
 
 									$m_rule->save();
+
+									//print_r($m_rule);                    
+                             	    //exit;
 
 								}	
 							}	
@@ -124,11 +128,10 @@ class AuthenController extends Controller
 					else
 					{
 						$model_group = new UserGroup("search");
-						$model_group->group_name = $_POST['user_group'];
+						$model_group->name = $_POST['user_group'];
 						if($model_group->save())
 						{
-							$group_id = $model_group->id;
-							$menus  = MenuTree::model()->findAll();
+							$menus  = Menu::model()->findAll();
 							foreach ($menus as $key => $menu) {
 								$var = "authen_rule_".$menu->id;
 								if(isset($_POST[$var]))
@@ -137,7 +140,10 @@ class AuthenController extends Controller
          //                   		    echo $var.":".$_POST[$var];                    
          //                     	    exit;
 									$m_rule = new Authen("search");
-									$m_rule->group_id = $group_id;
+									$m_rule->name = $menu->title;
+									$m_rule->status = 1;
+
+									$m_rule->user_group_id = $model_group->id;
 									$m_rule->menu_id = $menu->id;
 									$m_rule->access = $_POST[$var];
 								
@@ -189,7 +195,7 @@ class AuthenController extends Controller
 		{
 			Yii::app()->db->createCommand('DELETE FROM user_group WHERE id='.$id)->execute();
 
-			Yii::app()->db->createCommand('DELETE FROM authen WHERE group_id='.$id)->execute();
+			Yii::app()->db->createCommand('DELETE FROM authen WHERE user_group_id='.$id)->execute();
 
 			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 			if(!isset($_GET['ajax']))
@@ -267,7 +273,7 @@ class AuthenController extends Controller
             	$rules = Yii::app()->db->createCommand()
                                                 ->select('menu_id,access')
                                                 ->from('authen')
-                                                ->where('id=:id', array(':id'=>$model['id']))
+                                                ->where('user_group_id=:id', array(':id'=>$model['id']))
                                                 ->queryAll();
                 $data[] = array(
                         'id'=>$model['id'],

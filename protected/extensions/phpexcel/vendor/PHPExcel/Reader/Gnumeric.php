@@ -128,7 +128,7 @@ class PHPExcel_Reader_Gnumeric extends PHPExcel_Reader_Abstract implements PHPEx
 				$worksheetNames[] = (string) $xml->value;
 			} elseif ($xml->name == 'gnm:Sheets') {
 				//	break out of the loop once we've got our sheet names rather than parse the entire file
-				break;
+				return false;
 			}
 		}
 
@@ -177,7 +177,7 @@ class PHPExcel_Reader_Gnumeric extends PHPExcel_Reader_Abstract implements PHPEx
 					} elseif ($xml->name == 'gnm:MaxRow' && $xml->nodeType == XMLReader::ELEMENT) {
 					    $xml->read();	//	Move onto the value node
 						$tmpInfo['totalRows'] = (int) $xml->value + 1;
-						break;
+						return false;
 					}
 				}
 				$tmpInfo['lastColumnLetter'] = PHPExcel_Cell::stringFromColumnIndex($tmpInfo['lastColumnIndex']);

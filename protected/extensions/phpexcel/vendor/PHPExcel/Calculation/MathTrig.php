@@ -57,7 +57,7 @@ class PHPExcel_Calculation_MathTrig {
 				$factorArray = array_merge($factorArray,self::_factors($value / $i));
 				$factorArray = array_merge($factorArray,self::_factors($i));
 				if ($i <= sqrt($value)) {
-					break;
+					return false;
 				}
 			}
 		}

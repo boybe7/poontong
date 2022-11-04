@@ -61,16 +61,19 @@ $this->breadcrumbs=array(
                                      'showAnim'=>'fold',
                                      'minLength'=>0,
                                      'select'=>'js: function(event, ui) {
-                                           $("input:radio").each(function () {
+                                           $("input:checkbox").each(function () {
 
                                                   $(this).removeAttr("checked");
 
                                               });
 
                                            $.each(ui.item.rules, function( index, value ) {
-                                              console.log(  value["menu_id"] + ":" + value["access"] );
+                                              //console.log(  value["menu_id"] + ":" + value["access"] );
                                               name = "input:radio[name=authen_rule_"+value["menu_id"]+"][value="+value["access"]+"]";
-                                              $(name).attr("checked",true);
+                                              //$(name).attr("checked",true);
+
+                                              name = "input[name=authen_rule_"+value["menu_id"]+"][value="+value["access"]+"]";
+                                              $(name).prop("checked",true);
                                               
                                             });
                                            
@@ -93,25 +96,15 @@ $this->breadcrumbs=array(
          
     <?php
        
-            $menugroups = MenuGroup::model()->findAll();
-            foreach ($menugroups as $key => $group) {
-                $menutrees = MenuTree::model()->findAll(array('order'=>'', 'condition'=>'parent=:gid', 'params'=>array(':gid'=>$group->id)));
-                echo  '<div class="row-fluid"><div class="span12"><b>'.$group->title.'</b></div>';
-                
-                foreach ($menutrees as $key => $menu) {
-                    echo '<label class="radio span5">'.$menu->title.'</label>';
-                    echo '<label class="radio span3">';
-                        echo '<input type="radio" id="authen_rule1" name="authen_rule_'.$menu->id.'" value="1">Read-only';
-                       
-                    echo '</label>';
-                     echo '<label class="radio span3">';
-                       
-                        echo '&nbsp;&nbsp;&nbsp;<input type="radio" id="authen_rule2" name="authen_rule_'.$menu->id.'" value="2">Full access';
-                    echo '</label>';
+            $menus = Menu::model()->findAll();
+            foreach ($menus as $key => $menu) {
+                    //echo '<input type="checkbox" id="authen_rule_'.$menu->id.'"  name="authen_rule_'.$menu->id.'"  value="2">';
+                    //echo '<label for="authen_rule_'.$menu->id.'" >'.$menu->title.'</label>';
                     
-                }
-
-                echo '<div style="padding-top:10px">&nbsp;</div></div>';
+                    echo ' <label class="checkbox">
+                                <input type="checkbox" id="authen_rule_'.$menu->id.'"  name="authen_rule_'.$menu->id.'"  value="2"> '.$menu->title.'
+                            </label>';
+                
                 
             }
             
@@ -123,7 +116,10 @@ $this->breadcrumbs=array(
 </div>
 
             <div class="form-actions">
-                <?php $this->widget('bootstrap.widgets.TbButton', array(
+                <?php 
+                
+
+                $this->widget('bootstrap.widgets.TbButton', array(
                     'buttonType'=>'submit',
                     'type'=>'primary',
                     'htmlOptions'=>array('class'=>'pull-right'),

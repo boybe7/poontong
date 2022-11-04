@@ -116,7 +116,7 @@ class PHPExcel_Shared_File
 					if ($pathArray[$i] == '..' && $i > 0) {
 						unset($pathArray[$i]);
 						unset($pathArray[$i - 1]);
-						break;
+						return false;
 					}
 				}
 			}

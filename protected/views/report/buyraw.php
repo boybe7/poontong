@@ -90,44 +90,64 @@ $(document).ready(function(){
   <div class="row-fluid">
 	
 	  <div class="span2">
-               
-              <?php
-                echo CHtml::label('ระหว่างเดือน','monthBegin');  
-                $list = array("1" => "มกราคม", "2" => "กุมภาพันธ์", "3" => "มีนาคม","4" => "เมษายน", "5" => "พฤษภาคม", "6" => "มิถุนายน","7" => "กรกฎาคม", "8" => "สิงหาคม", "9" => "กันยายน","10" => "ตุลาคม", "11" => "พฤศจิกายน", "12" => "ธันวาคม");
-                echo CHtml::dropDownList('monthBegin', '', 
-                        $list,array('class'=>'span12'
-                    ));
-               
-
-              ?>
-    </div>
-    <div class="span2">
             <?php
-                
-                echo CHtml::label('ปี','yearBegin');  
-                $yy = date("Y")+543;
-                $list = array($yy-2=>$yy-2,$yy-1=>$yy-1,$yy=>$yy,$yy+1=>$yy+1,$yy+2=>$yy+2);
-                echo CHtml::dropDownList('yearBegin', '', 
-                        $list,array('class'=>'span12','options' => array($yy=>array('selected'=>true))
-                    ));
 
-              ?>
-    </div>
+                        echo CHtml::label('วันที่เริ่มต้น','date_start');
+                        echo '<div class="input-append" style="margin-top:0px;">'; //ใส่ icon ลงไป
+                            $this->widget('zii.widgets.jui.CJuiDatePicker',
 
+                            array(
+                                'name'=>'date_start',
+                                'attribute'=>'date_start',
+
+                                'options' => array(
+                                                  'mode'=>'focus',
+                                                  //'language' => 'th',
+                                                  'format'=>'dd/mm/yyyy', //กำหนด date Format
+                                                  'showAnim' => 'slideDown',
+                                                  ),
+                                'htmlOptions'=>array('class'=>'span12'),  // ใส่ค่าเดิม ในเหตุการ Update
+                             )
+                        );
+                        echo '<span class="add-on"><i class="icon-calendar"></i></span></div>';
+
+                ?>
+      </div>
+
+      <div class="span2 ">
+            <?php
+
+                        echo CHtml::label('วันที่สิ้นสุด','date_end');
+                        echo '<div class="input-append" style="margin-top:0px;">'; //ใส่ icon ลงไป
+                            $this->widget('zii.widgets.jui.CJuiDatePicker',
+
+                            array(
+                                'name'=>'date_end',
+                                'attribute'=>'date_end',
+
+                                'options' => array(
+                                                  'mode'=>'focus',
+                                                  //'language' => 'th',
+                                                  'format'=>'dd/mm/yyyy', //กำหนด date Format
+                                                  'showAnim' => 'slideDown',
+                                                  ),
+                                'htmlOptions'=>array('class'=>'span12'),  // ใส่ค่าเดิม ในเหตุการ Update
+                             )
+                        );
+                        echo '<span class="add-on"><i class="icon-calendar"></i></span></div>';
+
+                ?>
+     </div>
+
+ 
     <div class="span3">
-            <label for="material_id">วัตถุดิบ</label>
+            <label for="customer_id">ลูกค้า</label>
             <?php 
                         
-                    if(!Yii::app()->user->isAdmin())
-                    {
-                        $typelist = CHtml::listData(Material::model()->findAll('site_id=:id', array(':id' => Yii::app()->user->getSite())),'id','name');
-                        echo CHtml::dropDownList('material_id', "",$typelist,array('class'=>'span12')); 
-                    } 
-                    else
-                    {
-                        $typelist = CHtml::listData(Material::model()->findAll('site_id=:id', array(':id' => 1)),'id','name');
-                        echo CHtml::dropDownList('material_id', "",$typelist,array('class'=>'span12'));   
-                    }
+                   
+                    $typelist = CHtml::listData(Customer::model()->findAll('site_id=:id AND type="S"', array(':id' => Yii::app()->user->getSite())),'id','name');
+                    echo CHtml::dropDownList('customer_id', "",$typelist,array('class'=>'span12','empty' => '----ทั้งหมด----'));   
+                    
 
              ?>
     </div>
@@ -143,7 +163,7 @@ $(document).ready(function(){
               'icon'=>'list-alt white',
               
               'htmlOptions'=>array(
-                'class'=>'span4',
+                'class'=>'span3',
                 'style'=>'margin:25px 10px 0px 0px;',
                 'id'=>'gentReport'
               ),
@@ -152,31 +172,31 @@ $(document).ready(function(){
     <!-- </div> -->
     <!-- <div class="span1"> -->
       <?php
-        $this->widget('bootstrap.widgets.TbButton', array(
-              'buttonType'=>'link',
+        // $this->widget('bootstrap.widgets.TbButton', array(
+        //       'buttonType'=>'link',
               
-              'type'=>'success',
-              'label'=>'Excel',
-              'icon'=>'excel',
+        //       'type'=>'success',
+        //       'label'=>'Excel',
+        //       'icon'=>'excel',
               
-              'htmlOptions'=>array(
-                'class'=>'span4',
-                'style'=>'margin:25px 10px 0px 0px;padding-left:0px;padding-right:0px',
-                'id'=>'exportExcel'
-              ),
-          ));
+        //       'htmlOptions'=>array(
+        //         'class'=>'span3',
+        //         'style'=>'margin:25px 10px 0px 0px;padding-left:0px;padding-right:0px',
+        //         'id'=>'exportExcel'
+        //       ),
+        //   ));
 
     $this->widget('bootstrap.widgets.TbButton', array(
               'buttonType'=>'link',
               
               'type'=>'info',
-              'label'=>'Print',
+              'label'=>'พิมพ์ใบเสร็จรับเงิน',
               'icon'=>'print white',
               
               'htmlOptions'=>array(
-                'class'=>'span3',
+                'class'=>'span5',
                 'style'=>'margin:25px 0px 0px 0px;',
-                'id'=>'printReport'
+                'id'=>'printBill'
               ),
           ));
       ?>
@@ -200,7 +220,7 @@ $("#gentReport").click(function(e){
         $.ajax({
             url: "gentBuyRaw",
             cache:false,
-            data: {month:$("#monthBegin").val(),year:$("#yearBegin").val(),material_id:$("#material_id").val()
+            data: {date_start:$("#date_start").val(),date_end:$("#date_end").val(),customer_id:$("#customer_id").val()
               },
             success:function(response){
                
@@ -212,16 +232,16 @@ $("#gentReport").click(function(e){
 });
 ', CClientScript::POS_END);
 
-Yii::app()->clientScript->registerScript('printReport', '
-$("#printReport").click(function(e){
+Yii::app()->clientScript->registerScript('printBill', '
+$("#printBill").click(function(e){
     e.preventDefault();
-
+    filename = "billno"+$.now()+".pdf";
     $.ajax({
-        url: "printStatement",
-        data: {monthBegin:$("#monthBegin").val(),monthEnd:$("#monthEnd").val(),yearBegin:$("#yearBegin").val(),yearEnd:$("#yearEnd").val()
+        url: "printBill",
+        data: {date_start:$("#date_start").val(),date_end:$("#date_end").val(),customer_id:$("#customer_id").val(),filename:filename
               },
         success:function(response){
-            window.open("../tempReport.pdf", "_blank", "fullscreen=yes", "clearcache=yes");              
+            window.open("../report/temp/"+filename, "_blank", "fullscreen=yes", "clearcache=yes");                    
             
         }
 

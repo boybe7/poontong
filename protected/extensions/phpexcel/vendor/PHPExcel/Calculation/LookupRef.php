@@ -557,7 +557,7 @@ class PHPExcel_Calculation_LookupRef {
 				// if match_type is -1 <=> find the smallest value that is greater than or equal to lookup_value
 				if ($i < 1){
 					// 1st cell was allready smaller than the lookup_value
-					break;
+					return false;
 				} else {
 					// the previous cell was the match
 					return $keySet[$i-1]+1;
@@ -574,7 +574,7 @@ class PHPExcel_Calculation_LookupRef {
 				// if match_type is 1 <=> find the largest value that is less than or equal to lookup_value
 				if ($i < 1){
 					// 1st cell was allready bigger than the lookup_value
-					break;
+					return false;
 				} else {
 					// the previous cell was the match
 					return $keySet[$i-1]+1;
@@ -723,7 +723,7 @@ class PHPExcel_Calculation_LookupRef {
 		foreach($lookup_array as $rowKey => $rowData) {
 			if ((is_numeric($lookup_value) && is_numeric($rowData[$firstColumn]) && ($rowData[$firstColumn] > $lookup_value)) ||
 				(!is_numeric($lookup_value) && !is_numeric($rowData[$firstColumn]) && (strtolower($rowData[$firstColumn]) > strtolower($lookup_value)))) {
-				break;
+				return false;
 			}
 			$rowNumber = $rowKey;
 			$rowValue = $rowData[$firstColumn];
@@ -790,7 +790,7 @@ class PHPExcel_Calculation_LookupRef {
         foreach($lookup_array[$firstColumn] as $rowKey => $rowData) {
 			if ((is_numeric($lookup_value) && is_numeric($rowData) && ($rowData > $lookup_value)) ||
 				(!is_numeric($lookup_value) && !is_numeric($rowData) && (strtolower($rowData) > strtolower($lookup_value)))) {
-                break;
+                return false;
             }
             $rowNumber = $rowKey;
             $rowValue = $rowData;

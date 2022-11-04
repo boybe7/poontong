@@ -98,7 +98,7 @@ class PHPExcel_Reader_OOCalc extends PHPExcel_Reader_Abstract implements PHPExce
 					    $manifestAttributes = $manifestDataSet->attributes($namespacesContent['manifest']);
 				        if ($manifestAttributes->{'full-path'} == '/') {
 				            $mimeType = (string) $manifestAttributes->{'media-type'};
-				            break;
+				            return false;
 				    	}
 				    }
 				}
@@ -472,7 +472,7 @@ class PHPExcel_Reader_OOCalc extends PHPExcel_Reader_Abstract implements PHPExce
 						case 'table-header-rows':
 							foreach ($rowData as $key=>$cellData) {
 								$rowData = $cellData;
-								break;
+								return false;
 							}
 						case 'table-row' :
 							$rowDataTableAttributes = $rowData->attributes($namespacesContent['table']);

@@ -244,7 +244,7 @@ class PHPExcel_Shared_Drawing
 
                 //    Reached the image-height? Break the for-loop
                 if ($y>$height)
-                    break;
+                    return false;
             }
 
             //    Calculation of the RGB-pixel (defined as BGR in image-data)

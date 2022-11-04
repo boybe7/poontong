@@ -536,7 +536,7 @@ class PHPExcel_Calculation_TextData {
 					$pos = strpos($text, $fromText, $pos+1);
 				}
 				if ($pos === false) {
-					break;
+					return false;
 				}
 				--$instance;
 			}

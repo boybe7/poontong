@@ -372,6 +372,11 @@ select, input[type="file"] {
 
 }
 
+.navbar-search {
+    margin-top: 25px;
+ 
+}
+
 .hero-unit{
 
   
@@ -616,7 +621,16 @@ input.number {
 <?php 
  //echo Yii::app()->theme->getBaseUrl(); 
 $class_profile = Yii::app()->user->id =="" ? "hidden" : "";
+$show_site = Yii::app()->user->isAdmin() ? "" : "hidden_row";
 
+$site = Site::model()->findAll();
+$options="";
+foreach ($site as $key => $value) {
+    if(Yii::app()->user->getSite()==$value->id)
+       $options .= '<option value="'.$value->id.'" selected>'.$value->name.'</option>';
+    else
+        $options .= '<option value="'.$value->id.'">'.$value->name.'</option>';
+ } 
 // if(Yii::app()->user->id =="")
 //{
    
@@ -633,7 +647,8 @@ $class_profile = Yii::app()->user->id =="" ? "hidden" : "";
             'items'=>array(
               
                 array('label'=>'ซื้อวัตถุดิบ ','icon'=>'', 'url'=>array('/buyMaterialInput/index'),'visible'=>Yii::app()->user->isAccess('/buyMaterialInput/index')),
-                array('label'=>'การผลิต ','icon'=>'', 'url'=>array('/production/index'),'visible'=>Yii::app()->user->isAccess('/production/index')),
+                array('label'=>'ผลิต ','icon'=>'', 'url'=>array('/production/index'),'visible'=>Yii::app()->user->isAccess('/production/index')),
+                array('label'=>'ขาย ','icon'=>'', 'url'=>array('/sellMaterial/index'),'visible'=>Yii::app()->user->isAccess('/sellMaterial/index')),
                 array('label'=>'stock ','icon'=>'', 'url'=>array('#'),'visible'=>Yii::app()->user->isAccess('/stock/index'),'items'=>array(
                         array('label'=>'วัตถุดิบ', 'url'=>array('/stock/index/0'),'visible'=>Yii::app()->user->isAccess('/stock/index/0')),
                       )),
@@ -644,19 +659,26 @@ $class_profile = Yii::app()->user->id =="" ? "hidden" : "";
                      
                     ),
                 ),
+
                 array('label'=>'ผู้ดูแลระบบ ','icon'=>'', 'url'=>'#','visible'=>Yii::app()->user->isAccess('/user/index'),'items'=>array(
                     array('label'=>'ประเภทวัตถุดิบ', 'url'=>array('/materialGroup/index'),'visible'=>Yii::app()->user->isAccess('/materialGroup/index')),
                      array('label'=>'ข้อมูลวัตถุดิบ', 'url'=>array('/material/index'),'visible'=>Yii::app()->user->isAccess('/material/index')),
                      array('label'=>'ประเภทลูกค้า', 'url'=>array('/customerGroup/index'),'visible'=>Yii::app()->user->isAccess('/customerGroup/index')),
                      array('label'=>'ข้อมูลลูกค้า', 'url'=>array('/customer/index'),'visible'=>Yii::app()->user->isAccess('/customer/index')),
-                     array('label'=>'ผู้ใช้งาน', 'url'=>array('/user/index'),'visible'=>Yii::app()->user->isAccess('/user/index')),
+                     
                      array('label'=>'ข้อมูลโรงงาน', 'url'=>array('/plantSite/index'),'visible'=>Yii::app()->user->isAccess('/plantSite/index')),
+                     array('label'=>'ผู้ใช้งาน', 'url'=>array('/user/index'),'visible'=>Yii::app()->user->isAccess('/user/index')),
                      array('label'=>'กำหนดสิทธิผู้ใช้งาน', 'url'=>array('/authen/index'),'visible'=>Yii::app()->user->isAccess('/authen/index')),
                      
                     ),
                 ),
             ),
-        ),    
+        ), 
+        
+          '<form class="navbar-search pull-left '.$show_site.'" action="'.Yii::app()->createUrl('/mycontroller/admin').'">
+            <select class="span2" id="site_select">'.$options.'</select>
+          </form>',   
+        
         array(
             'class'=>'bootstrap.widgets.TbButtonGroup',           
             'htmlOptions'=>array('class'=>'pull-right '.$class_profile,'style'=>'margin-top:25px'),
@@ -712,6 +734,34 @@ $class_profile = Yii::app()->user->id =="" ? "hidden" : "";
 
 
 </div><!-- page -->
+
+
+<?php
+
+Yii::app()->clientScript->registerScript('siteSelect', '
+$( "#site_select").bind("change", function () {
+            var site_id = $( "#site_select").val();
+
+            console.log(site_id)
+          
+            var _url = "' . Yii::app()->controller->createUrl("User/updateSite").'" ;
+            if(site_id!="")
+            {
+              $.ajax({
+              url: _url,
+              data : {site:site_id},
+              success:function(response){
+                  location.reload();
+              }
+
+              });
+            }
+});
+
+
+', CClientScript::POS_END);
+
+?>
 
 </body>
 </html>

@@ -33,12 +33,12 @@ class Production extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('process_id, material_id, in_out, amount, site_id, production_date, user_id, last_update, flag_delete', 'required'),
-			array('process_id, material_id, in_out, site_id, user_id, flag_delete', 'numerical', 'integerOnly'=>true),
+			array('process_id, material_input, material_output, amount, site_id, production_date, user_id, last_update, flag_delete', 'required'),
+			array('process_id, material_input, material_output, site_id, user_id, flag_delete', 'numerical', 'integerOnly'=>true),
 			array('amount', 'length', 'max'=>15),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, process_id, material_id, in_out, amount, site_id, production_date, user_id, last_update, flag_delete', 'safe', 'on'=>'search'),
+			array('id, process_id, material_input, material_output, amount, site_id, production_date, user_id, last_update, flag_delete', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -61,8 +61,8 @@ class Production extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'process_id' => 'กระบวนการผลิต',
-			'material_id' => 'วัตถุดิบ',
-			'in_out' => 'ประเภท',
+			'material_input' => 'วัตถุดิบ',
+			'material_output' => 'ผลผลิต',
 			'amount' => 'จำนวน กก.',
 			'site_id' => 'Site',
 			'production_date' => 'วันที่ผลิต',
@@ -98,8 +98,8 @@ class Production extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('process_id',$this->process_id);
-		$criteria->compare('material_id',$this->material_id);
-		$criteria->compare('in_out',$this->in_out);
+		$criteria->compare('material_input',$this->material_input);
+		$criteria->compare('material_output',$this->material_output);
 		$criteria->compare('amount',$this->amount,true);
 		$criteria->compare('site_id',Yii::app()->user->getSite());
 		$criteria->compare('production_date',$date_search,true);

@@ -145,6 +145,9 @@ class BuyMaterialDetail extends CActiveRecord
 		$this->weight_in = str_replace(",", "", $this->weight_in); 
 		$this->weight_out = str_replace(",", "", $this->weight_out);
 		$this->weight_loss = str_replace(",", "", $this->weight_loss); 
+
+		$this->weight_loss = empty($this->weight_loss) ? NULL : $this->weight_loss ; 		
+
 		 
 		return parent::beforeSave();  
 	}
