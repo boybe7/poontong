@@ -100,6 +100,42 @@ class ReportController extends Controller {
         
     }
 
+    public function actionBuyProductionSummary()
+     {
+                    
+          // display the progress form
+          $this->render('buyProductionSummary');
+     }
+
+    public function actionGentBuyProductionSummary()
+    {
+        
+        $this->renderPartial('_formBuyProductionSummary', array(
+            'year'=>$_GET['year'],
+            'display' => 'block',
+        ), false, true);
+
+        
+    }
+
+    public function actionCostOperation()
+     {
+                    
+          // display the progress form
+          $this->render('costOperation');
+     }
+
+    public function actionGentCostOperation()
+    {
+        
+        $this->renderPartial('_formCostOperation', array(
+            'year'=>$_GET['year'],
+            'display' => 'block',
+        ), false, true);
+
+        
+    }
+
 
     public function actionBuyrawSummary()
      {

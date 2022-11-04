@@ -3166,3 +3166,64 @@ Stack trace:
 #3 {main}
 REQUEST_URI=/poontong/rblade
 ---
+2022/11/04 10:21:39 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'poontong.site' doesn't exist. The SQL statement executed was: SHOW FULL COLUMNS FROM `site`.
+in D:\xampp5\htdocs\poontong\themes\bootstrap\views\layouts\main.php (626)
+in D:\xampp5\htdocs\poontong\protected\views\layouts\column1.php (6)
+in D:\xampp5\htdocs\poontong\protected\controllers\SiteController.php (113)
+2022/11/04 10:21:39 [error] [exception.CDbException] exception 'CDbException' with message 'ตาราง "site" สำหรับบันทึกข้อมูลของ "Site" ไม่พบในฐานข้อมูล' in D:\xampp5\htdocs\poontong\framework\db\ar\CActiveRecord.php:2362
+Stack trace:
+#0 D:\xampp5\htdocs\poontong\framework\db\ar\CActiveRecord.php(411): CActiveRecordMetaData->__construct(Object(Site))
+#1 D:\xampp5\htdocs\poontong\framework\db\ar\CActiveRecord.php(658): CActiveRecord->getMetaData()
+#2 D:\xampp5\htdocs\poontong\framework\db\ar\CActiveRecord.php(1350): CActiveRecord->getTableSchema()
+#3 D:\xampp5\htdocs\poontong\framework\db\ar\CActiveRecord.php(1470): CActiveRecord->query(Object(CDbCriteria), true)
+#4 D:\xampp5\htdocs\poontong\themes\bootstrap\views\layouts\main.php(626): CActiveRecord->findAll()
+#5 D:\xampp5\htdocs\poontong\framework\web\CBaseController.php(126): require('D:\\xampp5\\htdoc...')
+#6 D:\xampp5\htdocs\poontong\framework\web\CBaseController.php(95): CBaseController->renderInternal('D:\\xampp5\\htdoc...', Array, true)
+#7 D:\xampp5\htdocs\poontong\framework\web\widgets\CContentDecorator.php(76): CBaseController->renderFile('D:\\xampp5\\htdoc...', Array, true)
+#8 D:\xampp5\htdocs\poontong\framework\web\widgets\CContentDecorator.php(54): CContentDecorator->decorate('<div id="conten...')
+#9 D:\xampp5\htdocs\poontong\framework\web\widgets\COutputProcessor.php(44): CContentDecorator->processOutput('<div id="conten...')
+#10 D:\xampp5\htdocs\poontong\framework\web\CBaseController.php(206): COutputProcessor->run()
+#11 D:\xampp5\htdocs\poontong\framework\web\CBaseController.php(300): CBaseController->endWidget('CContentDecorat...')
+#12 D:\xampp5\htdocs\poontong\protected\views\layouts\column1.php(6): CBaseController->endContent()
+#13 D:\xampp5\htdocs\poontong\framework\web\CBaseController.php(126): require('D:\\xampp5\\htdoc...')
+#14 D:\xampp5\htdocs\poontong\framework\web\CBaseController.php(95): CBaseController->renderInternal('D:\\xampp5\\htdoc...', Array, true)
+#15 D:\xampp5\htdocs\poontong\framework\web\CController.php(784): CBaseController->renderFile('D:\\xampp5\\htdoc...', Array, true)
+#16 D:\xampp5\htdocs\poontong\protected\controllers\SiteController.php(113): CController->render('login', Array)
+#17 D:\xampp5\htdocs\poontong\framework\web\actions\CInlineAction.php(49): SiteController->actionLogin()
+#18 D:\xampp5\htdocs\poontong\framework\web\CController.php(308): CInlineAction->runWithParams(Array)
+#19 D:\xampp5\htdocs\poontong\framework\web\CController.php(286): CController->runAction(Object(CInlineAction))
+#20 D:\xampp5\htdocs\poontong\framework\web\CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#21 D:\xampp5\htdocs\poontong\framework\web\CWebApplication.php(282): CController->run('login')
+#22 D:\xampp5\htdocs\poontong\framework\web\CWebApplication.php(141): CWebApplication->runController('site/login')
+#23 D:\xampp5\htdocs\poontong\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#24 D:\xampp5\htdocs\poontong\index.php(13): CApplication->run()
+#25 {main}
+REQUEST_URI=/poontong/site/login
+---
+2022/11/04 11:15:31 [error] [php] Undefined index: month (D:\xampp5\htdocs\poontong\protected\controllers\ReportController.php:114)
+Stack trace:
+#0 D:\xampp5\htdocs\poontong\framework\web\CController.php(286): ReportController->runAction()
+#1 D:\xampp5\htdocs\poontong\framework\web\CController.php(265): ReportController->runActionWithFilters()
+#2 D:\xampp5\htdocs\poontong\framework\web\CWebApplication.php(282): ReportController->run()
+#3 D:\xampp5\htdocs\poontong\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#4 D:\xampp5\htdocs\poontong\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#5 D:\xampp5\htdocs\poontong\index.php(13): CWebApplication->run()
+REQUEST_URI=/poontong/report/gentBuyProductionSummary?year=2565&_=1667535324500
+in D:\xampp5\htdocs\poontong\protected\controllers\ReportController.php (114)
+in D:\xampp5\htdocs\poontong\index.php (13)
+2022/11/04 14:43:15 [error] [php] Undefined variable: sumsell (D:\xampp5\htdocs\poontong\protected\views\report\_formCostOperation.php:86)
+Stack trace:
+#0 D:\xampp5\htdocs\poontong\framework\web\CController.php(869): ReportController->renderFile()
+#1 D:\xampp5\htdocs\poontong\protected\controllers\ReportController.php(134): ReportController->renderPartial()
+#2 D:\xampp5\htdocs\poontong\framework\web\actions\CInlineAction.php(49): ReportController->actionGentCostOperation()
+#3 D:\xampp5\htdocs\poontong\framework\web\CController.php(308): CInlineAction->runWithParams()
+#4 D:\xampp5\htdocs\poontong\framework\web\CController.php(286): ReportController->runAction()
+#5 D:\xampp5\htdocs\poontong\framework\web\CController.php(265): ReportController->runActionWithFilters()
+#6 D:\xampp5\htdocs\poontong\framework\web\CWebApplication.php(282): ReportController->run()
+#7 D:\xampp5\htdocs\poontong\framework\web\CWebApplication.php(141): CWebApplication->runController()
+#8 D:\xampp5\htdocs\poontong\framework\base\CApplication.php(180): CWebApplication->processRequest()
+#9 D:\xampp5\htdocs\poontong\index.php(13): CWebApplication->run()
+REQUEST_URI=/poontong/report/gentCostOperation?year=2565&_=1667547794566
+in D:\xampp5\htdocs\poontong\protected\views\report\_formCostOperation.php (86)
+in D:\xampp5\htdocs\poontong\protected\controllers\ReportController.php (134)
+in D:\xampp5\htdocs\poontong\index.php (13)
