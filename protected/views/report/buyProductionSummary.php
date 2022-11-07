@@ -239,10 +239,10 @@ $("#gentReport").click(function(e){
 Yii::app()->clientScript->registerScript('printReport', '
 $("#printReport").click(function(e){
     e.preventDefault();
-    filename = "profitLoss_"+$.now()+".pdf";
+    filename = "buyProductionSummary_"+$.now()+".pdf";
 
     $.ajax({
-        url: "printProfitLoss",
+        url: "printBuyProductionSummary",
          data: {year:$("#year").val(),filename : filename},
         success:function(response){
              window.open("../report/temp/"+filename, "_blank", "fullscreen=yes", "clearcache=yes");                  
@@ -257,7 +257,7 @@ $("#printReport").click(function(e){
 Yii::app()->clientScript->registerScript('exportExcel', '
 $("#exportExcel").click(function(e){
     e.preventDefault();
-    window.location.href = "BuySellSummaryExcel?year="+$("#year").val();
+    window.location.href = "BuyProductionSummaryExcel?year="+$("#year").val();
               
 
 
