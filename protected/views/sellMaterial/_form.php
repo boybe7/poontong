@@ -42,6 +42,30 @@
 
 	<?php echo $form->errorSummary($model); ?>
 	<div class='row-fluid'>
+		<div class="span3">
+			<?php 
+			echo $form->labelEx($model,'sell_date',array('class'=>'span12','style'=>'text-align:left;padding-right:10px;'));
+			echo '<div class="input-append" style="margin-top:-10px;">'; //ใส่ icon ลงไป
+			                    $form->widget('zii.widgets.jui.CJuiDatePicker',
+
+			                    array(
+			                        'name'=>'sell_date',
+			                        'attribute'=>'sell_date',
+			                        'model'=>$model,
+			                        'options' => array(
+			                                          'mode'=>'focus',
+			                                          //'language' => 'th',
+			                                          'format'=>'dd/mm/yyyy', //กำหนด date Format
+			                                          'showAnim' => 'slideDown',
+			                                          ),
+			                        'htmlOptions'=>array('class'=>'span12', 'value'=>$model->sell_date),  // ใส่ค่าเดิม ในเหตุการ Update 
+			                     )
+			                );
+			                echo '<span class="add-on"><i class="icon-calendar"></i></span></div>';
+	 
+
+			?>	
+		</div>
 		<div class="span2 pull-right">
 			<?php echo $form->textFieldRow($model,'bill_no',array('class'=>'span12  number','maxlength'=>255)); ?>
 		</div>	

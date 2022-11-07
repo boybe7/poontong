@@ -42,11 +42,13 @@ $month_th = array("1" => "มกราคม", "2" => "กุมภาพัน�
 	//$date_start = "2022-08-01";
 	//$date_end = "2022-08-31";	
 
+	$condition = empty($customer_id) ? "" : " AND customer_id=".$customer_id;
+
 	$buymaterial = Yii::app()->db->createCommand()
-                        ->select('*')
+                        ->select('*,buy_material_input.id as buy_id')
                         ->from('buy_material_input')
                         ->join('customer t', 'customer_id=t.id')
-                        ->where("buy_date BETWEEN '".$date_start."' AND '".$date_end."' AND buy_material_input.site_id='".Yii::app()->user->getSite()."'")
+                        ->where("buy_date BETWEEN '".$date_start."' AND '".$date_end."' AND buy_material_input.site_id='".Yii::app()->user->getSite()."'".$condition)
                         ->order(array('buy_date asc'))
                         ->queryAll();
 
@@ -55,9 +57,9 @@ $month_th = array("1" => "มกราคม", "2" => "กุมภาพัน�
 		
 			echo '<td  width="15%" style="text-align:center;background-color: #ffffff;">'.$this->renderDate($value["buy_date"]).'</td>';
 			echo '<td  width="20%" style="text-align:left;background-color: #ffffff;">'.$value["name"].'</td>';
-			echo '<td  width="40%" style="text-align:left;background-color: #ffffff;">'.BuyMaterialInput::model()->getItem($value['id']).'</td>';
+			echo '<td  width="40%" style="text-align:left;background-color: #ffffff;">'.BuyMaterialInput::model()->getItem($value['buy_id']).'</td>';
 		
-			echo '<td  width="25%" style="text-align:right;background-color: #ffffff;">'.number_format(BuyMaterialInput::model()->getTotal($value['id']),2).'</td>';
+			echo '<td  width="25%" style="text-align:right;background-color: #ffffff;">'.number_format(BuyMaterialInput::model()->getTotal($value['buy_id']),2).'</td>';
 	
 		echo '</tr>';	
 

@@ -1,6 +1,6 @@
 <?php
 $this->breadcrumbs=array(
-	'รายงานกำไร-ขาดทุน',
+	'รายงานซื้อวัตถุดิบ(ประเภทวัตถุดิบ)',
 	
 );
 
@@ -84,78 +84,61 @@ $(document).ready(function(){
 </script>
 
 
-<h4>รายงานกำไร-ขาดทุน</h4>
+<h4>รายงานซื้อวัตถุดิบรับเข้า (แยกตามประเภทวัตถุดิบ)</h4>
 
 <div class="well">
   <div class="row-fluid">
-	
-	  <!-- <div class="span2"> -->
-               
-              <?php
-                // echo CHtml::label('ระหว่างเดือน','monthBegin');  
-                // $list = array("1" => "มกราคม", "2" => "กุมภาพันธ์", "3" => "มีนาคม","4" => "เมษายน", "5" => "พฤษภาคม", "6" => "มิถุนายน","7" => "กรกฎาคม", "8" => "สิงหาคม", "9" => "กันยายน","10" => "ตุลาคม", "11" => "พฤศจิกายน", "12" => "ธันวาคม");
-                // echo CHtml::dropDownList('monthBegin', '', 
-                //         $list,array('class'=>'span12'
-                //     ));
-               
-
-              ?>
-    <!-- </div>
-    <div class="span2"> -->
+    
+      <div class="span2">
             <?php
-                
-                // echo CHtml::label('ปี','yearBegin');  
-                // $yy = date("Y")+543;
-                // $list = array($yy-2=>$yy-2,$yy-1=>$yy-1,$yy=>$yy,$yy+1=>$yy+1,$yy+2=>$yy+2);
-                // echo CHtml::dropDownList('yearBegin', '', 
-                //         $list,array('class'=>'span12','options' => array($yy=>array('selected'=>true))
-                //     ));
 
-              ?>
-    <!-- </div>
-    <div class="span2"> -->
-               
-              <?php
-                // echo CHtml::label('ถึงเดือน','monthEnd');  
-                // $list = array("1" => "มกราคม", "2" => "กุมภาพันธ์", "3" => "มีนาคม","4" => "เมษายน", "5" => "พฤษภาคม", "6" => "มิถุนายน","7" => "กรกฎาคม", "8" => "สิงหาคม", "9" => "กันยายน","10" => "ตุลาคม", "11" => "พฤศจิกายน", "12" => "ธันวาคม");
-                // echo CHtml::dropDownList('monthEnd', '', 
-                //         $list,array('class'=>'span12'
-                //     ));
-               
+                        echo CHtml::label('วันที่เริ่มต้น','date_start');
+                        echo '<div class="input-append" style="margin-top:0px;">'; //ใส่ icon ลงไป
+                            $this->widget('zii.widgets.jui.CJuiDatePicker',
 
-              ?>
-    <!-- </div>
-    <div class="span2"> -->
+                            array(
+                                'name'=>'date_start',
+                                'attribute'=>'date_start',
+
+                                'options' => array(
+                                                  'mode'=>'focus',
+                                                  //'language' => 'th',
+                                                  'format'=>'dd/mm/yyyy', //กำหนด date Format
+                                                  'showAnim' => 'slideDown',
+                                                  ),
+                                'htmlOptions'=>array('class'=>'span12'),  // ใส่ค่าเดิม ในเหตุการ Update
+                             )
+                        );
+                        echo '<span class="add-on"><i class="icon-calendar"></i></span></div>';
+
+                ?>
+      </div>
+
+      <div class="span2 ">
             <?php
-                
-                // echo CHtml::label('ปี','yearEnd');  
-                // $yy = date("Y")+543;
-                // $list = array($yy-2=>$yy-2,$yy-1=>$yy-1,$yy=>$yy,$yy+1=>$yy+1,$yy+2=>$yy+2);
-                // echo CHtml::dropDownList('yearEnd', '', 
-                //         $list,array('class'=>'span12','options' => array($yy=>array('selected'=>true))
-                //     ));
 
-              ?>
-    <!-- </div> -->
+                        echo CHtml::label('วันที่สิ้นสุด','date_end');
+                        echo '<div class="input-append" style="margin-top:0px;">'; //ใส่ icon ลงไป
+                            $this->widget('zii.widgets.jui.CJuiDatePicker',
 
-   
-    <div class="span2">
-            <?php
-                
-                echo CHtml::label('ปี','year');  
-                $yy = date("Y")+543;
-                $list = array();
-                for ($i=2565; $i <= $yy ; $i++) { 
-                    $list[$i] = $i;
-                }
-               
-                echo CHtml::dropDownList('year', '', 
-                        $list,array('class'=>'span12','options' => array($yy=>array('selected'=>true))
-                    ));
+                            array(
+                                'name'=>'date_end',
+                                'attribute'=>'date_end',
 
-              ?>
-    </div>
-	<div class="span4">
+                                'options' => array(
+                                                  'mode'=>'focus',
+                                                  //'language' => 'th',
+                                                  'format'=>'dd/mm/yyyy', //กำหนด date Format
+                                                  'showAnim' => 'slideDown',
+                                                  ),
+                                'htmlOptions'=>array('class'=>'span12'),  // ใส่ค่าเดิม ในเหตุการ Update
+                             )
+                        );
+                        echo '<span class="add-on"><i class="icon-calendar"></i></span></div>';
+
+                ?>
+     </div>
+    <div class="span4">
       <?php
         $this->widget('bootstrap.widgets.TbButton', array(
               'buttonType'=>'link',
@@ -222,9 +205,9 @@ $("#gentReport").click(function(e){
 
        
         $.ajax({
-            url: "gentProfitLoss",
+            url: "gentBuyrawDaily",
             cache:false,
-            data: {year:$("#year").val()
+            data: {date_start:$("#date_start").val(), date_end:$("#date_end").val()
               },
             success:function(response){
                
@@ -239,11 +222,11 @@ $("#gentReport").click(function(e){
 Yii::app()->clientScript->registerScript('printReport', '
 $("#printReport").click(function(e){
     e.preventDefault();
-    filename = "profitLoss_"+$.now()+".pdf";
+    filename = "buyrawdaily_"+$.now()+".pdf";
 
     $.ajax({
-        url: "printProfitLoss",
-         data: {year:$("#year").val(),filename : filename},
+        url: "printBuyrawDaily",
+         data: {date_start:$("#date_start").val(), date_end:$("#date_end").val(),filename : filename},
         success:function(response){
              window.open("../report/temp/"+filename, "_blank", "fullscreen=yes", "clearcache=yes");                  
             
@@ -257,9 +240,8 @@ $("#printReport").click(function(e){
 Yii::app()->clientScript->registerScript('exportExcel', '
 $("#exportExcel").click(function(e){
     e.preventDefault();
-    window.location.href = "profitLossExcel?year="+$("#year").val();
-              
-
+    window.location.href = "buyrawDailyExcel?date_start="+$("#date_start").val()+"&date_end="+$("#date_end").val();
+ 
 
 });
 ', CClientScript::POS_END);

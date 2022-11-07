@@ -135,7 +135,7 @@ class SellMaterialController extends Controller
 
 			$model->update_by = Yii::app()->user->ID;
 			$model->last_update =  (date("Y")).date("-m-d H:i:s");
-			$model->sell_date =  (date("Y")).date("-m-d");
+			//$model->sell_date =  (date("Y")).date("-m-d");
 
 			
 

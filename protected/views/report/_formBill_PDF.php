@@ -116,7 +116,7 @@ $str_date = explode("/", $date_start);
 
 // Set some content to print
 $buymaterial = Yii::app()->db->createCommand()
-                        ->select('*')
+                        ->select('*,,buy_material_input.id as buy_id')
                         ->from('buy_material_input')
                         ->join('customer t', 'customer_id=t.id')
                         ->where("buy_date BETWEEN '".$date_start."' AND '".$date_end."' AND buy_material_input.site_id='".Yii::app()->user->getSite()."'")
@@ -133,7 +133,7 @@ foreach ($buymaterial as $key => $value) {
 
         $html .= '<br><br><table style=""><tr style="font-weight:bold;font-size:16px;">
         			<td width="45%" style="border-top:1px solid black;border-bottom:1px solid black;text-align:center;">รายการ</td><td width="15%" style="border-top:1px solid black;border-bottom:1px solid black;text-align:center;">จำนวน</td><td width="20%" style="border-top:1px solid black;border-bottom:1px solid black;text-align:right;">ราคาต่อหน่วย</td><td width="20%" style="border-top:1px solid black;border-bottom:1px solid black;text-align:right;">รวมเงิน</td></tr>';
-        $details = BuyMaterialDetail::model()->findAll('buy_id='.$value["id"]);
+        $details = BuyMaterialDetail::model()->findAll('buy_id='.$value["buy_id"]);
         $total = 0;
         foreach ($details as $key => $value) {
         	$html .=  '<tr>';

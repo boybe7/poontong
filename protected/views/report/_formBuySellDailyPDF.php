@@ -9,11 +9,11 @@ class MYPDF extends TCPDF {
 	private $site_name;
 	private $site_phone;
 	private $site_address;
+    private $title_report;
 	
-	public function setHeaderInfo($site_name,$site_phone,$site_address) {
+	public function setHeaderInfo($site_name,$title_report) {
 		$this->site_name = $site_name;
-		$this->site_phone = $site_phone;
-		$this->site_address = $site_address;
+		$this->title_report = $title_report;
 		        
 	}
 
@@ -22,7 +22,8 @@ class MYPDF extends TCPDF {
         
         // Set font
         $this->SetFont('thsarabun', '', 18);
-        $this->writeHTMLCell(0, 0, 0, 2, '<p style="font-weight:bold;text-align:center;">'.$this->site_name.'</p>', 0, 1, false, true, 'C', false);
+        $this->writeHTMLCell(0, 50, 0, 2, '<div style="font-weight:bold;text-align:center;">'.$this->site_name.'</div>', 0, 1, false, true, 'C', false);
+        $this->writeHTMLCell(0, 50, 0, 10, '<div style="font-weight:bold;text-align:center;">'.$this->title_report.'</div>', 0, 1, false, true, 'C', false);
         //$this->writeHTMLCell(229, 20, 2, 10, '<span style="text-align:center;font-size:14px;font-weight:bold;">ที่อยู่ '.$this->site_address.'</span>', 0, 1, false, true, 'C', false);
         //$this->writeHTMLCell(229, 20, 2, 14, '<span style="text-align:center;font-size:14px;font-weight:bold;">เบอร์โทร '.$this->site_phone.'</span>', 0, 1, false, true, 'C', false);
     }
@@ -53,7 +54,7 @@ $pdf = new MYPDF('P', 'mm', array(228.6, 139.7), true, 'UTF-8', false);
 // set document information
 $pdf->SetCreator(PDF_CREATOR);
 $pdf->SetAuthor('poontong');
-$pdf->SetTitle('รายงานสรุปซื้อขาย');
+$pdf->SetTitle('รายงานสรุปซื้อขายรายวัน');
 $pdf->SetSubject('TCPDF Tutorial');
 $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
 
@@ -61,7 +62,8 @@ $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
 //$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE.' 001', PDF_HEADER_STRING, array(0,64,255), array(0,64,128));
 $pdf->setPrintHeader(true);
 $site = Site::model()->FindByPk(Yii::app()->user->getSite());
-$pdf->setHeaderInfo($site->name,$site->telephone,$site->address);
+
+
 $pdf->setFooterData(array(0,64,0), array(0,64,128));
 
 // set header and footer fonts
@@ -72,7 +74,7 @@ $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
 $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 
 // set margins
-$pdf->SetMargins(PDF_MARGIN_LEFT, 10, PDF_MARGIN_RIGHT);
+$pdf->SetMargins(PDF_MARGIN_LEFT, 20, PDF_MARGIN_RIGHT);
 //$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
 $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 
@@ -108,20 +110,21 @@ $pdf->SetFont('thsarabun', '', 14, '', true);
 
 $month_th = array("1" => "มกราคม", "2" => "กุมภาพันธ์", "3" => "มีนาคม","4" => "เมษายน", "5" => "พฤษภาคม", "6" => "มิถุนายน","7" => "กรกฎาคม", "8" => "สิงหาคม", "9" => "กันยายน","10" => "ตุลาคม", "11" => "พฤศจิกายน", "12" => "ธันวาคม");
 
-// $month = $monthBegin<10 ? "0".$monthBegin : $monthBegin ;
-// $date_start = ($yearBegin-543)."-".$month."-01";
-// $month = $monthEnd<10 ? "0".$monthEnd : $monthEnd ;
-// $number = cal_days_in_month(CAL_GREGORIAN, $monthEnd, $yearEnd-543);
-// $day = $number<10 ? "0".$number : $number ;
-// $date_end = ($yearEnd-543)."-".$month."-".$day;
+$str_date = explode("/", $date_start);
+$date_start = ($str_date[2]-543)."-".$str_date[1]."-".$str_date[0];   
 
-$date_start = ($year-543)."-01-01";
-$date_end = ($year-543)."-12-31";
+$str_date = explode("/", $date_end);
+$date_end = ($str_date[2]-543)."-".$str_date[1]."-".$str_date[0];
 
-    //$html .= $month_th[$monthBegin]." ".$yearBegin." - ".$month_th[$monthEnd]." ".$yearEnd;
-    //$html .= "<center><div class='header'><b>รายงานสรุปซื้อขาย ระหว่างเดือน ".$month_th[$monthBegin]." ".$yearBegin." - ".$month_th[$monthEnd]." ".$yearEnd."</b></div></center>";
+$date1=date_create($date_start);
+$date2=date_create($date_end);
+$interval = $date1->diff($date2);
+$nday = $interval->days;
+
+$title_report = 'รายงานสรุปซื้อขาย ระหว่างวันที่ '.$this->renderDate($date_start)." ถึง ".$this->renderDate($date_end);
+$pdf->setHeaderInfo($site->name,$title_report);
 $html = "";
-$html .= '<center><div class="header" style="text-align:center;"><h4>รายงานสรุปซื้อขาย ปี '.$year.'</h4></div></center>';
+//$html .= '<center><div class="header" style="text-align:center;"><h4>รายงานสรุปซื้อขาย '.$this->renderDate($date_start)." ถึง ".$this->renderDate($date_end).'</h4></div></center>';
     
     $raw_material = Material::model()->findAll('site_id=:id', array(':id' => Yii::app()->user->getSite()));
     
@@ -143,22 +146,22 @@ $html .= '<center><div class="header" style="text-align:center;"><h4>ราย�
                             ->queryAll();                        
 
     
-        $html .= '<table style="">';
-
+        $html .= '<br><br><table style="">';
+        $html .= '<thead>'; 
         $html .= '<tr>';
         
-            $html .= '<td rowspan="2" width="10%" style="width:10%;text-align:center;font-weight:bold;background-color: #c3c8c2;">เดือน ปี</td>';
+            $html .= '<th rowspan="2" width="10%" style="text-align:center;font-weight:bold;background-color: #c3c8c2;">วันที่</th>';
             $num_material_buy = count($materialBuy);
             $colwidth_buy = round(45/$num_material_buy);
             $colwidth = $colwidth_buy*$num_material_buy;
-            $html .= '<td colspan="'.$num_material_buy.'" width="'.$colwidth.'%" style="text-align:center;font-weight:bold;background-color: #def7d7;">รายการซื้อ (บาท)</td>';
+            $html .= '<th colspan="'.$num_material_buy.'" width="'.$colwidth.'%" style="text-align:center;font-weight:bold;background-color: #def7d7;">รายการซื้อ (บาท)</th>';
             $num_material_sell = count($materialSell);
             $colwidth_sell = round(45/$num_material_sell);
             $colwidth = $colwidth_sell*$num_material_sell;
-            $html .= '<td colspan="'.$num_material_sell.'" width="'.$colwidth.'%" style="text-align:center;font-weight:bold;background-color: #ffeec1;">รายการขาย (บาท)</td>';
+            $html .= '<th colspan="'.$num_material_sell.'" width="'.$colwidth.'%" style="text-align:center;font-weight:bold;background-color: #ffeec1;">รายการขาย (บาท)</th>';
         
         $html .= '</tr>';
-
+         
         $html .= '<tr>';
             $material_id = array();
             foreach ($materialBuy as $key => $value) {
@@ -173,22 +176,26 @@ $html .= '<center><div class="header" style="text-align:center;"><h4>ราย�
 
     
         $html .= '</tr>';
-
-        for ($i=1; $i <= 12; $i++) {
-            $bgcolor = $i%2==0 ?  "#eff4fd" : "#ffffff";
+        $html .= '</thead><tbody>';
+        $row = 1;
+        for($i=0;$i<=$nday;$i++)
+        {
+            $bgcolor = $row%2==0 ?  "#eff4fd" : "#ffffff";
+            
+            $date_str = $date1->format('Y-m-d');
 
             $html .= '<tr>';
-                $html .= '<td style="text-align:center;background-color:'.$bgcolor.'">'.$month_th[$i].' '.$year.'</td>';
+                $html .= '<td width="10%" style="text-align:center;background-color:'.$bgcolor.'">'.$this->renderDate($date_str).'</td>';
                 foreach ($materialBuy as $key => $value) {
                     $mbuy = Yii::app()->db->createCommand()
                             ->select('sum(price_net) as pricenet')
                             ->from('buy_material_detail')
                             ->join('buy_material_input t', 'buy_id=t.id')
-                            ->where("material_id=".$value['material_id']." AND MONTH(buy_date) = '".$i."' AND  YEAR(buy_date)= '".($year-543)."' AND t.site_id='".Yii::app()->user->getSite()."'")
+                            ->where("material_id=".$value['material_id']." AND buy_date = '".$date_str."' AND t.site_id='".Yii::app()->user->getSite()."'")
                             ->queryAll();
-
+                    
                     $price = empty($mbuy[0]['pricenet']) ? "-" : number_format($mbuy[0]['pricenet'],2);     
-                    $html .= '<td style="text-align:right;background-color:'.$bgcolor.'">'.$price.'</td>';      
+                    $html .= '<td width="'.$colwidth_buy.'%" style="text-align:right;background-color:'.$bgcolor.'">'.$price.'</td>';      
                 }   
 
                 foreach ($materialSell as $key => $value) {
@@ -196,17 +203,20 @@ $html .= '<center><div class="header" style="text-align:center;"><h4>ราย�
                             ->select('sum(price_net) as pricenet')
                             ->from('sell_material_detail')
                             ->join('sell_material t', 'sell_id=t.id')
-                            ->where("material_id=".$value['material_id']." AND MONTH(sell_date) = '".$i."' AND  YEAR(sell_date)= '".($year-543)."' AND t.site_id='".Yii::app()->user->getSite()."'")
+                            ->where("material_id=".$value['material_id']." AND sell_date = '".$date_str."' AND t.site_id='".Yii::app()->user->getSite()."'")
                             ->queryAll();
 
                     $price = empty($msell[0]['pricenet']) ? "-" : number_format($msell[0]['pricenet'],2);       
-                    $html .= '<td style="text-align:right;background-color:'.$bgcolor.'">'.$price.'</td>';      
+                    $html .= '<td  width="'.$colwidth_sell.'%" style="text-align:right;background-color:'.$bgcolor.'">'.$price.'</td>';      
                 }   
             $html .= '</tr>';
+            $date1->modify('+1 day');
+
+            $row++;
         }
 
         $html .= '<tr>';
-                $html .= '<td style="text-align:center;font-weight:bold;background-color:#c3c8c2">รวม</td>';
+                $html .= '<td width="10%" style="text-align:center;font-weight:bold;background-color:#c3c8c2">รวม</td>';
                 $sumbuy = 0;
                 foreach ($materialBuy as $key => $value) {
                     $mbuy = Yii::app()->db->createCommand()
@@ -235,7 +245,9 @@ $html .= '<center><div class="header" style="text-align:center;"><h4>ราย�
                 }   
         $html .= '</tr>';
         $html .= '<tr>';
-                $html .= '<td style="text-align:center;font-weight:bold;background-color:#ffffff"></td>';
+                if(count($materialBuy)>1)
+                   $html .= '<td style="text-align:center;font-weight:bold;background-color:#e4e4e4"></td>';
+
                 $html .= '<td style="text-align:center;font-weight:bold;background-color:#9ccffb">รวมซื้อ</td>';
                 $ncol = count($materialBuy)-1;
                 $html .= '<td colspan='.$ncol.' style="text-align:right;font-weight:bold;background-color:#9ccffb"><u>'.number_format($sumbuy,2).'</u></td>';
@@ -254,34 +266,13 @@ $html .= '<center><div class="header" style="text-align:center;"><h4>ราย�
 
         
     
-    $html .= '</table>';
+    $html .= '</tbody></table>';
   
           
         $pdf->AddPage('L','A4');
 
 
-        $page_format = array(
-            'MediaBox' => array ('llx' => 0, 'lly' => 0, 'urx' => 228, 'ury' => 139),
-            //'CropBox' => array ('llx' => 0, 'lly' => 0, 'urx' => 210, 'ury' => 297),
-            //'BleedBox' => array ('llx' => 5, 'lly' => 5, 'urx' => 205, 'ury' => 292),
-            //'TrimBox' => array ('llx' => 10, 'lly' => 10, 'urx' => 200, 'ury' => 287),
-            //'ArtBox' => array ('llx' => 15, 'lly' => 15, 'urx' => 195, 'ury' => 282),
-            'Dur' => 3,
-            'trans' => array(
-                'D' => 1.5,
-                'S' => 'Split',
-                'Dm' => 'V',
-                'M' => 'O'
-            ),
-            'Rotate' => 0,
-            'PZ' => 1,
-        );
-
-        // Check the example n. 29 for viewer preferences
-
-        // add first page ---
-        // $pdf->AddPage('L', $page_format, false, false);
-
+    
 
         $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
 

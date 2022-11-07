@@ -172,19 +172,19 @@ $(document).ready(function(){
     <!-- </div> -->
     <!-- <div class="span1"> -->
       <?php
-        // $this->widget('bootstrap.widgets.TbButton', array(
-        //       'buttonType'=>'link',
+        $this->widget('bootstrap.widgets.TbButton', array(
+              'buttonType'=>'link',
               
-        //       'type'=>'success',
-        //       'label'=>'Excel',
-        //       'icon'=>'excel',
+              'type'=>'success',
+              'label'=>'Excel',
+              'icon'=>'excel',
               
-        //       'htmlOptions'=>array(
-        //         'class'=>'span3',
-        //         'style'=>'margin:25px 10px 0px 0px;padding-left:0px;padding-right:0px',
-        //         'id'=>'exportExcel'
-        //       ),
-        //   ));
+              'htmlOptions'=>array(
+                'class'=>'span3',
+                'style'=>'margin:25px 10px 0px 0px;padding-left:0px;padding-right:0px',
+                'id'=>'exportExcel'
+              ),
+          ));
 
     $this->widget('bootstrap.widgets.TbButton', array(
               'buttonType'=>'link',
@@ -253,7 +253,7 @@ $("#printBill").click(function(e){
 Yii::app()->clientScript->registerScript('exportExcel', '
 $("#exportExcel").click(function(e){
     e.preventDefault();
-    window.location.href = "genStatementExcel?monthBegin="+$("#monthBegin").val()+"&monthEnd="+$("#monthEnd").val()+"&yearBegin="+$("#yearBegin").val()+"&yearEnd="+$("#yearEnd").val();
+    window.location.href = "buyrawExcel?date_start="+$("#date_start").val()+"&date_end="+$("#date_end").val()+"&customer_id="+$("#customer_id").val();
               
 
 

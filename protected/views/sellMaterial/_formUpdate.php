@@ -42,6 +42,30 @@
 
 	<?php echo $form->errorSummary($model); ?>
 	<div class='row-fluid'>
+		<div class="span3">
+			<?php 
+			echo $form->labelEx($model,'sell_date',array('class'=>'span12','style'=>'text-align:left;padding-right:10px;'));
+			echo '<div class="input-append" style="margin-top:-10px;">'; //ใส่ icon ลงไป
+			                    $form->widget('zii.widgets.jui.CJuiDatePicker',
+
+			                    array(
+			                        'name'=>'sell_date',
+			                        'attribute'=>'sell_date',
+			                        'model'=>$model,
+			                        'options' => array(
+			                                          'mode'=>'focus',
+			                                          //'language' => 'th',
+			                                          'format'=>'dd/mm/yyyy', //กำหนด date Format
+			                                          'showAnim' => 'slideDown',
+			                                          ),
+			                        'htmlOptions'=>array('class'=>'span12', 'value'=>$model->sell_date),  // ใส่ค่าเดิม ในเหตุการ Update 
+			                     )
+			                );
+			                echo '<span class="add-on"><i class="icon-calendar"></i></span></div>';
+	 
+
+			?>	
+		</div>
 		<div class="span2 pull-right">
 			<?php echo $form->textFieldRow($model,'bill_no',array('class'=>'span12  number','maxlength'=>255)); ?>
 		</div>	
@@ -260,7 +284,7 @@
 					'id'=>'sell-item-grid',
 					
 				    'type'=>'bordered condensed',
-					'dataProvider'=>$modelTemp->search(),
+					'dataProvider'=>$modelTemp->searchByID($model->id),
 					//'filter'=>$model,
 					'selectableRows' => 2,
 					'enableSorting' => false,
@@ -382,7 +406,7 @@
 								 },
 								'headerHtmlOptions' => array('style' => 'width:10%;text-align:center;background-color: #f5f5f5'),  	            	  	
 								'htmlOptions'=>array('style'=>'text-align:right'),
-								'footer'=>number_format($modelTemp->getTotals($modelTemp->search()),2),
+								'footer'=>number_format($modelTemp->getTotals($modelTemp->searchByID($model->id)),2),
 								'footerHtmlOptions'=>array('style' => 'font-weight:bold;text-align:right;background-color: #ffe7e7'),
 						  	),
 					  	   

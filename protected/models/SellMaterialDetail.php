@@ -102,6 +102,26 @@ class SellMaterialDetail extends CActiveRecord
 		));
 	}
 
+	public function searchByID($id)
+	{
+		// @todo Please modify the following code to remove attributes that should not be searched.
+
+		$criteria=new CDbCriteria;
+
+		$criteria->compare('id',$this->id);
+		$criteria->compare('material_id',$this->material_id);
+		$criteria->compare('amount',$this->amount,true);
+		$criteria->compare('price_unit',$this->price_unit,true);
+		$criteria->compare('price_net',$this->price_net,true);
+		$criteria->compare('sell_id',$id);
+		$criteria->compare('weight_in',$this->weight_in,true);
+		$criteria->compare('weight_out',$this->weight_out,true);
+
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+		));
+	}
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!

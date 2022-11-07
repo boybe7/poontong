@@ -72,6 +72,90 @@ class ReportController extends Controller {
         
     }
 
+     public function actionBuyrawExcel()
+    {
+        $date_start = $_GET['date_start'];
+        $date_end = $_GET['date_end'];
+        $customer_id = $_GET['customer_id'];
+
+        $str_date = explode("/", $date_start);
+        if(count($str_date)>1)
+            $date_start= ($str_date[2]-543)."-".$str_date[1]."-".$str_date[0];
+
+        $str_date = explode("/", $date_end);
+        if(count($str_date)>1)
+            $date_end= ($str_date[2]-543)."-".$str_date[1]."-".$str_date[0];
+     
+
+        Yii::import('ext.phpexcel.XPHPExcel');    
+        $objPHPExcel= XPHPExcel::createPHPExcel();
+        $sheet = 0;
+        $objPHPExcel->createSheet(0);
+        $objPHPExcel->setActiveSheetIndex($sheet)->setTitle("รายงานซื้อวัตถุดิบรายวัน");
+        $objPHPExcel->getActiveSheet()->setCellValue('A1', "รายงานซื้อวัตถุดิบรายวัน ระหว่างวันที่ ".$this->renderDate($date_start)." ถึง ".$this->renderDate($date_end));
+        $objPHPExcel->getActiveSheet()->mergeCells('A1:E1');    
+
+        $objPHPExcel->getActiveSheet()->setCellValue('A2',"วันที่");
+        $objPHPExcel->getActiveSheet()->setCellValue('B2',"ร้าน");
+        $objPHPExcel->getActiveSheet()->setCellValue('C2',"รายการ");
+        $objPHPExcel->getActiveSheet()->setCellValue('D2',"จำนวน (กก.)");
+        $objPHPExcel->getActiveSheet()->setCellValue('E2',"ราคา (บาท)");
+
+        $condition = empty($customer_id) ? "" : " AND customer_id=".$customer_id;
+
+        $buymaterial = Yii::app()->db->createCommand()
+                        ->select('*,buy_material_input.id as buy_id')
+                        ->from('buy_material_input')
+                        ->join('customer t', 'customer_id=t.id')
+                        ->where("buy_date BETWEEN '".$date_start."' AND '".$date_end."' AND buy_material_input.site_id='".Yii::app()->user->getSite()."' ".$condition)
+                        ->order(array('buy_date asc'))
+                        ->queryAll();
+
+        $row = 3;                
+        foreach ($buymaterial as $key => $value) {
+            $objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $this->renderDate($value["buy_date"]));
+            $objPHPExcel->getActiveSheet()->setCellValue('B'.$row, ($value["name"]));
+            
+            $sql= 'SELECT * FROM buy_material_detail LEFT JOIN material ON material_id=material.id WHERE buy_id='.$value['buy_id'];
+            $model = Yii::app()->db->createCommand($sql)->queryAll();
+            foreach ($model as $key => $value2) {
+                $objPHPExcel->getActiveSheet()->setCellValue('C'.$row, ($value2["name"]));
+                $objPHPExcel->getActiveSheet()->setCellValue('D'.$row, ($value2["amount"]));
+                $objPHPExcel->getActiveSheet()->setCellValue('E'.$row, ($value2["price_net"]));
+                
+                $row++;     
+            }
+            if(count($model)==0)   
+                $row++;
+        }   
+
+
+        for ($i = 'A'; $i <=  $objPHPExcel->getActiveSheet()->getHighestColumn(); $i++) {
+            $objPHPExcel->getActiveSheet()->getColumnDimension($i)->setAutoSize(TRUE);
+        }
+
+          header('Content-Type: application/vnd.ms-excel');
+                //header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+                header('Content-Disposition: attachment;filename="buyrawdaily_report.xlsx"');
+                header('Cache-Control: max-age=0');
+                // If you're serving to IE 9, then the following may be needed
+                header('Cache-Control: max-age=1');
+
+                // If you're serving to IE over SSL, then the following may be needed
+                header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+                header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+                header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+                header ('Pragma: public'); // HTTP/1.0
+                
+                $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+                ob_end_clean();
+                $objWriter->save('php://output');  //
+                Yii::app()->end();
+
+
+
+    }
+
     public function actionPrintBill()
     {
             
@@ -98,6 +182,177 @@ class ReportController extends Controller {
         ), false, true);
 
         
+    }
+
+     public function actionPrintProfitLoss()
+    {
+            
+        $this->renderPartial('_formProfitLossPDF', array(
+            'year'=>$_GET['year'],'filename'=>$_GET['filename'],
+            'display' => 'block',
+        ), false, true);
+
+    }
+    public function actionProfitLossExcel()
+    {
+        
+        $year=$_GET['year'];
+      
+         Yii::import('ext.phpexcel.XPHPExcel');    
+        $objPHPExcel= XPHPExcel::createPHPExcel();
+        $sheet = 0;
+        $objPHPExcel->createSheet(0);
+        $objPHPExcel->setActiveSheetIndex($sheet)->setTitle("รายงานกำไร-ขาดทุน");
+        $objPHPExcel->getActiveSheet()->setCellValue('A1', "รายงานกำไร-ขาดทุน ปี ".$year);    
+
+        $month_th = array("1" => "มกราคม", "2" => "กุมภาพันธ์", "3" => "มีนาคม","4" => "เมษายน", "5" => "พฤษภาคม", "6" => "มิถุนายน","7" => "กรกฎาคม", "8" => "สิงหาคม", "9" => "กันยายน","10" => "ตุลาคม", "11" => "พฤศจิกายน", "12" => "ธันวาคม");
+
+        $date_start = ($year-543)."-01-01";
+        $date_end = ($year-543)."-12-31";
+
+        $materialBuy = Yii::app()->db->createCommand()
+                            ->select('material_id')
+                            ->from('buy_material_detail')
+                            ->join('buy_material_input t', 'buy_id=t.id')
+                            ->where(" buy_date BETWEEN '".$date_start."' AND '".$date_end."' AND t.site_id='".Yii::app()->user->getSite()."'")
+                            ->group("material_id")
+                            ->queryAll();
+
+
+        $materialSell = Yii::app()->db->createCommand()
+                                ->select('material_id')
+                                ->from('sell_material_detail')
+                                ->join('sell_material t', 'sell_id=t.id')
+                                ->where(" sell_date BETWEEN '".$date_start."' AND '".$date_end."' AND t.site_id='".Yii::app()->user->getSite()."'")
+                                ->group("material_id")
+                                ->queryAll();    
+
+        $operationCost = CostOperationGroup::model()->findAll("flag_delete=0 AND site_id=".Yii::app()->user->getSite());
+
+
+        $objPHPExcel->getActiveSheet()->setCellValue('A2', "เดือน ปี");
+        $objPHPExcel->getActiveSheet()->mergeCells('A2:A3');
+        $objPHPExcel->getActiveSheet()->setCellValue('B2', "รายการซื้อ (บาท)");
+        $nbuy = count($materialBuy);
+        $colbuy = chr(ord("B") + $nbuy - 1);
+        $objPHPExcel->getActiveSheet()->mergeCells('B2:'.$colbuy.'2');
+        $nsell = count($materialSell);
+        $colsell_begin = chr(ord($colbuy) + 1);
+        $colsell_end = chr(ord($colsell_begin) + $nsell - 1);
+        $objPHPExcel->getActiveSheet()->mergeCells($colsell_begin.'2:'.$colsell_end.'2');
+        $objPHPExcel->getActiveSheet()->setCellValue($colsell_begin.'2', "รายการขาย (บาท)");
+        $ncost = count($operationCost);
+        $colcost_begin = chr(ord($colsell_end) + 1);
+        $colcost_end = chr(ord($colcost_begin) + $ncost - 1);
+        $objPHPExcel->getActiveSheet()->mergeCells($colcost_begin.'2:'.$colcost_end.'2');
+        $objPHPExcel->getActiveSheet()->setCellValue($colcost_begin.'2', "รายการค่าใช้จ่าย (บาท)");
+        $colcost_end++;
+        $objPHPExcel->getActiveSheet()->setCellValue($colcost_end.'2', "กำไร-ขาดทุน (บาท)");
+        $objPHPExcel->getActiveSheet()->mergeCells($colcost_end.'2:'.$colcost_end.'3');
+
+        $col = "B";  
+            foreach ($materialBuy as $key => $value) {
+                $objPHPExcel->getActiveSheet()->setCellValue($col.'3',Material::model()->FindByPk($value["material_id"])->name);
+                $col++;
+            }
+
+            foreach ($materialSell as $key => $value) {
+                $objPHPExcel->getActiveSheet()->setCellValue($col.'3',Material::model()->FindByPk($value["material_id"])->name);
+                $col++;
+            }
+
+            foreach ($operationCost as $key => $value) {
+                $objPHPExcel->getActiveSheet()->setCellValue($col.'3',$value->name);
+
+                $col++;
+            }
+
+        $row = 4;    
+        for ($i=1; $i <= 12; $i++) {
+            $objPHPExcel->getActiveSheet()->setCellValue('A'.$row,$month_th[$i].' '.$year);
+
+                $priceSell = 0;
+                $priceBuy = 0;
+                $priceCost = 0;
+                $col = 'B';
+                foreach ($materialBuy as $key => $value) {
+                    $mbuy = Yii::app()->db->createCommand()
+                            ->select('sum(price_net) as pricenet')
+                            ->from('buy_material_detail')
+                            ->join('buy_material_input t', 'buy_id=t.id')
+                            ->where("material_id=".$value['material_id']." AND MONTH(buy_date) = '".$i."' AND  YEAR(buy_date)= '".($year-543)."' AND t.site_id='".Yii::app()->user->getSite()."'")
+                            ->queryAll();
+
+                    $price = empty($mbuy[0]['pricenet']) ? "-" : $mbuy[0]['pricenet'];  
+                    $priceBuy += $mbuy[0]['pricenet'];      
+                    $objPHPExcel->getActiveSheet()->setCellValue($col.$row,"".$price);
+
+                    $col++;      
+                }
+
+                foreach ($materialSell as $key => $value) {
+                    $msell = Yii::app()->db->createCommand()
+                            ->select('sum(price_net) as pricenet')
+                            ->from('sell_material_detail')
+                            ->join('sell_material t', 'sell_id=t.id')
+                            ->where("material_id=".$value['material_id']." AND MONTH(sell_date) = '".$i."' AND  YEAR(sell_date)= '".($year-543)."' AND t.site_id='".Yii::app()->user->getSite()."'")
+                            ->queryAll();
+
+                    $price = empty($msell[0]['pricenet']) ? "-" : ($msell[0]['pricenet']);       
+                   
+                    $priceSell += $msell[0]['pricenet'];
+                    $objPHPExcel->getActiveSheet()->setCellValue($col.$row,"".$price);
+
+                    $col++;         
+                }   
+
+
+                foreach ($operationCost as $key => $value) {
+                    $mcost = Yii::app()->db->createCommand()
+                            ->select('sum(cost) as cost')
+                            ->from('cost_operation')
+                            ->where("group_id='".$value->id."' AND MONTH(create_date) = '".$i."' AND  YEAR(create_date)= '".($year-543)."' AND site_id='".Yii::app()->user->getSite()."'")
+                            ->queryAll();
+                    
+
+                     $price = empty($mcost[0]['cost']) ? "-" : $mcost[0]['cost'];      
+                     $priceCost += $mcost[0]['cost'];
+
+                    $objPHPExcel->getActiveSheet()->setCellValue($col.$row,"".$price);
+
+                    $col++;     
+                }
+
+                $profitLoss = $priceSell - $priceBuy - $priceCost;
+                $objPHPExcel->getActiveSheet()->setCellValue($col.$row,"".$profitLoss);
+
+            $row++;
+
+        }    
+    
+
+        $objPHPExcel->setActiveSheetIndex($sheet)->getStyle('A2:'.$objPHPExcel->getActiveSheet()->getHighestColumn().'3')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        for ($i = 'A'; $i <=  $objPHPExcel->getActiveSheet()->getHighestColumn(); $i++) {
+            $objPHPExcel->getActiveSheet()->getColumnDimension($i)->setAutoSize(TRUE);
+        }
+
+          header('Content-Type: application/vnd.ms-excel');
+                //header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+                header('Content-Disposition: attachment;filename="profitLoss_report.xlsx"');
+                header('Cache-Control: max-age=0');
+                // If you're serving to IE 9, then the following may be needed
+                header('Cache-Control: max-age=1');
+
+                // If you're serving to IE over SSL, then the following may be needed
+                header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+                header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+                header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+                header ('Pragma: public'); // HTTP/1.0
+                
+                $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+                ob_end_clean();
+                $objWriter->save('php://output');  //
+                Yii::app()->end();
     }
 
     public function actionBuyProductionSummary()
@@ -153,6 +408,179 @@ class ReportController extends Controller {
         ), false, true);
 
         
+    }
+
+    
+    public function actionBuySellDaily()
+    {
+                    
+          // display the progress form
+          $this->render('buysellDaily');
+    }
+
+    public function actionGentBuySellDaily()
+    {
+        
+        $this->renderPartial('_formBuySellDaily', array(
+            'date_start'=>$_GET['date_start'],'date_end'=>$_GET['date_end'],
+            'display' => 'block',
+        ), false, true);
+
+       
+    }
+    public function actionPrintBuySellDaily()
+    {
+            
+        $this->renderPartial('_formBuySellDailyPDF', array(
+            'date_start'=>$_GET['date_start'],'date_end'=>$_GET['date_end'],'filename'=>$_GET['filename'],
+            'display' => 'block',
+        ), false, true);
+
+    }
+
+    public function actionBuySellDailyExcel()
+    {
+       $date_start = $_GET['date_start'];
+       $date_end = $_GET['date_end'];  
+
+       $str_date = explode("/", $date_start);
+        $date_start = ($str_date[2]-543)."-".$str_date[1]."-".$str_date[0];   
+
+        $str_date = explode("/", $date_end);
+        $date_end = ($str_date[2]-543)."-".$str_date[1]."-".$str_date[0];
+
+        $date1=date_create($date_start);
+        $date2=date_create($date_end);
+        $interval = $date1->diff($date2);
+        $nday = $interval->days;
+
+        Yii::import('ext.phpexcel.XPHPExcel');    
+        $objPHPExcel= XPHPExcel::createPHPExcel();
+        $sheet = 0;
+        $objPHPExcel->createSheet(0);
+        $objPHPExcel->setActiveSheetIndex($sheet)->setTitle("รายงานสรุปซื้อขาย");
+        $objPHPExcel->getActiveSheet()->setCellValue('A1', "รายงานสรุปซื้อขาย ระหว่างวันที่ ".$this->renderDate($date_start)." ถึง ".$this->renderDate($date_end));    
+        
+        $materialBuy = Yii::app()->db->createCommand()
+                            ->select('material_id')
+                            ->from('buy_material_detail')
+                            ->join('buy_material_input t', 'buy_id=t.id')
+                            ->where(" buy_date BETWEEN '".$date_start."' AND '".$date_end."' AND t.site_id='".Yii::app()->user->getSite()."'")
+                            ->group("material_id")
+                            ->queryAll();
+
+
+         $materialSell = Yii::app()->db->createCommand()
+                            ->select('material_id')
+                            ->from('sell_material_detail')
+                            ->join('sell_material t', 'sell_id=t.id')
+                            ->where(" sell_date BETWEEN '".$date_start."' AND '".$date_end."' AND t.site_id='".Yii::app()->user->getSite()."'")
+                            ->group("material_id")
+                            ->queryAll();              
+
+        $objPHPExcel->getActiveSheet()->mergeCells('A2:A3');
+        $objPHPExcel->getActiveSheet()->setCellValue('A2', "วันที่");
+        $nbuy = count($materialBuy);
+        $colbuy = chr(ord("B") + $nbuy - 1);
+        $objPHPExcel->getActiveSheet()->mergeCells('B2:'.$colbuy.'2');
+        $objPHPExcel->getActiveSheet()->setCellValue('B2', "รายการซื้อ (บาท)");
+        $nsell = count($materialSell);
+        $colsell_begin = chr(ord($colbuy) + 1);
+        $colsell_end = chr(ord($colsell_begin) + $nsell - 1);
+        $objPHPExcel->getActiveSheet()->mergeCells($colsell_begin.'2:'.$colsell_end.'2');
+        $objPHPExcel->getActiveSheet()->setCellValue($colsell_begin.'2', "รายการขาย (บาท)");  
+
+        $colall = chr(ord("A") + $nbuy + $nsell);
+        $objPHPExcel->getActiveSheet()->mergeCells('A1:'.$colall.'1');  
+
+        $col = "B";
+
+        foreach ($materialBuy as $key => $value) {
+            $row = 3;
+            $date_begin = date_create($date_start);
+
+            $objPHPExcel->getActiveSheet()->setCellValue($col.$row, Material::model()->FindByPk($value["material_id"])->name);
+
+            $row++;
+            for($i=0;$i<=$nday;$i++)
+            {
+                $date_str = $date_begin->format('Y-m-d'); 
+                $objPHPExcel->getActiveSheet()->setCellValue("A".$row, $this->renderDate($date_str));
+
+
+                $mbuy = Yii::app()->db->createCommand()
+                            ->select('sum(price_net) as pricenet')
+                            ->from('buy_material_detail')
+                            ->join('buy_material_input t', 'buy_id=t.id')
+                            ->where("material_id=".$value['material_id']." AND buy_date = '".$date_str."' AND t.site_id='".Yii::app()->user->getSite()."'")
+                            ->queryAll();
+                    
+                $price = empty($mbuy[0]['pricenet']) ? "-" : $mbuy[0]['pricenet']; 
+                $objPHPExcel->getActiveSheet()->setCellValue($col.$row,"".$price);
+
+                $row++;
+                $date_begin->modify('+1 day');
+            }
+
+            $col++;
+
+        }     
+
+        foreach ($materialSell as $key => $value) {
+            $row = 3;
+            $date_begin = date_create($date_start);
+
+            $objPHPExcel->getActiveSheet()->setCellValue($col.$row, Material::model()->FindByPk($value["material_id"])->name);
+
+            $row++;
+            for($i=0;$i<=$nday;$i++)
+            {
+                $date_str = $date_begin->format('Y-m-d'); 
+                //$objPHPExcel->getActiveSheet()->setCellValue("A".$row, $this->renderDate($date_str));
+
+
+                $msell = Yii::app()->db->createCommand()
+                            ->select('sum(price_net) as pricenet')
+                            ->from('sell_material_detail')
+                            ->join('sell_material t', 'sell_id=t.id')
+                            ->where("material_id=".$value['material_id']." AND sell_date = '".$date_str."' AND t.site_id='".Yii::app()->user->getSite()."'")
+                            ->queryAll();
+
+                    
+                $price = empty($msell[0]['pricenet']) ? "-" : $msell[0]['pricenet']; 
+                $objPHPExcel->getActiveSheet()->setCellValue($col.$row,$price);
+
+                $row++;
+                $date_begin->modify('+1 day');
+            }
+
+            $col++;
+
+        }                
+
+        $objPHPExcel->setActiveSheetIndex($sheet)->getStyle('A2:'.$objPHPExcel->getActiveSheet()->getHighestColumn().'3')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        for ($i = 'A'; $i <=  $objPHPExcel->getActiveSheet()->getHighestColumn(); $i++) {
+            $objPHPExcel->getActiveSheet()->getColumnDimension($i)->setAutoSize(TRUE);
+        }
+
+          header('Content-Type: application/vnd.ms-excel');
+                //header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+                header('Content-Disposition: attachment;filename="buyselldaily_report.xlsx"');
+                header('Cache-Control: max-age=0');
+                // If you're serving to IE 9, then the following may be needed
+                header('Cache-Control: max-age=1');
+
+                // If you're serving to IE over SSL, then the following may be needed
+                header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+                header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+                header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+                header ('Pragma: public'); // HTTP/1.0
+                
+                $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+                ob_end_clean();
+                $objWriter->save('php://output');  //
+                Yii::app()->end();
+
     }
 
     public function actionBuySellSummary()
@@ -229,13 +657,89 @@ class ReportController extends Controller {
  
         $row = 2;
 
+        //header
+        $objPHPExcel->getActiveSheet()->mergeCells('A2:A3');
+        $objPHPExcel->getActiveSheet()->setCellValue('A2', "เดือน ปี");
+        $nbuy = count($materialBuy);
+        $colbuy = chr(ord("B") + $nbuy - 1);
+        $objPHPExcel->getActiveSheet()->mergeCells('B2:'.$colbuy.'2');
+        $objPHPExcel->getActiveSheet()->setCellValue('B2', "รายการซื้อ (บาท)");
+        $nsell = count($materialSell);
+        $colsell_begin = chr(ord($colbuy) + 1);
+        $colsell_end = chr(ord($colsell_begin) + $nsell - 1);
+        $objPHPExcel->getActiveSheet()->mergeCells($colsell_begin.'2:'.$colsell_end.'2');
+        $objPHPExcel->getActiveSheet()->setCellValue($colsell_begin.'2', "รายการขาย (บาท)");
         
-        $objPHPExcel->getActiveSheet()->mergeCells('A1:C1');    
+        $col = "B";
+
+        foreach ($materialBuy as $key => $value) {
+            $row = 3;
+            $objPHPExcel->getActiveSheet()->setCellValue($col.$row, Material::model()->FindByPk($value["material_id"])->name);
+            $sumprice = 0;
+            for ($i=1; $i <= 12; $i++)
+            { 
+                
+                $row++;
+                $mbuy = Yii::app()->db->createCommand()
+                                ->select('sum(price_net) as pricenet')
+                                ->from('buy_material_detail')
+                                ->join('buy_material_input t', 'buy_id=t.id')
+                                ->where("material_id=".$value['material_id']." AND MONTH(buy_date) = '".$i."' AND  YEAR(buy_date)= '".($year-543)."' AND t.site_id='".Yii::app()->user->getSite()."'")
+                                ->queryAll();
+
+                $price = empty($mbuy[0]['pricenet']) ? "-" : $mbuy[0]['pricenet']; 
+
+                $objPHPExcel->getActiveSheet()->setCellValue($col.$row,$price); 
+                $objPHPExcel->getActiveSheet()->setCellValue("A".$row,$month_th[$i].' '.$year);   
+                $sumprice +=  $mbuy[0]['pricenet'];
+                if($i==12)
+                {
+                    $objPHPExcel->getActiveSheet()->setCellValue("A".($row+1),"รวม");
+                    $objPHPExcel->getActiveSheet()->setCellValue($col.($row+1),"".$sumprice);
+                }
+            }
+                
+            $col++;
+        }
+
+        foreach ($materialSell as $key => $value) {
+            $row = 3;
+            $objPHPExcel->getActiveSheet()->setCellValue($col.$row, Material::model()->FindByPk($value["material_id"])->name);
+            $sumprice = 0;
+            for ($i=1; $i <= 12; $i++)
+            { 
+                
+                $row++;
+                $msell = Yii::app()->db->createCommand()
+                            ->select('sum(price_net) as pricenet')
+                            ->from('sell_material_detail')
+                            ->join('sell_material t', 'sell_id=t.id')
+                            ->where("material_id=".$value['material_id']." AND MONTH(sell_date) = '".$i."' AND  YEAR(sell_date)= '".($year-543)."' AND t.site_id='".Yii::app()->user->getSite()."'")
+                            ->queryAll();
+
+                $price = empty($msell[0]['pricenet']) ? "-" : $msell[0]['pricenet']; 
+                $sumprice +=  $msell[0]['pricenet'];
+                $objPHPExcel->getActiveSheet()->setCellValue($col.$row,$price); 
+                if($i==12)
+                    $objPHPExcel->getActiveSheet()->setCellValue($col.($row+1),"".$sumprice);
+            }
+                
+            $col++;   
+        }
+
+        $objPHPExcel->setActiveSheetIndex($sheet)->getStyle('A2:'.$objPHPExcel->getActiveSheet()->getHighestColumn().'3')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        for ($i = 'A'; $i <=  $objPHPExcel->getActiveSheet()->getHighestColumn(); $i++) {
+            $objPHPExcel->getActiveSheet()->getColumnDimension($i)->setAutoSize(TRUE);
+        }
+
+
+
                 
                 //ob_start();
+                
 
-                //header('Content-Type: application/vnd.ms-excel');
-                header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+                header('Content-Type: application/vnd.ms-excel');
+                //header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
                 header('Content-Disposition: attachment;filename="buysellsummary_report2.xlsx"');
                 header('Cache-Control: max-age=0');
                 // If you're serving to IE 9, then the following may be needed
@@ -250,7 +754,8 @@ class ReportController extends Controller {
                 $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
                 ob_end_clean();
                 $objWriter->save('php://output');  //
-                Yii::app()->end(); 
+                Yii::app()->end();
+
 
     }
 

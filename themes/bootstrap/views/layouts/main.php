@@ -649,23 +649,26 @@ foreach ($site as $key => $value) {
                 array('label'=>'ซื้อวัตถุดิบ ','icon'=>'', 'url'=>array('/buyMaterialInput/index'),'visible'=>Yii::app()->user->isAccess('/buyMaterialInput/index')),
                 array('label'=>'ผลิต ','icon'=>'', 'url'=>array('/production/index'),'visible'=>Yii::app()->user->isAccess('/production/index')),
                 array('label'=>'ขาย ','icon'=>'', 'url'=>array('/sellMaterial/index'),'visible'=>Yii::app()->user->isAccess('/sellMaterial/index')),
-                array('label'=>'stock ','icon'=>'', 'url'=>array('#'),'visible'=>Yii::app()->user->isAccess('/stock/index'),'items'=>array(
-                        array('label'=>'วัตถุดิบ', 'url'=>array('/stock/index/0'),'visible'=>Yii::app()->user->isAccess('/stock/index/0')),
-                      )),
-                
+                array('label'=>'ค่าใช้จ่าย ','icon'=>'', 'url'=>array('/costOperation/index'),'visible'=>Yii::app()->user->isAccess('/costOperation/index')),
+                               
                 array('label'=>'รายงาน ','icon'=>'', 'url'=>'#','visible'=>Yii::app()->user->isAccess('/report/index'),'items'=>array(
                      array('label'=>'ซื้อวัตถุดิบรายวัน', 'url'=>array('/report/buyraw'),'visible'=>Yii::app()->user->isAccess('/report/buyraw')),
-                     array('label'=>'ซื้อวัตถุดิบเข้า', 'url'=>array('/report/buyrawSummary'),'visible'=>Yii::app()->user->isAccess('/report/buyrawSummary')),
+                     array('label'=>'สรุปซื้อ-ขาย (รายวัน) ', 'url'=>array('/report/buySellDaily'),'visible'=>Yii::app()->user->isAccess('/report/buySellDaily')),
+                     array('label'=>'สรุปซื้อ-ขาย (รายปี) ', 'url'=>array('/report/buysellSummary'),'visible'=>Yii::app()->user->isAccess('/report/buysellSummary')),
+                    array('label'=>'สรุปซื้อ-ขายบด (รายวัน) ', 'url'=>array('/report/buyProductionDaily'),'visible'=>Yii::app()->user->isAccess('/report/buyProductionDaily')),
+                     array('label'=>'สรุปซื้อ-ขายบด (รายปี) ', 'url'=>array('/report/buyProductionSummary'),'visible'=>Yii::app()->user->isAccess('/report/buyProductionSummary')),
+                     array('label'=>'รายงานกำไร-ขาดทุน (รายปี) ', 'url'=>array('/report/profitLoss'),'visible'=>Yii::app()->user->isAccess('/report/profitLoss')),
                      
                     ),
                 ),
 
                 array('label'=>'ผู้ดูแลระบบ ','icon'=>'', 'url'=>'#','visible'=>Yii::app()->user->isAccess('/user/index'),'items'=>array(
+                     array('label'=>'stock วัตถุดิบ', 'url'=>array('/stock/index/0'),'visible'=>Yii::app()->user->isAccess('/stock/index/0')),
                     array('label'=>'ประเภทวัตถุดิบ', 'url'=>array('/materialGroup/index'),'visible'=>Yii::app()->user->isAccess('/materialGroup/index')),
                      array('label'=>'ข้อมูลวัตถุดิบ', 'url'=>array('/material/index'),'visible'=>Yii::app()->user->isAccess('/material/index')),
                      array('label'=>'ประเภทลูกค้า', 'url'=>array('/customerGroup/index'),'visible'=>Yii::app()->user->isAccess('/customerGroup/index')),
                      array('label'=>'ข้อมูลลูกค้า', 'url'=>array('/customer/index'),'visible'=>Yii::app()->user->isAccess('/customer/index')),
-                     
+                     array('label'=>'ประเภทค่าใช้จ่าย', 'url'=>array('/costOperationGroup/index'),'visible'=>Yii::app()->user->isAccess('/costoperationGroup/index')),
                      array('label'=>'ข้อมูลโรงงาน', 'url'=>array('/plantSite/index'),'visible'=>Yii::app()->user->isAccess('/plantSite/index')),
                      array('label'=>'ผู้ใช้งาน', 'url'=>array('/user/index'),'visible'=>Yii::app()->user->isAccess('/user/index')),
                      array('label'=>'กำหนดสิทธิผู้ใช้งาน', 'url'=>array('/authen/index'),'visible'=>Yii::app()->user->isAccess('/authen/index')),

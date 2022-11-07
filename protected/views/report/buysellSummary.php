@@ -257,9 +257,8 @@ $("#printReport").click(function(e){
 Yii::app()->clientScript->registerScript('exportExcel', '
 $("#exportExcel").click(function(e){
     e.preventDefault();
-    window.location.href = "BuySellSummaryExcel?year="+$("#year").val();
-              
-
+    window.location.href = "buySellSummaryExcel?year="+$("#year").val();
+ 
 
 });
 ', CClientScript::POS_END);

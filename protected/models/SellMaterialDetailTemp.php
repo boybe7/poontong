@@ -98,7 +98,7 @@ class SellMaterialDetailTemp extends CActiveRecord
 		$criteria->compare('price_unit',$this->price_unit,true);
 		$criteria->compare('price_net',$this->price_net,true);
 		$criteria->compare('sell_id',$this->sell_id);
-		$criteria->compare('user_id',$this->user_id);
+		$criteria->compare('user_id',Yii::app()->user->ID);
 		$criteria->compare('flag',$this->flag);
 		$criteria->compare('weight_in',$this->weight_in,true);
 		$criteria->compare('weight_out',$this->weight_out,true);
